@@ -1,0 +1,83 @@
+@import "rs";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    h1 {
+        @apply text-2xl text-center;
+    }
+
+    h2 {
+        @apply text-xl text-center;
+    }
+
+    h3 {
+        @apply text-lg text-center;
+    }
+
+    a {
+        @apply text-blue-600 underline;
+    }
+
+    pre {
+        @apply whitespace-pre text-left font-mono bg-gray-100 w-full;
+    }
+
+    ul {
+        @apply list-disc list-inside
+    }
+
+    ol {
+        @apply list-decimal list-inside
+    }
+
+    button {
+        @apply transition-colors duration-150 focus:ring disabled:opacity-75 disabled:bg-gray-600 disabled:text-gray-200;
+        cursor: pointer
+    }
+
+    /* Select field placeholder styling */
+    select:required:invalid {
+        @apply text-gray-500;
+    }
+
+    option[disabled] {
+        @apply text-gray-500
+    }
+
+    option {
+        @apply text-black
+    }
+
+    hr {
+        @apply my-8 h-px bg-gray-400
+    }
+
+    blockquote {
+        @apply p-4 my-4 bg-gray-50 border-l-4 border-gray-300 leading-relaxed italic
+    }
+
+    p {
+        @apply my-4
+    }
+}
+
+@layer components {
+    html, body, #root {
+        @apply h-full
+    }
+
+    .container {
+        @apply mx-auto  w-full sm:w-[540px] md:w-[720px] lg:w-[960px] xl:w-[1140px] xxl:w-[1320px]
+    }
+
+    input[type='date']:before {
+        color: #aaa;
+        content: attr(data-date-placeholder) ':\00a0';
+    }
+
+    input[type="checkbox"] {
+        @apply scale-125 my-2 mx-1 accent-reisishot-light
+    }
+}

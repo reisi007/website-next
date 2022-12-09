@@ -1,0 +1,101 @@
+{
+  "extends": [
+    "next/core-web-vitals",
+    "plugin:tailwindcss/recommended",
+    "plugin:react/jsx-runtime",
+    "airbnb",
+    "airbnb-typescript"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "rules": {
+    "react/react-in-jsx-scope": "off",
+    "import/prefer-default-export": "off",
+    "react/require-default-props": "off",
+    "react/jsx-props-no-spreading": "off",
+    "react/no-unused-prop-types": "off",
+    "@typescript-eslint/no-use-before-define": "off",
+    "react/function-component-definition": "off",
+    "react/destructuring-assignment": "off",
+    "no-param-reassign": "off",
+    "@typescript-eslint/no-unused-vars": "off",
+    "@typescript-eslint/spac": "off",
+    "jsx-a11y/no-static-element-interactions": "off",
+    "linebreak-style": "off",
+    "@typescript-eslint/object-curly-spacing": "warn",
+    "no-trailing-spaces": "warn",
+    "no-multi-spaces": "warn",
+    "key-spacing": "warn",
+    "react/jsx-indent": "warn",
+    "react/jsx-tag-spacing": "warn",
+    "@typescript-eslint/space-infix-ops": "warn",
+    "@typescript-eslint/quotes": "warn",
+    "react/jsx-closing-tag-location": "warn",
+    "react/jsx-closing-bracket-location": "warn",
+    "react/jsx-props-no-multi-spaces": "warn",
+    "@typescript-eslint/comma-spacing": "warn",
+    "space-in-parens": "warn",
+    "react/jsx-one-expression-per-line": "warn",
+    "object-curly-newline": "warn",
+    "@typescript-eslint/comma-dangle": "warn",
+    "@typescript-eslint/semi": "warn",
+    "@typescript-eslint/indent": "warn",
+    "no-multiple-empty-lines": "warn",
+    "react/jsx-curly-brace-presence": "warn",
+    "import/order": "warn",
+    "react/self-closing-comp": "warn",
+    "@typescript-eslint/keyword-spacing": "warn",
+    "arrow-spacing": "warn",
+    "semi-spacing": "warn",
+    "arrow-parens": "warn",
+    "react/jsx-first-prop-new-line": "warn",
+    "react/jsx-curly-spacing": "warn",
+    "react/jsx-key": "error",
+    "react-hooks/exhaustive-deps": "error",
+    "comma-style": "warn",
+    "react/jsx-max-props-per-line": "warn",
+    "array-bracket-spacing": "warn",
+    "@typescript-eslint/space-before-blocks": "warn",
+    "prefer-template": "warn",
+    "no-whitespace-before-property": "warn",
+    "react/jsx-wrap-multilines": "warn",
+    "nonblock-statement-body-position": "warn",
+    "padded-blocks": "warn",
+    "curly": "warn",
+    "max-len": [
+      "error",
+      {
+        "code": 200,
+        "tabWidth": 1
+      }
+    ],
+    "no-console": [
+      "warn",
+      {
+        "allow": [
+          "couunt",
+          "warn",
+          "error"
+        ]
+      }
+    ],
+    "react/jsx-no-useless-fragment": [
+      "error",
+      {
+        "allowExpressions": true
+      }
+    ],
+    "tailwindcss/no-custom-classname": [
+      "warn",
+      {
+        "whitelist": [
+          "rs-.+"
+        ]
+      }
+    ],
+    "jsx-a11y/no-noninteractive-element-interactions": "off",
+    "jsx-a11y/click-events-have-key-events": "off"
+  }
+}
