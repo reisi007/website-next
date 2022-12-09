@@ -13,16 +13,14 @@ export default function SingleReview({ review }: InferGetStaticPropsType<typeof 
 }
 
 interface Params extends ParsedUrlQuery {
-  review: string,
-  jsonData: string
+  review: string;
 }
 
 export const getStaticProps: GetStaticProps<{ review: Review }, Params> = async (context) => {
-  const reviewJson = context.params?.jsonData;
-  if (reviewJson === undefined) {
+  const review = (await getAllReviews()).find((e) => e.id === context.params?.review);
+  if (review === undefined) {
     return ({ notFound: true });
   }
-  const review = JSON.parse(reviewJson);
   return ({
     props: { review },
   });
@@ -31,10 +29,7 @@ export const getStaticProps: GetStaticProps<{ review: Review }, Params> = async 
 export const getStaticPaths: GetStaticPaths<Params> = async () => {
   const paths = (await getAllReviews())
     .map((e) => ({
-      params: {
-        review: e.id,
-        jsonData: JSON.stringify(e),
-      },
+      params: { review: e.id },
     }));
   return ({
     paths,

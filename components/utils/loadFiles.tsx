@@ -9,7 +9,7 @@ type ReviewProps = {
   name: string
   video?: string
   date: string
-  rating?: string
+  rating?: number
   type: 'business' | 'beauty' | 'boudoir' | 'couples' | 'live' | 'sport'
 };
 export type Review = {
@@ -55,5 +55,64 @@ export async function getAllReviews(): Promise<Array<Review>> {
     };
   });
   // Sort posts by date
-  return allReviewa.sort((a, b) => b.greymatter.date.localeCompare(a.greymatter.date));
+  return allReviewa.sort((a, b) => {
+    const aMatter = a.greymatter;
+    const bMatter = b.greymatter;
+
+    function hasMedia(props: ReviewProps): Boolean {
+      return props.image === undefined && props.video === undefined;
+    }
+
+    // Image / video und dann html is undefined ( true dann false)
+    const nullA = hasMedia(aMatter);
+    const nullB = hasMedia(bMatter);
+
+    if (nullA !== nullB) {
+      if (nullA) {
+        return 1;
+      }
+
+      return -1;
+    }
+
+    const htmlANull = a.html.length === 0;
+    const htmlBNull = b.html.length === 0;
+
+    if (htmlANull !== htmlBNull) {
+      if (htmlANull) {
+        return 1;
+      }
+
+      return -1;
+    }
+
+    // Date (descending)
+    const date = b.greymatter.date.localeCompare(a.greymatter.date);
+    if (date !== 0) {
+      return date;
+    }
+
+    // Has rating
+    const aRating = aMatter.rating ?? -1;
+    const bRating = bMatter.rating ?? -1;
+    if (aRating !== bRating) {
+      if (aRating > bRating) {
+        return 1;
+      }
+
+      return -1;
+    }
+
+    // Has text
+    const aHtml = a.html.length;
+    const bHtml = b.html.length;
+    if (aHtml !== bHtml) {
+      if (aHtml > bHtml) {
+        return 1;
+      }
+
+      return -1;
+    }
+    return 0;
+  });
 }
