@@ -9,18 +9,18 @@ import { ReisishotIconSizes } from '../utils/ReisishotIcons';
 export function PreviewReview({ review }: { review: Review }) {
   const {
     id,
-    greymatter,
+    frontmatter,
   } = review;
 
   return (
     <Link
       className={classNames(
         'black w-full md:w-1/2 xl:w-1/3 xxl:w-1/4',
-        { 'border border-black': greymatter.image === undefined },
+        { 'border border-black': frontmatter.image === undefined },
       )}
       href={`reviews/${id}`}
     >
-      <PreviewReviewContent {...greymatter} />
+      <PreviewReviewContent {...frontmatter} />
     </Link>
   );
 }

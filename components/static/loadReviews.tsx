@@ -18,7 +18,7 @@ const REVIEW_TYPES = ['business', 'beauty', 'boudoir', 'pärchen', 'live', 'spor
 
 export type Review = {
   id: string
-  greymatter: ReviewProps
+  frontmatter: ReviewProps
   html: string | null
 };
 
@@ -53,7 +53,7 @@ async function loadReviews() {
     return data as ReviewProps;
   }
 
-  const allReviewa: Array<Review> = await asyncMap(filePaths, async (fullPath) => {
+  const allReviewa = await asyncMap(filePaths, async (fullPath: string): Promise<Review> => {
     // Remove ".md" from file name to get id
     const fileName = path.basename(fullPath);
     const id = fileName.replace(/\.review.md$/, '');
@@ -67,11 +67,11 @@ async function loadReviews() {
     const content = matterResult.content.trim();
 
     // Combine the data with the id
-    const greymatter = createReviewProps(matterResult);
+    const frontmatter = createReviewProps(matterResult);
     return {
       id,
       html: content.length === 0 ? null : markdown2html.render(content),
-      greymatter,
+      frontmatter,
     };
   });
   return allReviewa;
@@ -81,8 +81,8 @@ export async function getAllReviews(): Promise<Array<Review>> {
   const allReviewa = await loadReviews();
   // Sort posts by date
   return allReviewa.sort((a, b) => {
-    const aMatter = a.greymatter;
-    const bMatter = b.greymatter;
+    const aMatter = a.frontmatter;
+    const bMatter = b.frontmatter;
 
     function hasMedia(props: ReviewProps): Boolean {
       return props.image !== undefined;
@@ -110,7 +110,7 @@ export async function getAllReviews(): Promise<Array<Review>> {
     }
 
     // Date (descending)
-    const date = b.greymatter.date.localeCompare(a.greymatter.date);
+    const date = b.frontmatter.date.localeCompare(a.frontmatter.date);
     if (date !== 0) {
       return date;
     }

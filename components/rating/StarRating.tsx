@@ -40,7 +40,7 @@ export function StarRating(
   }, [editable, setStars]);
 
   return (
-    <div
+    <span
       className={classNames('text-gold', className)}
     >
       {
@@ -71,6 +71,6 @@ export function StarRating(
             />
           ))
       }
-    </div>
+    </span>
   );
 }

@@ -15,7 +15,7 @@ export default function SingleReview({
   nextId,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   const {
-    greymatter,
+    frontmatter,
     html,
   } = review;
   const {
@@ -23,7 +23,7 @@ export default function SingleReview({
     image,
     rating,
     date,
-  } = greymatter;
+  } = frontmatter;
   return (
     <Page className="-mt-4" title={`Review von ${name}`}>
       {image !== undefined && <Image className="h-192" filename={image} />}
