@@ -2,7 +2,7 @@ import Head from 'next/head';
 
 export function Header({ title }: { title: string }) {
   return (
-    <header className="mb-4 bg-reisishot p-4 text-white">
+    <header className="mb-4 bg-primary p-4 text-white">
       <h1>{title}</h1>
       <Head>
         <title>{title}</title>

@@ -1,38 +1,94 @@
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
 import { ParsedUrlQuery } from 'querystring';
-import { Page } from '../../components/Page';
-import { getAllReviews, Review } from '../../components/utils/loadFiles';
+import { Page } from '../../components/page/Page';
+import { getAllReviews, Review } from '../../components/static/loadReviews';
+import { RawHtml } from '../../components/utils/RawHtml';
+import { Image } from '../../components/utils/Image';
+import { FiveStarRating } from '../../components/rating/FiveStarRating';
+import { ReisishotIconSizes } from '../../components/utils/ReisishotIcons';
+import { FormattedDate } from '../../components/utils/Age';
+import { StyledLinkButton } from '../../components/input/StyledButton';
 
-export default function SingleReview({ review }: InferGetStaticPropsType<typeof getStaticProps>) {
-  const { name } = review.greymatter;
+export default function SingleReview({
+  review,
+  previousId,
+  nextId,
+}: InferGetStaticPropsType<typeof getStaticProps>) {
+  const {
+    greymatter,
+    html,
+  } = review;
+  const {
+    name,
+    image,
+    rating,
+    date,
+  } = greymatter;
   return (
-    <Page title={`Review von ${name}`}>
-      <div>{name}</div>
+    <Page className="-mt-4" title={`Review von ${name}`}>
+      {image !== undefined && <Image className="h-192" filename={image} />}
+      {rating !== undefined && <FiveStarRating className="mt-4 flex justify-center text-gold" starSize={ReisishotIconSizes.XXLARGE} value={rating} />}
+      {html !== null && <RawHtml html={html} className="first-letter:float-left first-letter:mr-3 first-letter:text-5xl first-letter:font-bold first-letter:text-primary" />}
+      <div className="flex justify-end">
+        <span className="mr-2">
+          {name}
+          {' '}
+          am
+          {' '}
+          <FormattedDate dateString={date} />
+        </span>
+      </div>
+      <div className="my-6 grid grid-cols-1 gap-x-2 md:grid-cols-2">
+        <StyledLinkButton href={`/reviews/${previousId}`} disabled={previousId === null} className="my-2">Vorheriger</StyledLinkButton>
+        <StyledLinkButton href={`/reviews/${nextId}`} disabled={nextId === null} className="my-2 bg-primary text-onPrimary">Nächster</StyledLinkButton>
+        <StyledLinkButton href="/reviews" className="my-2 md:col-span-2">Zur Übersicht</StyledLinkButton>
+      </div>
     </Page>
   );
 }
 
-interface Params extends ParsedUrlQuery {
+interface PathParams extends ParsedUrlQuery {
   review: string;
+  previousId?: string;
+  nextId?: string;
+
 }
 
-export const getStaticProps: GetStaticProps<{ review: Review }, Params> = async (context) => {
-  const review = (await getAllReviews()).find((e) => e.id === context.params?.review);
-  if (review === undefined) {
-    return ({ notFound: true });
+type PropParams = { review: Review, previousId: string | null, nextId: string | null };
+
+export const getStaticProps: GetStaticProps<PropParams, PathParams> = async (context) => {
+  const reviews = await getAllReviews();
+  const reviewIndex = reviews.findIndex((r) => r.id === context.params?.review);
+
+  if (reviewIndex < 0) {
+    return { notFound: true };
   }
-  return ({
-    props: { review },
-  });
+  const review = reviews[reviewIndex];
+  // Previous and next are "wrong" -> next is the older one and previous is the newer one as "next" should be the primary one
+  const previousId = reviews[reviewIndex - 1]?.id ?? null;
+  const nextId = reviews[reviewIndex + 1]?.id ?? null;
+
+  const props: PropParams = {
+    review,
+    previousId,
+    nextId,
+  };
+  return {
+    props,
+  };
 };
 
-export const getStaticPaths: GetStaticPaths<Params> = async () => {
-  const paths = (await getAllReviews())
-    .map((e) => ({
-      params: { review: e.id },
-    }));
-  return ({
+export const getStaticPaths: GetStaticPaths<PathParams> = async () => {
+  const reviews = await getAllReviews();
+  const paths: Array<{ params: PathParams }> = reviews.map((e, idx) => ({
+    params: {
+      review: e.id,
+      nextId: reviews[idx + 1]?.id,
+      previousId: reviews[idx - 1]?.id,
+    },
+  }));
+  return {
     paths,
     fallback: false,
-  });
+  };
 };

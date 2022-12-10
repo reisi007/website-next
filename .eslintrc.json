@@ -64,6 +64,7 @@
     "nonblock-statement-body-position": "warn",
     "padded-blocks": "warn",
     "curly": "warn",
+    "no-extra-parens": "warn",
     "max-len": [
       "error",
       {

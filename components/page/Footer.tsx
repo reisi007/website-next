@@ -1,5 +1,5 @@
 import React from 'react';
-import { ReisishotIcon, ReisishotIcons, ReisishotIconSizes } from './ReisishotIcons';
+import { ReisishotIcon, ReisishotIcons, ReisishotIconSizes } from '../utils/ReisishotIcons';
 
 export function Footer() {
   return (

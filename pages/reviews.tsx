@@ -1,12 +1,11 @@
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
-import Link from 'next/link';
-import { getAllReviews, Review } from '../components/utils/loadFiles';
-import { Page } from '../components/Page';
-import { Image } from '../components/Image';
+import { getAllReviews, Review } from '../components/static/loadReviews';
+import { Page } from '../components/page/Page';
+import { PreviewReview } from '../components/review/PreviewReview';
 
 export default function ReviewPage({ reviews }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
-    <Page title="Reviews">
+    <Page className="flex flex-wrap" title="Reviews">
       <>
         {reviews.map((r) => <PreviewReview key={r.id} review={r} />)}
       </>
@@ -15,24 +14,5 @@ export default function ReviewPage({ reviews }: InferGetStaticPropsType<typeof g
 }
 
 export const getStaticProps: GetStaticProps<{ reviews: Array<Review> }> = async () => ({
-  props: { reviews: (await getAllReviews()) },
+  props: { reviews: await getAllReviews() },
 });
-
-function PreviewReview({ review }: { review: Review }) {
-  const {
-    id,
-    greymatter,
-  } = review;
-  const {
-    name,
-    date,
-    rating,
-    image,
-  } = greymatter;
-  return (
-    <Link href={`reviews/${review.id}`}>
-      <h3>{name}</h3>
-      {image !== undefined && <Image className="h-80" filename={image} />}
-    </Link>
-  );
-}
