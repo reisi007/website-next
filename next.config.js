@@ -4,8 +4,8 @@ const nextConfig = {
     swcMinify: true,
     images: {
         loader: "custom",
-        imageSizes: [400, 700, 1200, 2050],
-        deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+        imageSizes: [],
+        deviceSizes: [400, 700, 1200, 2050],
     },
     env: {
         nextImageExportOptimizer_imageFolderPath: "public/images",
