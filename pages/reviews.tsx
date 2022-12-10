@@ -2,6 +2,7 @@ import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import Link from 'next/link';
 import { getAllReviews, Review } from '../components/utils/loadFiles';
 import { Page } from '../components/Page';
+import { Image } from '../components/Image';
 
 export default function ReviewPage({ reviews }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
@@ -31,6 +32,7 @@ function PreviewReview({ review }: { review: Review }) {
   return (
     <Link href={`reviews/${review.id}`}>
       <h3>{name}</h3>
+      {image !== undefined && <Image className="h-80" filename={image} />}
     </Link>
   );
 }

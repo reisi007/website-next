@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import md from 'markdown-it';
-import { asyncFlatMap } from './asyncFlatMap';
+import { asyncFlatMap, asyncMap } from './asyncFlatMap';
 
 type ReviewProps = {
   image?: string
@@ -10,8 +10,11 @@ type ReviewProps = {
   video?: string
   date: string
   rating?: number
-  type: 'business' | 'beauty' | 'boudoir' | 'couples' | 'live' | 'sport'
+  type: typeof REVIEW_TYPES[number]
 };
+
+const REVIEW_TYPES = ['business', 'beauty', 'boudoir', 'pärchen', 'live', 'sport'] as const;
+
 export type Review = {
   id: string
   greymatter: ReviewProps
@@ -32,22 +35,35 @@ export async function getAllReviews(): Promise<Array<Review>> {
 
   const markdown2html = md();
 
-  const allReviewa: Array<Review> = filePaths.map((fullPath) => {
+  function extracted(matterResult: matter.GrayMatterFile<string>) {
+    if (!(matterResult.data.date instanceof Date)) {
+      throw new Error('Datum kann nicht als Datum geparst werden');
+    }
+    const data: { [key: string]: unknown } = {
+      ...matterResult.data,
+      date: matterResult.data.date.toString(),
+    };
+
+    if (typeof data.name !== 'string') throw new Error('Name ist nicht vorhanden');
+    const type = data?.type as (typeof REVIEW_TYPES[number]) | undefined;
+    if (type !== undefined && !REVIEW_TYPES.includes(type)) throw new Error(`Type ${type} is not included in ${REVIEW_TYPES.join(', ')}`);
+
+    return data as ReviewProps;
+  }
+
+  const allReviewa: Array<Review> = await asyncMap(filePaths, async (fullPath) => {
     // Remove ".md" from file name to get id
     const fileName = path.basename(fullPath);
     const id = fileName.replace(/\.review.md$/, '');
 
     // Read markdown file as string
-    const fileContents = fs.readFileSync(fullPath, 'utf8');
+    const fileContents = await fs.promises.readFile(fullPath, 'utf8');
 
     // Use gray-matter to parse the post metadata section
     const matterResult = matter(fileContents);
 
     // Combine the data with the id
-    const greymatter = {
-      ...matterResult.data,
-      date: matterResult.data.date.toString(),
-    } as ReviewProps;
+    const greymatter = extracted(matterResult);
     return {
       id,
       html: markdown2html.render(matterResult.content),
