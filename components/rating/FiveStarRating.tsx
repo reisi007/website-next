@@ -16,9 +16,11 @@ export function FiveStarRating({
   onChange,
 }: FiveStarRatingProps) {
   const [fullStars, isHalfStar] = useMemo(() => {
-    const full = Math.floor(value / 20);
+    let full = Math.floor(value / 20);
     const remainder = value - (full * 20);
-    const isHalf = remainder >= 10;
+    let isHalf = false;
+    if (remainder >= 15) full += 1;
+    else isHalf = remainder >= 10;
     return [full, isHalf];
   }, [value]);
 
