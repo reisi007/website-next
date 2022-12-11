@@ -1,12 +1,38 @@
 import Link from 'next/link';
 import classNames from 'classnames';
+import { useMemo } from 'react';
 import { Review, ReviewProps } from '../static/loadReviews';
-import { Image } from '../utils/Image';
+import { Breakpoint, Image, ImageSizes } from '../utils/Image';
 import { DaysAgo } from '../utils/Age';
 import { FiveStarRating } from '../rating/FiveStarRating';
 import { ReisishotIconSizes } from '../utils/ReisishotIcons';
 
-export function PreviewReview({ review }: { review: Review }) {
+export function DisplayReviews({
+  reviews,
+  start = 0,
+  limit = Number.MAX_VALUE,
+}: { reviews: Array<Review>, start?: number, limit?: number }) {
+  const imageSizes = useMemo((): ImageSizes => ({
+    [Breakpoint.default]: 1,
+    [Breakpoint.md]: 2,
+    [Breakpoint.xl]: 3,
+    [Breakpoint['2xl']]: 4,
+  }), []);
+
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+      {
+        reviews.slice(start, Math.min(start + limit, reviews.length))
+          .map((r) => <PreviewReview key={r.id} review={r} imageSizes={imageSizes} />)
+      }
+    </div>
+  );
+}
+
+export function PreviewReview({
+  review,
+  imageSizes,
+}: { review: Review, imageSizes?: ImageSizes }) {
   const {
     id,
     frontmatter,
@@ -15,12 +41,12 @@ export function PreviewReview({ review }: { review: Review }) {
   return (
     <Link
       className={classNames(
-        'black w-full md:w-1/2 xl:w-1/3 xxl:w-1/4',
+        'black w-full',
         { 'border border-black': frontmatter.image === undefined },
       )}
       href={`reviews/${id}`}
     >
-      <PreviewReviewContent {...frontmatter} />
+      <PreviewReviewContent {...frontmatter} imageSizes={imageSizes} />
     </Link>
   );
 }
@@ -30,12 +56,13 @@ export function PreviewReviewContent({
   date,
   rating,
   image,
+  imageSizes,
   className = 'h-80',
-}: ReviewProps & { className?: string | undefined }) {
+}: ReviewProps & { className?: string | undefined, imageSizes?: ImageSizes }) {
   const classes = 'absolute bg-white/30 py-2 px-4 m-0 backdrop-blur';
   return (
     <div className="relative min-h-[5rem]">
-      {image !== undefined && <Image className={className} filename={image} />}
+      {image !== undefined && <Image className={className} imageSizes={imageSizes} filename={image} />}
       <h3 className={classNames(classes, 'top-0 rounded-br')}>
         {name}
       </h3>

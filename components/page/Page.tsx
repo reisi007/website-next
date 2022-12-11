@@ -11,7 +11,7 @@ export function Page({
   return (
     <>
       <Header title={title} />
-      <main className={classNames('mx-auto w-full sm:w-[540px] md:w-[720px] lg:w-[960px] xl:w-[1140px] xxl:w-[1320px]', className)}>
+      <main className={classNames('mx-auto w-full sm:w-[540px] md:w-[720px] lg:w-[960px] xl:w-[1140px] 2xl:w-[1320px]', className)}>
         {children}
       </main>
       <Footer />

@@ -1,14 +1,12 @@
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import { getAllReviews, Review } from '../components/static/loadReviews';
 import { Page } from '../components/page/Page';
-import { PreviewReview } from '../components/review/PreviewReview';
+import { DisplayReviews } from '../components/review/DisplayReviews';
 
 export default function ReviewPage({ reviews }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
-    <Page className="flex flex-wrap" title="Reviews">
-      <>
-        {reviews.map((r) => <PreviewReview key={r.id} review={r} />)}
-      </>
+    <Page title="Reviews">
+      <DisplayReviews reviews={reviews} />
     </Page>
   );
 }

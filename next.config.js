@@ -1,11 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    basePath: '/lLKe4nAbwtcujs3SrnzMEBX',
     reactStrictMode: true,
     swcMinify: true,
     images: {
         loader: "custom",
-        imageSizes: [],
-        deviceSizes: [400, 700, 1200, 2050],
+        imageSizes: [400],
+        deviceSizes: [700, 1200, 2050],
     },
     env: {
         nextImageExportOptimizer_imageFolderPath: "public/images",
