@@ -1,24 +1,22 @@
 import Link from 'next/link';
 import classNames from 'classnames';
-import { useMemo } from 'react';
 import { Review, ReviewProps } from '../static/loadReviews';
 import { Breakpoint, Image, ImageSizes } from '../utils/Image';
 import { DaysAgo } from '../utils/Age';
 import { FiveStarRating } from '../rating/FiveStarRating';
 import { ReisishotIconSizes } from '../utils/ReisishotIcons';
 
+const imageSizes: ImageSizes = {
+  [Breakpoint.default]: 1,
+  [Breakpoint.md]: 2,
+  [Breakpoint.xl]: 3,
+  [Breakpoint['2xl']]: 4,
+};
 export function DisplayReviews({
   reviews,
   start = 0,
   limit = Number.MAX_VALUE,
 }: { reviews: Array<Review>, start?: number, limit?: number }) {
-  const imageSizes = useMemo((): ImageSizes => ({
-    [Breakpoint.default]: 1,
-    [Breakpoint.md]: 2,
-    [Breakpoint.xl]: 3,
-    [Breakpoint['2xl']]: 4,
-  }), []);
-
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
       {

@@ -13,6 +13,7 @@ export default function Home({
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
     <Page title="Fotograf Florian Reisinger">
+
       <DisplayReviews reviews={reviews} limit={4} />
 
       <StarLinkToReview cnt={cnt} avgRating={avgRating} />
