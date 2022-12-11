@@ -6,7 +6,7 @@ import { DaysAgo } from '../utils/Age';
 import { FiveStarRating } from '../rating/FiveStarRating';
 import { ReisishotIconSizes } from '../utils/ReisishotIcons';
 
-const imageSizes: ImageSizes = {
+const PREVIEW_IMAGE_SIZES: ImageSizes = {
   [Breakpoint.default]: 1,
   [Breakpoint.md]: 2,
   [Breakpoint.xl]: 3,
@@ -21,7 +21,7 @@ export function DisplayReviews({
     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
       {
         reviews.slice(start, Math.min(start + limit, reviews.length))
-          .map((r) => <PreviewReview key={r.id} review={r} imageSizes={imageSizes} />)
+          .map((r) => <PreviewReview key={r.id} review={r} imageSizes={PREVIEW_IMAGE_SIZES} />)
       }
     </div>
   );
