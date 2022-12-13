@@ -1,27 +1,34 @@
 import ExportedImage from 'next-image-export-optimizer';
 import classNames from 'classnames';
+import { useMemo } from 'react';
+import { ISizeCalculationResult } from 'image-size/dist/types/interface';
 import { useLink } from './useLink';
+import { Styleable } from '../types/Styleable';
 
 export function Image({
   className,
+  imageDimensions,
   filename,
   imageSizes,
-}: { filename: string, className?: string, imageSizes?:ImageSizes }) {
+}: { filename: string, imageDimensions?:ISizeCalculationResult | null, imageSizes?:ImageSizes } & Pick<Styleable, 'className'>) {
   const src = useLink(`images/${filename}.jpg`);
+  const nextImage = useMemo(() => (
+    <ExportedImage
+      className="w-full object-contain"
+      fill
+      src={src}
+      alt={`${filename}.jpg`}
+      sizes={buildSizeString(imageSizes)}
+    />
+  ), [filename, imageSizes, src]);
   return (
-    <div className={classNames('relative max-h-[90vh]', className)}>
-      <ExportedImage
-        className={classNames('object-contain')}
-        fill
-        src={src}
-        alt={`${filename}.jpg`}
-        sizes={buildSizeString(imageSizes)}
-      />
+    <div style={{ paddingTop: buildImagePadding(imageDimensions) }} className={classNames('relative overflow-hidden', className)}>
+      {nextImage}
     </div>
   );
 }
 
-export type ImageSizes = Partial<Record<Breakpoint, number>> & { [Breakpoint.default]:number };
+export type ImageSizes = Record<Breakpoint, number>;
 
 export enum Breakpoint {
   '2xl' = 1320,
@@ -32,14 +39,27 @@ export enum Breakpoint {
   default = 0,
 }
 
+const FULLSCREEN_IMAGE_SIZES: ImageSizes = {
+  [Breakpoint.default]: 1,
+  [Breakpoint.sm]: 1,
+  [Breakpoint.md]: 1,
+  [Breakpoint.lg]: 2,
+  [Breakpoint.xl]: 3,
+  [Breakpoint['2xl']]: 4,
+};
 function buildSizeString(data?: ImageSizes):string | undefined {
-  if (data === undefined) return undefined;
+  if (data === undefined) return buildSizeString(FULLSCREEN_IMAGE_SIZES);
 
   return Object.entries(data)
     .sort(([a], [b]) => Number(b) - Number(a))
     .map(([key, cnt]) => {
       if (key === '0') return `${100 / cnt}vw`;
-      return `(max-width: ${key}px) ${100 / cnt}vw`;
+      return `(max-width: ${key}px) ${Number(key) / cnt}vw`;
     })
     .join(',');
+}
+
+export function buildImagePadding(imageDimensions?:ISizeCalculationResult | null) {
+  if (imageDimensions === undefined || imageDimensions === null || imageDimensions.height === undefined || imageDimensions.width === undefined) return '80vh';
+  return `min(80vh,${100 * (imageDimensions.height / imageDimensions.width)}%)`;
 }

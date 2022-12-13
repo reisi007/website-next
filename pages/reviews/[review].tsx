@@ -1,5 +1,6 @@
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
 import { ParsedUrlQuery } from 'querystring';
+import { ISizeCalculationResult } from 'image-size/dist/types/interface';
 import { Page } from '../../components/page/Page';
 import { getAllReviews, Review } from '../../components/static/loadReviews';
 import { RawHtml } from '../../components/utils/RawHtml';
@@ -8,9 +9,11 @@ import { FiveStarRating } from '../../components/rating/FiveStarRating';
 import { ReisishotIconSizes } from '../../components/utils/ReisishotIcons';
 import { FormattedDate } from '../../components/utils/Age';
 import { StyledLinkButton } from '../../components/input/StyledButton';
+import { readImage } from '../../components/static/readImage';
 
 export default function SingleReview({
   review,
+  imageDimensions,
   previousId,
   nextId,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
@@ -26,7 +29,7 @@ export default function SingleReview({
   } = frontmatter;
   return (
     <Page className="-mt-4" title={`Review von ${name}`}>
-      {image !== undefined && <Image className="h-192" filename={image} />}
+      {image !== undefined && imageDimensions !== null && <Image imageDimensions={imageDimensions} className="w-full" filename={image} />}
       {rating !== undefined && <FiveStarRating className="mt-4 flex justify-center text-gold" starSize={ReisishotIconSizes.XXLARGE} value={rating} />}
       {html !== null && <RawHtml html={html} className="first-letter:float-left first-letter:mr-3 first-letter:text-5xl first-letter:font-bold first-letter:text-primary" />}
       <div className="flex justify-end">
@@ -54,7 +57,7 @@ interface PathParams extends ParsedUrlQuery {
 
 }
 
-type PropParams = { review: Review, previousId: string | null, nextId: string | null };
+type PropParams = { review: Review, imageDimensions: ISizeCalculationResult | null, previousId: string | null, nextId: string | null };
 
 export const getStaticProps: GetStaticProps<PropParams, PathParams> = async (context) => {
   const reviews = await getAllReviews();
@@ -67,11 +70,13 @@ export const getStaticProps: GetStaticProps<PropParams, PathParams> = async (con
   // Previous and next are "wrong" -> next is the older one and previous is the newer one as "next" should be the primary one
   const previousId = reviews[reviewIndex - 1]?.id ?? null;
   const nextId = reviews[reviewIndex + 1]?.id ?? null;
+  const imageFilename = review.frontmatter.image;
 
   const props: PropParams = {
     review,
     previousId,
     nextId,
+    imageDimensions: imageFilename === undefined ? null : await readImage(imageFilename),
   };
   return {
     props,

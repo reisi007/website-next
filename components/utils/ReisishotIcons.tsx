@@ -1,4 +1,6 @@
 import React from 'react';
+import classNames from 'classnames';
+import { Styleable } from '../types/Styleable';
 
 export enum ReisishotIcons {
   Facebook = 'rs-facebook',
@@ -26,6 +28,9 @@ export function ReisishotIcon({
   children,
   icon,
   size = ReisishotIconSizes.NORMAL,
-}: { children?: JSX.Element, icon: ReisishotIcons, size?: ReisishotIconSizes }) {
-  return <i className={`icon ${icon} ${size}`}>{children}</i>;
+  className,
+  style,
+}: { children?: JSX.Element, icon: ReisishotIcons, size?: ReisishotIconSizes } & Partial<Styleable>) {
+  const classes = classNames(`icon ${icon} ${size}`, className);
+  return <i style={style} className={classes}>{children}</i>;
 }

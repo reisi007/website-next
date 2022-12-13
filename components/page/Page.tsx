@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import React, { ReactNode } from 'react';
 import { Header } from './Header';
 import { Footer } from './Footer';
+import { CONTAIINER_CLASSES } from '../utils/Css';
 
 export function Page({
   children,
@@ -11,7 +12,7 @@ export function Page({
   return (
     <>
       <Header title={title} />
-      <main className={classNames('mx-auto w-full sm:w-[540px] md:w-[720px] lg:w-[960px] xl:w-[1140px] 2xl:w-[1320px]', className)}>
+      <main className={classNames(CONTAIINER_CLASSES, className)}>
         {children}
       </main>
       <Footer />

@@ -23,13 +23,22 @@ export function FormattedDateTime({ dateString }: DateFormattingProps) {
 export function DaysAgo({
   dateString,
   relativeTo,
-}: RelativeToDateFormattingProps) {
+}: RelativeToDateFormattingProps): JSX.Element {
   const dayJsRelativeTo = dayjs(relativeTo);
   const daysAgo = computeDaysAgo(dateString, dayJsRelativeTo);
+  if (daysAgo === 0) return <>Heute</>;
   if (daysAgo === 1) return <>Gestern</>;
+  if (daysAgo > 365) {
+    if (daysAgo > 2 * 365) return <>{`Vor ${Math.round(daysAgo / 365)} Jahren`}</>;
+    return <>Vor einem Jahr</>;
+  }
   return (
     <>
-      {`Vor ${daysAgo} Tagen`}
+      Vor
+      {' '}
+      {daysAgo}
+      {' '}
+      Tagen
     </>
   );
 }

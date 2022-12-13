@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import {
-  MouseEventHandler, TouchEventHandler, useCallback, useMemo, useState,
+  MouseEventHandler, TouchEventHandler, useCallback, useState,
 } from 'react';
 import { Image } from './Image';
 
@@ -22,9 +22,6 @@ export function BeforeAfterImage({
     setWidth((x * 100) / e.currentTarget.offsetWidth);
   }, []);
 
-  const afterImage = useMemo(() => <Image className={classNames(className, 'overflow-visible')} filename={after} />, [after, className]);
-  const beforeImage = useMemo(() => <Image className={className} filename={before} />, [before, className]);
-
   return (
     <div
       onClick={onClick}
@@ -34,12 +31,12 @@ export function BeforeAfterImage({
     >
       <div className="absolute inset-0 block w-full overflow-hidden">
         <div className={classNames(className, 'w-full h-full')}>
-          {afterImage}
+          <Image className={classNames(className, 'overflow-visible')} filename={after} />
         </div>
       </div>
       <div className="absolute inset-0 z-10 block overflow-hidden" style={{ width: `${width}%` }}>
         <div className={classNames('absolute inset-0', className)}>
-          {beforeImage}
+          <Image className={className} filename={before} />
         </div>
       </div>
       <div className={classNames('z-20 absolute top-1/2 text-center align-middle -ml-8 -mt-8 h-8 w-8 pointer-events-none bg-white rounded-full')} style={{ left: `calc(${width}% + 1rem)` }}>
