@@ -17,23 +17,20 @@ module.exports = {
             },
             colors: {
                 primary: {
-                    DEFAULT: '#786DBF',
-                    alternative: '#DBB8FF',
-                    accent: '#FAC9FF'
+                    DEFAULT: '#2A9D8F',
+                    alternative: '#1A6158',
+                    accent: '#4ED0C1'
                 },
                 onPrimary: {
                     DEFAULT: '#FFFFFF',
                 },
                 secondary: {
-                    DEFAULT: '#50B4C7',
-                    alternative: '#9EDBCD'
+                    DEFAULT: '#E8EDED',
+                    alternative: '#040F0F'
                 },
                 gold: {
-                    DEFAULT: '#FFD700'
+                    DEFAULT: '#EBE357'
                 }
-            },
-            screens: {
-                'xxl': '1400px'
             },
             spacing: {
                 '128': '32rem',
