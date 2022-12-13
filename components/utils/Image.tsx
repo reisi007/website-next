@@ -6,18 +6,19 @@ import { useLink } from './useLink';
 import { Styleable } from '../types/Styleable';
 
 export function Image({
+  alt,
   className,
   imageDimensions,
   filename,
   imageSizes,
-}: { filename: string, imageDimensions?:ISizeCalculationResult | null, imageSizes?:ImageSizes } & Pick<Styleable, 'className'>) {
+}: { filename: string, alt?:string, imageDimensions?:ISizeCalculationResult | null, imageSizes?:ImageSizes } & Pick<Styleable, 'className'>) {
   const src = useLink(`images/${filename}.jpg`);
   const nextImage = useMemo(() => (
     <ExportedImage
       className="w-full object-contain"
       fill
       src={src}
-      alt={`${filename}.jpg`}
+      alt={alt ?? `${filename}.jpg`}
       sizes={buildSizeString(imageSizes)}
     />
   ), [filename, imageSizes, src]);

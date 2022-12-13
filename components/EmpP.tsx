@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import { HTMLProps } from 'react';
+import { FIRST_LETTER_CLASSES } from './utils/Css';
 
 export function EmpP({ className, ...props }: HTMLProps<HTMLParagraphElement>) {
-  return <p {...props} className={classNames('first-letter:float-left first-letter:mr-3 first-letter:text-5xl first-letter:font-bold first-letter:text-primary', className)} />;
+  return <p {...props} className={classNames(FIRST_LETTER_CLASSES, className)} />;
 }

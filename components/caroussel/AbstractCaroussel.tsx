@@ -1,9 +1,9 @@
 import {
-  ReactNode, useCallback, useEffect, useState,
+  ReactNode, useCallback, useEffect, useMemo, useState,
 } from 'react';
 import classNames from 'classnames';
 
-export function AbstractCaroussel<I extends string | { id:string | number }>(
+export function AbstractCaroussel<I extends string | { id: string | number }>(
   {
     children,
     className,
@@ -11,9 +11,9 @@ export function AbstractCaroussel<I extends string | { id:string | number }>(
     intervalMs,
   }: {
     items: Array<I>,
-    className?:string,
+    className?: string,
     intervalMs?: number,
-    children: (cur:I) => ReactNode
+    children: (cur: I) => ReactNode
   },
 ) {
   const [curIndex, setCurIndex] = useState(0);
@@ -35,6 +35,18 @@ export function AbstractCaroussel<I extends string | { id:string | number }>(
     });
   }, [items.length]);
 
+  const itemsToDisplay = useMemo((): Array<I> => {
+    let prevIndex = curIndex - 1;
+    if (prevIndex < 0) prevIndex = items.length - 1;
+    let nextIndex = curIndex + 1;
+    if (nextIndex >= items.length) nextIndex = 0;
+    return [
+      items[prevIndex],
+      items[curIndex],
+      items[nextIndex],
+    ].filter(onlyUnique);
+  }, [curIndex, items]);
+
   useEffect(() => {
     const interval = intervalMs === undefined || intervalMs <= 0 ? undefined : setInterval(nextItem, intervalMs);
     return () => {
@@ -44,7 +56,7 @@ export function AbstractCaroussel<I extends string | { id:string | number }>(
 
   return (
     <div className={classNames('relative max-h-[90vh] overflow-hidden', className)}>
-      {items.map((cur, idx) => {
+      {itemsToDisplay.map((cur, idx) => {
         const key = typeof cur === 'string' ? cur : cur.id;
         return (
           <div
@@ -52,13 +64,13 @@ export function AbstractCaroussel<I extends string | { id:string | number }>(
             className={classNames(
               'motion-reduce:transition-none transition-all duration-1000 delay-300 ease-in-out',
               'absolute top-1/2 left-1/2 block w-full -translate-x-1/2 -translate-y-1/2',
-              { hidden: curIndex !== idx },
+              { hidden: idx === 1 || items.length === 1 },
             )}
           >
             {children(cur)}
           </div>
         );
-      }) }
+      })}
 
       <button
         onClick={nextItem}
@@ -96,4 +108,8 @@ export function AbstractCaroussel<I extends string | { id:string | number }>(
       </button>
     </div>
   );
+}
+
+function onlyUnique<I>(value: I, index: number, self: Array<I>) {
+  return self.indexOf(value) === index;
 }

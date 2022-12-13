@@ -1,4 +1,4 @@
-import fs from 'fs';
+import { promises as fs } from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import md from 'markdown-it';
@@ -22,15 +22,13 @@ export type Review = {
   html: string | null
 };
 
-const { readdir } = fs.promises;
-
 const postsDirectory = path.join(process.cwd(), 'private', 'reviews');
 
 async function loadReviews() {
-  const folders = await readdir(postsDirectory);
+  const folders = await fs.readdir(postsDirectory);
   const filePaths = await asyncFlatMap(folders, async (folderName) => {
     const baseFolder = path.join(postsDirectory, folderName);
-    return (await readdir(baseFolder))
+    return (await fs.readdir(baseFolder))
       .map((e) => path.join(baseFolder, e));
   });
 
@@ -59,7 +57,7 @@ async function loadReviews() {
     const id = fileName.replace(/\.review.md$/, '');
 
     // Read markdown file as string
-    const fileContents = await fs.promises.readFile(fullPath, 'utf8');
+    const fileContents = await fs.readFile(fullPath, 'utf8');
 
     // Use gray-matter to parse the post metadata section
     const matterResult = matter(fileContents);
