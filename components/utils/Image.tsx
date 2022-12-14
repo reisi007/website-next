@@ -15,13 +15,13 @@ export function Image({
   const src = useLink(`images/${filename}.jpg`);
   const nextImage = useMemo(() => (
     <ExportedImage
-      className="w-full object-contain"
+      className="h-full w-full object-contain"
       fill
       src={src}
       alt={alt ?? `${filename}.jpg`}
       sizes={buildSizeString(imageSizes)}
     />
-  ), [filename, imageSizes, src]);
+  ), [alt, filename, imageSizes, src]);
   return (
     <div style={{ paddingTop: buildImagePadding(imageDimensions) }} className={classNames('relative overflow-hidden', className)}>
       {nextImage}

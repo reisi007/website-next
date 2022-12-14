@@ -7,6 +7,7 @@ import { asyncMap } from '../utils/asyncFlatMap';
 
 const sizeOf = promisify(image_size);
 const imageDirectory = path.join(process.cwd(), 'public', 'images');
+const imageMetadataDirectory = path.join(process.cwd(), 'private', 'images');
 export type ImageInfo = { size: ISizeCalculationResult, metadata: Metadata };
 export type Metadata = { title: string, tags: Array<string> };
 export type MetadataMap = { [key: string]: ImageInfo };
@@ -14,7 +15,7 @@ export type MetadataMap = { [key: string]: ImageInfo };
 export async function readImage(filename: string): Promise<ImageInfo> {
   const size = await sizeOf(path.join(imageDirectory, `${filename}.jpg`));
   if (size === undefined) throw Error(`Image ${filename} not found!`);
-  const metadata = JSON.parse(await fs.readFile(path.join(imageDirectory, `${filename}.json`), 'utf8'));
+  const metadata = JSON.parse(await fs.readFile(path.join(imageMetadataDirectory, `${filename}.json`), 'utf8'));
   return {
     size,
     metadata,

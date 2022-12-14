@@ -2,19 +2,20 @@ import {
   ReactNode, useCallback, useEffect, useMemo, useState,
 } from 'react';
 import classNames from 'classnames';
+import { Styleable } from '../types/Styleable';
 
 export function AbstractCaroussel<I extends string | { id: string | number }>(
   {
     children,
     className,
+    style,
     items,
     intervalMs,
   }: {
     items: Array<I>,
-    className?: string,
     intervalMs?: number,
     children: (cur: I) => ReactNode
-  },
+  } & Partial<Styleable>,
 ) {
   const [curIndex, setCurIndex] = useState(0);
   const nextPrevClasses = classNames(
@@ -55,16 +56,16 @@ export function AbstractCaroussel<I extends string | { id: string | number }>(
   }, [intervalMs, curIndex, nextItem]);
 
   return (
-    <div className={classNames('relative max-h-[90vh] overflow-hidden', className)}>
+    <div style={style} className={classNames('relative overflow-hidden', className)}>
       {itemsToDisplay.map((cur, idx) => {
         const key = typeof cur === 'string' ? cur : cur.id;
         return (
           <div
             key={key}
             className={classNames(
-              'motion-reduce:transition-none transition-all duration-1000 delay-300 ease-in-out',
+              'w-full h-full motion-reduce:transition-none transition-all duration-1000 delay-300 ease-in-out',
               'absolute top-1/2 left-1/2 block w-full -translate-x-1/2 -translate-y-1/2',
-              { hidden: idx === 1 || items.length === 1 },
+              { hidden: idx === 1 && itemsToDisplay.length !== 1 },
             )}
           >
             {children(cur)}

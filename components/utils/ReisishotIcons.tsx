@@ -7,6 +7,7 @@ export enum ReisishotIcons {
   Instagram = 'rs-instagram',
   Whatsapp = 'rs-whatsapp',
   Messenger = 'rs-messenger',
+  Menu = 'rs-menu',
   Mail = 'rs-mail',
   Podcast = 'rs-podcast',
   Star_empty = 'rs-star-empty',
@@ -29,8 +30,8 @@ export function ReisishotIcon({
   icon,
   size = ReisishotIconSizes.NORMAL,
   className,
-  style,
-}: { children?: JSX.Element, icon: ReisishotIcons, size?: ReisishotIconSizes } & Partial<Styleable>) {
+  ...props
+}: { icon: ReisishotIcons, size?: ReisishotIconSizes } & React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & Partial<Styleable>) {
   const classes = classNames(`icon ${icon} ${size}`, className);
-  return <i style={style} className={classes}>{children}</i>;
+  return <i {...props} className={classes}>{children}</i>;
 }
