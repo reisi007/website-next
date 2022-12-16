@@ -26,7 +26,7 @@ export default function Vision({ firstCaroussel }:InferGetStaticPropsType<typeof
   );
 }
 
-export const getStaticProps: GetStaticProps<{ firstCaroussel: MetadataMap }> = async () => ({
+export const getStaticProps: GetStaticProps<{ [key:string]: MetadataMap }> = async () => ({
   props: {
     firstCaroussel: await readMultipleImages([
       'SarahFrick007', 'AnnaWirth07', 'JuliaEder009', 'Boudoir0021',

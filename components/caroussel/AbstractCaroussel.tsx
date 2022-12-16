@@ -56,14 +56,14 @@ export function AbstractCaroussel<I extends string | { id: string | number }>(
   }, [intervalMs, curIndex, nextItem]);
 
   return (
-    <div style={style} className={classNames('relative overflow-hidden', className)}>
+    <div style={style} className={classNames('relative inset-0', className)}>
       {itemsToDisplay.map((cur, idx) => {
         const key = typeof cur === 'string' ? cur : cur.id;
         return (
           <div
             key={key}
             className={classNames(
-              'w-full h-full motion-reduce:transition-none transition-all duration-1000 delay-300 ease-in-out',
+              ' motion-reduce:transition-none transition-all duration-1000 delay-300 ease-in-out',
               'absolute top-1/2 left-1/2 block w-full -translate-x-1/2 -translate-y-1/2',
               { hidden: idx === 1 && itemsToDisplay.length !== 1 },
             )}
@@ -76,7 +76,7 @@ export function AbstractCaroussel<I extends string | { id: string | number }>(
       <button
         onClick={nextItem}
         type="button"
-        className="group absolute top-0 left-0 z-30 flex h-full cursor-pointer items-center justify-center px-4 focus:outline-none"
+        className="absolute top-0 left-0 z-30 flex h-full cursor-pointer items-center justify-center px-4 focus:outline-none"
       >
         <span className={nextPrevClasses}>
           <svg aria-hidden="true" className="h-5 w-5 text-white dark:text-gray-800 sm:h-6 sm:w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -93,7 +93,7 @@ export function AbstractCaroussel<I extends string | { id: string | number }>(
       <button
         onClick={prevItem}
         type="button"
-        className="group absolute top-0 right-0 z-30 flex h-full cursor-pointer items-center justify-center px-4 focus:outline-none"
+        className="absolute top-0 right-0 z-30 flex h-full cursor-pointer items-center justify-center px-4 focus:outline-none"
       >
         <span className={nextPrevClasses}>
           <svg aria-hidden="true" className="h-5 w-5 text-white dark:text-gray-800 sm:h-6 sm:w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

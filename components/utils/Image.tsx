@@ -11,7 +11,12 @@ export function Image({
   imageDimensions,
   filename,
   imageSizes,
-}: { filename: string, alt?:string, imageDimensions?:ISizeCalculationResult | null, imageSizes?:ImageSizes } & Pick<Styleable, 'className'>) {
+}: {
+  filename: string,
+  alt?: string,
+  imageDimensions?: ISizeCalculationResult | Array<ISizeCalculationResult> | null,
+  imageSizes?: ImageSizes
+} & Pick<Styleable, 'className'>) {
   const src = useLink(`images/${filename}.jpg`);
   const nextImage = useMemo(() => (
     <ExportedImage
@@ -22,8 +27,9 @@ export function Image({
       sizes={buildSizeString(imageSizes)}
     />
   ), [alt, filename, imageSizes, src]);
+  const paddingTop = useImagePadding(imageDimensions);
   return (
-    <div style={{ paddingTop: buildImagePadding(imageDimensions) }} className={classNames('relative overflow-hidden', className)}>
+    <div style={{ paddingTop }} className={classNames('relative overflow-hidden', className)}>
       {nextImage}
     </div>
   );
@@ -48,7 +54,8 @@ const FULLSCREEN_IMAGE_SIZES: ImageSizes = {
   [Breakpoint.xl]: 3,
   [Breakpoint['2xl']]: 4,
 };
-function buildSizeString(data?: ImageSizes):string | undefined {
+
+function buildSizeString(data?: ImageSizes): string | undefined {
   if (data === undefined) return buildSizeString(FULLSCREEN_IMAGE_SIZES);
 
   return Object.entries(data)
@@ -60,7 +67,33 @@ function buildSizeString(data?: ImageSizes):string | undefined {
     .join(',');
 }
 
-export function buildImagePadding(imageDimensions?:ISizeCalculationResult | null) {
-  if (imageDimensions === undefined || imageDimensions === null || imageDimensions.height === undefined || imageDimensions.width === undefined) return '80vh';
-  return `min(80vh,${100 * (imageDimensions.height / imageDimensions.width)}%)`;
+const DEFAULT_IMAGE_HEIGHT = '80vh';
+export function useImagePadding(imageDimensions?: ISizeCalculationResult | Array<ISizeCalculationResult> | null) {
+  return useMemo(() => {
+    if (imageDimensions === undefined || imageDimensions === null) {
+      return DEFAULT_IMAGE_HEIGHT;
+    }
+    const definitlyArray: Array<ISizeCalculationResult> = Array.isArray(imageDimensions) ? imageDimensions : [imageDimensions];
+    const id: ISizeCalculationResult = definitlyArray.reduce((previousValue, currentValue) => {
+      const pw = previousValue.width;
+      const ph = previousValue.height;
+      const cw = currentValue.width;
+      const ch = currentValue.height;
+
+      const isPrevUndefined = pw === undefined || ph === undefined;
+      const isCurUndefined = cw === undefined || ch === undefined;
+      if (isCurUndefined && isPrevUndefined) return previousValue;
+      if (isCurUndefined || isPrevUndefined) {
+        if (isPrevUndefined) return currentValue;
+        return previousValue;
+      }
+      const pPrev = ph / pw;
+      const pCur = ch / cw;
+      if (pPrev < pCur) return previousValue;
+      return currentValue;
+    });
+
+    if (id.height === undefined || id.width === undefined) return DEFAULT_IMAGE_HEIGHT;
+    return `min(${DEFAULT_IMAGE_HEIGHT},${100 * (id.height / id.width)}%)`;
+  }, [imageDimensions]);
 }
