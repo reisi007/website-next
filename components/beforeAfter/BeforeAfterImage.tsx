@@ -14,9 +14,9 @@ export function BeforeAfterImage({
   style,
   data,
   name,
-  imageSizes,
-  imageDimension,
-}: { data: ImageInfo, name: string, imageDimension: ImageSize, imageSizes: ImageBreakpoints } & Partial<Styleable>) {
+  breakpoints,
+  size,
+}: { data: ImageInfo, name: string, size: ImageSize, breakpoints: ImageBreakpoints } & Partial<Styleable>) {
   const paddingTop = useImagePadding(data.size);
   const [widthPercentage, setWidthPercentage] = useState(50);
   const beforeWidth = `${(100 / widthPercentage) * 100}%`;
@@ -44,12 +44,12 @@ export function BeforeAfterImage({
     >
       <div className="absolute inset-0 block w-full overflow-hidden">
         <div className={classNames(className, 'w-full h-full')}>
-          <Image alt={data.metadata.title} imageDimensions={imageDimension} imageSizes={imageSizes} className={classNames(className, 'overflow-visible')} filename={name} />
+          <Image alt={data.metadata.title} size={size} breakpoints={breakpoints} className={classNames(className, 'overflow-visible')} filename={name} />
         </div>
       </div>
       <div className="absolute inset-0 z-10 block overflow-hidden" style={{ width: `${widthPercentage}%` }}>
         <div style={{ width: beforeWidth }} className={classNames('h-full', className)}>
-          <Image alt={`Original von ${data.metadata.title}`} imageDimensions={imageDimension} imageSizes={imageSizes} className={className} filename={`${name}o`} />
+          <Image alt={`Original von ${data.metadata.title}`} size={size} breakpoints={breakpoints} className={className} filename={`${name}o`} />
         </div>
       </div>
       <div
@@ -70,7 +70,7 @@ export function BeforeAfterImage({
   );
 }
 
-const BA_IMAGE_SIZES: ImageBreakpoints = {
+const BEFORE_AFTER_BREAKPOINTS: ImageBreakpoints = {
   [Breakpoint.default]: 1,
   [Breakpoint.sm]: 1,
   [Breakpoint.md]: 1,
@@ -85,7 +85,7 @@ export function MultipleBeforeAfterImages<T extends string>({ data }: { data: Re
     <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
       {entries
         .sort(([_, a], [,b]) => -((a.metadata.created ?? -1) - (b.metadata.created ?? -1))) // Sort from newest to oldest
-        .map(([name, info]) => <BeforeAfterImage className="h-full" imageDimension={info.size} key={name} name={name} imageSizes={BA_IMAGE_SIZES} data={info} />)}
+        .map(([name, info]) => <BeforeAfterImage className="h-full" size={info.size} key={name} name={name} breakpoints={BEFORE_AFTER_BREAKPOINTS} data={info} />)}
     </div>
   );
 }

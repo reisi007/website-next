@@ -1,7 +1,7 @@
 import { ImageSize } from 'ts-exif-parser';
 import { Image } from './Image';
 
-const DIMENSION_SQUARE: ImageSize = {
+const SQUARE_SIZE: ImageSize = {
   width: 1,
   height: 1,
 };
@@ -10,7 +10,7 @@ export function MyImage() {
   return (
     <div className="flex justify-center">
       <div className="w-60">
-        <Image alt="Bild des Fotografen" imageDimensions={DIMENSION_SQUARE} filename="me" />
+        <Image alt="Bild des Fotografen" size={SQUARE_SIZE} filename="me" />
       </div>
     </div>
   );

@@ -6,7 +6,7 @@ import { DaysAgo } from '../utils/Age';
 import { ReisishotIcon, ReisishotIcons } from '../utils/ReisishotIcons';
 import { Styleable } from '../types/Styleable';
 
-const PREVIEW_IMAGE_SIZES: ImageBreakpoints = {
+const REVIEW_PREVIEW_BREAKPOINTS: ImageBreakpoints = {
   [Breakpoint.default]: 1,
   [Breakpoint.sm]: 1,
   [Breakpoint.md]: 1,
@@ -23,7 +23,7 @@ export function DisplayReviews({
     <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
       {
         reviews.slice(start, Math.min(start + limit, reviews.length))
-          .map((r) => <PreviewReview key={r.id} review={r} imageSizes={PREVIEW_IMAGE_SIZES} />)
+          .map((r) => <PreviewReview key={r.id} review={r} breakpoints={REVIEW_PREVIEW_BREAKPOINTS} />)
       }
     </div>
   );
@@ -31,8 +31,8 @@ export function DisplayReviews({
 
 export function PreviewReview({
   review,
-  imageSizes,
-}: { review: Review, imageSizes?: ImageBreakpoints }) {
+  breakpoints,
+}: { review: Review, breakpoints?: ImageBreakpoints }) {
   const {
     id,
     frontmatter,
@@ -49,7 +49,7 @@ export function PreviewReview({
       <PreviewReviewContent
         {...frontmatter}
         className="h-8"
-        imageSizes={imageSizes}
+        breakpoints={breakpoints}
       />
     </Link>
   );
@@ -60,14 +60,14 @@ export function PreviewReviewContent({
   date,
   rating,
   image,
-  imageSizes,
+  breakpoints,
   style,
   className,
-}: ReviewProps & Partial<Styleable> & { imageSizes?: ImageBreakpoints }) {
+}: ReviewProps & Partial<Styleable> & { breakpoints?: ImageBreakpoints }) {
   const classes = 'absolute bg-black/30 text-white py-2 px-4 m-0 backdrop-blur';
   return (
     <div style={style} className="relative h-full min-h-[5rem]">
-      {image !== undefined && <Image className={className} imageSizes={imageSizes} filename={image} />}
+      {image !== undefined && <Image className={className} breakpoints={breakpoints} filename={image} />}
       <span className={classNames(classes, 'top-0 rounded-br')}>
         {name}
       </span>

@@ -23,13 +23,13 @@ export function ImageCaroussel<T extends string>({
     return style;
   }, [paddingTop, style]);
 
-  const containerImageInfo = style === myStyle ? undefined : containerImageMetadata;
+  const containerSize = style === myStyle ? undefined : containerImageMetadata;
 
   return (
     <AbstractCaroussel<T> style={myStyle} intervalMs={intervalMs} className={classes} items={items}>
       {(cur) => {
         const metadata = metadataMap[cur];
-        return <CurImage className={classes} containerImageInfo={containerImageInfo} filename={cur} imageInfo={metadata} />;
+        return <CurImage className={classes} containerSize={containerSize} filename={cur} imageInfo={metadata} />;
       }}
     </AbstractCaroussel>
   );
@@ -37,9 +37,9 @@ export function ImageCaroussel<T extends string>({
 
 function CurImage({
   imageInfo,
-  containerImageInfo,
+  containerSize,
   filename,
   className,
-}: { imageInfo: ImageInfo, containerImageInfo?: ImageInfo, filename: string, className: string }) {
-  return <Image className={className} alt={imageInfo?.metadata?.title} imageDimensions={(containerImageInfo ?? imageInfo).size} filename={filename} />;
+}: { imageInfo: ImageInfo, containerSize?: ImageInfo, filename: string, className: string }) {
+  return <Image className={className} alt={imageInfo?.metadata?.title} size={(containerSize ?? imageInfo).size} filename={filename} />;
 }

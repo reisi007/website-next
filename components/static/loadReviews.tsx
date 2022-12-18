@@ -78,6 +78,10 @@ async function loadReviews() {
 
 const ADVERTISED_CATEGORIES: Array<ReviewCategory> = ['beauty', 'boudoir', 'sport', 'pärchen'];
 
+export function hasAdvertisedCategory(props: ReviewProps | ReviewCategory): boolean {
+  return ADVERTISED_CATEGORIES.includes(typeof props === 'string' ? props : props.type);
+}
+
 export async function getAllReviews(): Promise<Array<Review>> {
   const allReviewa = await loadReviews();
   // Sort posts by date
@@ -87,10 +91,6 @@ export async function getAllReviews(): Promise<Array<Review>> {
 
     function hasMedia(props: ReviewProps): boolean {
       return props.image !== undefined;
-    }
-
-    function hasAdvertisedCategory(props: ReviewProps): boolean {
-      return ADVERTISED_CATEGORIES.includes(props.type);
     }
 
     // Image / video und dann html is undefined ( true dann false)

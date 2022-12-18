@@ -7,17 +7,17 @@ import { Styleable } from '../types/Styleable';
 
 export function Image({
   alt,
-  imageDimensions,
+  size,
   className,
   filename,
   ext = '.jpg',
-  imageSizes,
+  breakpoints,
 }: {
   filename: string,
   ext?: string
   alt?: string,
-  imageDimensions?: ImageSize,
-  imageSizes?: ImageBreakpoints
+  size?: ImageSize,
+  breakpoints?: ImageBreakpoints
 } & Pick<Styleable, 'className'>) {
   const src = useLink(`images/${filename}${ext}`);
   const nextImage = useMemo(() => (
@@ -26,11 +26,11 @@ export function Image({
       fill
       src={src}
       alt={alt ?? `${filename}.jpg`}
-      sizes={buildSizeString(imageSizes)}
+      sizes={buildSizeString(breakpoints)}
     />
-  ), [alt, filename, imageSizes, src]);
+  ), [alt, filename, breakpoints, src]);
 
-  const paddingTop = useImagePadding(imageDimensions);
+  const paddingTop = useImagePadding(size);
   return (
     <div style={{ paddingTop }} className={classNames('relative overflow-hidden', className)}>
       {nextImage}
@@ -49,17 +49,17 @@ export enum Breakpoint {
   default = 0,
 }
 
-const FULLSCREEN_IMAGE_SIZES: ImageBreakpoints = {
+const DEFAULT_BREAKPOINTS: ImageBreakpoints = {
   [Breakpoint.default]: 1,
   [Breakpoint.sm]: 1,
   [Breakpoint.md]: 1,
-  [Breakpoint.lg]: 2,
-  [Breakpoint.xl]: 3,
-  [Breakpoint['2xl']]: 4,
+  [Breakpoint.lg]: 1,
+  [Breakpoint.xl]: 1,
+  [Breakpoint['2xl']]: 1,
 };
 
 function buildSizeString(data?: ImageBreakpoints): string | undefined {
-  if (data === undefined) return buildSizeString(FULLSCREEN_IMAGE_SIZES);
+  if (data === undefined) return buildSizeString(DEFAULT_BREAKPOINTS);
 
   return Object.entries(data)
     .sort(([a], [b]) => Number(b) - Number(a))
