@@ -1,12 +1,12 @@
 import Link from 'next/link';
 import classNames from 'classnames';
 import { Review, ReviewProps } from '../static/loadReviews';
-import { Breakpoint, Image, ImageSizes } from '../utils/Image';
+import { Breakpoint, Image, ImageBreakpoints } from '../utils/Image';
 import { DaysAgo } from '../utils/Age';
 import { ReisishotIcon, ReisishotIcons } from '../utils/ReisishotIcons';
 import { Styleable } from '../types/Styleable';
 
-const PREVIEW_IMAGE_SIZES: ImageSizes = {
+const PREVIEW_IMAGE_SIZES: ImageBreakpoints = {
   [Breakpoint.default]: 1,
   [Breakpoint.sm]: 1,
   [Breakpoint.md]: 1,
@@ -32,7 +32,7 @@ export function DisplayReviews({
 export function PreviewReview({
   review,
   imageSizes,
-}: { review: Review, imageSizes?: ImageSizes }) {
+}: { review: Review, imageSizes?: ImageBreakpoints }) {
   const {
     id,
     frontmatter,
@@ -63,7 +63,7 @@ export function PreviewReviewContent({
   imageSizes,
   style,
   className,
-}: ReviewProps & Partial<Styleable> & { imageSizes?: ImageSizes }) {
+}: ReviewProps & Partial<Styleable> & { imageSizes?: ImageBreakpoints }) {
   const classes = 'absolute bg-black/30 text-white py-2 px-4 m-0 backdrop-blur';
   return (
     <div style={style} className="relative h-full min-h-[5rem]">

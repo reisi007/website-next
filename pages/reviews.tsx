@@ -5,7 +5,7 @@ import { DisplayReviews } from '../components/review/DisplayReviews';
 
 export default function ReviewPage({ reviews }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
-    <Page title="Reviews">
+    <Page title="Reviews" keywords={['Bewertung', 'Fotoshooting', 'Bewertungen', 'Fotograf']}>
       <DisplayReviews reviews={reviews} />
     </Page>
   );

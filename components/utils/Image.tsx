@@ -1,23 +1,25 @@
 import ExportedImage from 'next-image-export-optimizer';
-import classNames from 'classnames';
 import { useMemo } from 'react';
-import { ISizeCalculationResult } from 'image-size/dist/types/interface';
+import classNames from 'classnames';
+import { ImageSize } from 'ts-exif-parser';
 import { useLink } from './useLink';
 import { Styleable } from '../types/Styleable';
 
 export function Image({
   alt,
-  className,
   imageDimensions,
+  className,
   filename,
+  ext = '.jpg',
   imageSizes,
 }: {
   filename: string,
+  ext?: string
   alt?: string,
-  imageDimensions?: ISizeCalculationResult | Array<ISizeCalculationResult> | null,
-  imageSizes?: ImageSizes
+  imageDimensions?: ImageSize,
+  imageSizes?: ImageBreakpoints
 } & Pick<Styleable, 'className'>) {
-  const src = useLink(`images/${filename}.jpg`);
+  const src = useLink(`images/${filename}${ext}`);
   const nextImage = useMemo(() => (
     <ExportedImage
       className="h-full w-full object-contain"
@@ -27,6 +29,7 @@ export function Image({
       sizes={buildSizeString(imageSizes)}
     />
   ), [alt, filename, imageSizes, src]);
+
   const paddingTop = useImagePadding(imageDimensions);
   return (
     <div style={{ paddingTop }} className={classNames('relative overflow-hidden', className)}>
@@ -35,7 +38,7 @@ export function Image({
   );
 }
 
-export type ImageSizes = Record<Breakpoint, number>;
+export type ImageBreakpoints = Record<Breakpoint, number>;
 
 export enum Breakpoint {
   '2xl' = 1320,
@@ -46,7 +49,7 @@ export enum Breakpoint {
   default = 0,
 }
 
-const FULLSCREEN_IMAGE_SIZES: ImageSizes = {
+const FULLSCREEN_IMAGE_SIZES: ImageBreakpoints = {
   [Breakpoint.default]: 1,
   [Breakpoint.sm]: 1,
   [Breakpoint.md]: 1,
@@ -55,7 +58,7 @@ const FULLSCREEN_IMAGE_SIZES: ImageSizes = {
   [Breakpoint['2xl']]: 4,
 };
 
-function buildSizeString(data?: ImageSizes): string | undefined {
+function buildSizeString(data?: ImageBreakpoints): string | undefined {
   if (data === undefined) return buildSizeString(FULLSCREEN_IMAGE_SIZES);
 
   return Object.entries(data)
@@ -68,32 +71,18 @@ function buildSizeString(data?: ImageSizes): string | undefined {
 }
 
 const DEFAULT_IMAGE_HEIGHT = '80vh';
-export function useImagePadding(imageDimensions?: ISizeCalculationResult | Array<ISizeCalculationResult> | null) {
+
+export function useImagePadding(imageDimensions?: ImageSize, moreConstraints?: string) {
   return useMemo(() => {
     if (imageDimensions === undefined || imageDimensions === null) {
       return DEFAULT_IMAGE_HEIGHT;
     }
-    const definitlyArray: Array<ISizeCalculationResult> = Array.isArray(imageDimensions) ? imageDimensions : [imageDimensions];
-    const id: ISizeCalculationResult = definitlyArray.reduce((previousValue, currentValue) => {
-      const pw = previousValue.width;
-      const ph = previousValue.height;
-      const cw = currentValue.width;
-      const ch = currentValue.height;
 
-      const isPrevUndefined = pw === undefined || ph === undefined;
-      const isCurUndefined = cw === undefined || ch === undefined;
-      if (isCurUndefined && isPrevUndefined) return previousValue;
-      if (isCurUndefined || isPrevUndefined) {
-        if (isPrevUndefined) return currentValue;
-        return previousValue;
-      }
-      const pPrev = ph / pw;
-      const pCur = ch / cw;
-      if (pPrev < pCur) return previousValue;
-      return currentValue;
-    });
-
-    if (id.height === undefined || id.width === undefined) return DEFAULT_IMAGE_HEIGHT;
-    return `min(${DEFAULT_IMAGE_HEIGHT},${100 * (id.height / id.width)}%)`;
-  }, [imageDimensions]);
+    const {
+      width,
+      height,
+    } = imageDimensions;
+    if (moreConstraints !== undefined) return `min(${DEFAULT_IMAGE_HEIGHT},${100 * (height / width)}%,${moreConstraints})`;
+    return `min(${DEFAULT_IMAGE_HEIGHT},${100 * (height / width)}%)`;
+  }, [imageDimensions, moreConstraints]);
 }

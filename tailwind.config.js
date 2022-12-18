@@ -23,6 +23,7 @@ module.exports = {
                 },
                 onPrimary: {
                     DEFAULT: '#FFFFFF',
+                    accent: '#E8EDED'
                 },
                 secondary: {
                     DEFAULT: '#E8EDED',

@@ -30,7 +30,7 @@ export default function SingleReview({
   const imageDimensions = imageInfo?.size;
   const imageAlt = imageInfo?.metadata?.title;
   return (
-    <Page className="-mt-4" title={`Review von ${name}`}>
+    <Page className="-mt-4" title={`Review von ${name}`} keywords={['Review', 'Bewertung', name]}>
       {image !== undefined && imageDimensions !== undefined && <Image alt={imageAlt} imageDimensions={imageDimensions} className="w-full" filename={image} />}
       {rating !== undefined && <FiveStarRating className="mt-4 flex justify-center text-gold" starSize={ReisishotIconSizes.XXLARGE} value={rating} />}
       {html !== null && <RawHtml html={html} className={FIRST_LETTER_CLASSES} />}

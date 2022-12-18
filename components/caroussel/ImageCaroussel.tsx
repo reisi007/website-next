@@ -5,15 +5,16 @@ import { useImagePadding, Image } from '../utils/Image';
 import { ImageInfo, MetadataMap } from '../static/readImage';
 import { Styleable } from '../types/Styleable';
 
-export function ImageCaroussel({
+export function ImageCaroussel<T extends string>({
   metadataMap,
   intervalMs = 7500,
   className,
   style,
-}: { intervalMs?: number, metadataMap: MetadataMap } & Partial<Styleable>) {
+}: { intervalMs?: number, metadataMap: MetadataMap<T> } & Partial<Styleable>) {
   const classes = classNames(className, 'rounded-lg');
-  const items = useMemo(() => Object.keys(metadataMap), [metadataMap]);
-  const containerImageMetadata = metadataMap[Object.keys(metadataMap)[0]];
+  const items = useMemo(() => Object.keys(metadataMap) as Array<T>, [metadataMap]);
+  const string = Object.keys(metadataMap)[0] as T;
+  const containerImageMetadata = metadataMap[string];
   const paddingTop = useImagePadding(containerImageMetadata?.size);
   const myStyle: CSSProperties = useMemo(() => {
     if (style === undefined) {
@@ -25,7 +26,7 @@ export function ImageCaroussel({
   const containerImageInfo = style === myStyle ? undefined : containerImageMetadata;
 
   return (
-    <AbstractCaroussel style={myStyle} intervalMs={intervalMs} className={classes} items={items}>
+    <AbstractCaroussel<T> style={myStyle} intervalMs={intervalMs} className={classes} items={items}>
       {(cur) => {
         const metadata = metadataMap[cur];
         return <CurImage className={classes} containerImageInfo={containerImageInfo} filename={cur} imageInfo={metadata} />;
@@ -40,13 +41,5 @@ function CurImage({
   filename,
   className,
 }: { imageInfo: ImageInfo, containerImageInfo?: ImageInfo, filename: string, className: string }) {
-  const imageDimensions = useMemo(
-    () => {
-      if (containerImageInfo === undefined) return imageInfo?.size;
-      return [imageInfo?.size, containerImageInfo?.size];
-    },
-    [containerImageInfo, imageInfo?.size],
-  );
-
-  return <Image className={className} alt={imageInfo?.metadata?.title} imageDimensions={imageDimensions} filename={filename} />;
+  return <Image className={className} alt={imageInfo?.metadata?.title} imageDimensions={(containerImageInfo ?? imageInfo).size} filename={filename} />;
 }

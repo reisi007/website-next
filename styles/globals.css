@@ -33,7 +33,7 @@
         @apply list-decimal list-inside
     }
 
-    button {
+    button,.button {
         @apply transition-colors duration-150 focus:ring disabled:opacity-75 disabled:bg-gray-600 disabled:text-gray-200;
         cursor: pointer
     }

@@ -1,27 +1,23 @@
 import classNames from 'classnames';
 import {
-  CSSProperties, MouseEventHandler, TouchEventHandler, useCallback, useMemo, useState,
+  CSSProperties, MouseEventHandler, TouchEventHandler, useCallback, useState,
 } from 'react';
-import { Image, useImagePadding } from '../utils/Image';
+import { ImageSize } from 'ts-exif-parser';
+import {
+  Breakpoint, Image, ImageBreakpoints, useImagePadding,
+} from '../utils/Image';
 import { Styleable } from '../types/Styleable';
-import { MetadataMap } from '../static/readImage';
+import { ImageInfo } from '../static/readImage';
 
 export function BeforeAfterImage({
   className,
   style,
   data,
-}: { data: MetadataMap } & Partial<Styleable>) {
-  const [after, afterInfo] = useMemo(() => {
-    const key = Object.keys(data)[0];
-    return [key, data[key]] as const;
-  }, [data]);
-  const [before, beforeInfo] = useMemo(() => {
-    const key = Object.keys(data)[0];
-    const beforeKey = `${key}o`;
-    return [beforeKey, data[beforeKey] ?? data[key]] as const;
-  }, [data]);
-
-  const paddingTop = useImagePadding(afterInfo.size);
+  name,
+  imageSizes,
+  imageDimension,
+}: { data: ImageInfo, name: string, imageDimension: ImageSize, imageSizes: ImageBreakpoints } & Partial<Styleable>) {
+  const paddingTop = useImagePadding(data.size);
   const [widthPercentage, setWidthPercentage] = useState(50);
   const beforeWidth = `${(100 / widthPercentage) * 100}%`;
 
@@ -44,16 +40,16 @@ export function BeforeAfterImage({
       onClick={onClick}
       onMouseMove={onClick}
       onTouchMove={onTouch}
-      className={classNames('relative cursor-grab overflow-hidden left-1/2 -translate-x-1/2', className)}
+      className={classNames('group relative cursor-grab overflow-hidden left-1/2 -translate-x-1/2', className)}
     >
       <div className="absolute inset-0 block w-full overflow-hidden">
         <div className={classNames(className, 'w-full h-full')}>
-          <Image alt={afterInfo.metadata.title} className={classNames(className, 'overflow-visible')} filename={after} />
+          <Image alt={data.metadata.title} imageDimensions={imageDimension} imageSizes={imageSizes} className={classNames(className, 'overflow-visible')} filename={name} />
         </div>
       </div>
       <div className="absolute inset-0 z-10 block overflow-hidden" style={{ width: `${widthPercentage}%` }}>
         <div style={{ width: beforeWidth }} className={classNames('h-full', className)}>
-          <Image alt={beforeInfo.metadata.title} className={className} filename={before} />
+          <Image alt={`Original von ${data.metadata.title}`} imageDimensions={imageDimension} imageSizes={imageSizes} className={className} filename={`${name}o`} />
         </div>
       </div>
       <div
@@ -70,6 +66,26 @@ export function BeforeAfterImage({
           ◂▸
         </span>
       </div>
+    </div>
+  );
+}
+
+const BA_IMAGE_SIZES: ImageBreakpoints = {
+  [Breakpoint.default]: 1,
+  [Breakpoint.sm]: 1,
+  [Breakpoint.md]: 1,
+  [Breakpoint.lg]: 2,
+  [Breakpoint.xl]: 3,
+  [Breakpoint['2xl']]: 3,
+};
+
+export function MultipleBeforeAfterImages<T extends string>({ data }: { data: Record<T, ImageInfo> }) {
+  const entries :Array<[string, ImageInfo]> = Object.entries(data);
+  return (
+    <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
+      {entries
+        .sort(([_, a], [,b]) => -((a.metadata.created ?? -1) - (b.metadata.created ?? -1))) // Sort from newest to oldest
+        .map(([name, info]) => <BeforeAfterImage className="h-full" imageDimension={info.size} key={name} name={name} imageSizes={BA_IMAGE_SIZES} data={info} />)}
     </div>
   );
 }

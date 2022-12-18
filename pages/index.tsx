@@ -12,7 +12,7 @@ export default function Home({
   reviews,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
-    <Page title="Fotograf Florian Reisinger">
+    <Page title="Fotograf Florian Reisinger" keywords={['Fotograf', 'Linz', 'Beauty']}>
 
       <DisplayReviews reviews={reviews} limit={4} />
 

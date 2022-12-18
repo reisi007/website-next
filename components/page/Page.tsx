@@ -1,17 +1,17 @@
 import classNames from 'classnames';
 import React, { ReactNode } from 'react';
-import { Header } from './Header';
+import { Header, HeaderProps } from './Header';
 import { Footer } from './Footer';
 import { CONTAIINER_CLASSES } from '../utils/Css';
 
 export function Page({
   children,
   className,
-  title,
-}: { children: ReactNode, title: string, className?: string }) {
+  ...headerProps
+}: { children: ReactNode, className?: string } & HeaderProps) {
   return (
     <>
-      <Header title={title} />
+      <Header {...headerProps} />
       <main className={classNames(CONTAIINER_CLASSES, className)}>
         {children}
       </main>
