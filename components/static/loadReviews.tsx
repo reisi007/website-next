@@ -6,12 +6,13 @@ import dayjs from 'dayjs';
 import { asyncFlatMap, asyncMap } from '../utils/asyncFlatMap';
 import { TEMPLATE_STRING_AS_DATE } from '../utils/Age';
 
+export type ReviewCategory = typeof REVIEW_TYPES[number];
 export type ReviewProps = {
   image?: string
   name: string
   date: string
   rating?: number
-  type: typeof REVIEW_TYPES[number]
+  type: ReviewCategory
 };
 
 const REVIEW_TYPES = ['business', 'beauty', 'boudoir', 'pärchen', 'live', 'sport'] as const;
@@ -45,7 +46,7 @@ async function loadReviews() {
     };
 
     if (typeof data.name !== 'string') throw new Error('Name ist nicht vorhanden');
-    const type = data?.type as (typeof REVIEW_TYPES[number]) | undefined;
+    const type = data?.type as (ReviewCategory) | undefined;
     if (type !== undefined && !REVIEW_TYPES.includes(type)) throw new Error(`Type ${type} is not included in ${REVIEW_TYPES.join(', ')}`);
 
     return data as ReviewProps;
@@ -75,6 +76,8 @@ async function loadReviews() {
   return allReviewa;
 }
 
+const ADVERTISED_CATEGORIES: Array<ReviewCategory> = ['beauty', 'boudoir', 'sport', 'pärchen'];
+
 export async function getAllReviews(): Promise<Array<Review>> {
   const allReviewa = await loadReviews();
   // Sort posts by date
@@ -82,8 +85,12 @@ export async function getAllReviews(): Promise<Array<Review>> {
     const aMatter = a.frontmatter;
     const bMatter = b.frontmatter;
 
-    function hasMedia(props: ReviewProps): Boolean {
+    function hasMedia(props: ReviewProps): boolean {
       return props.image !== undefined;
+    }
+
+    function hasAdvertisedCategory(props: ReviewProps): boolean {
+      return ADVERTISED_CATEGORIES.includes(props.type);
     }
 
     // Image / video und dann html is undefined ( true dann false)
@@ -92,6 +99,16 @@ export async function getAllReviews(): Promise<Array<Review>> {
 
     if (hasMediaA !== hasMediaB) {
       if (hasMediaA) {
+        return -1;
+      }
+      return 1;
+    }
+
+    const hasAdvertisedCategoryA = hasAdvertisedCategory(aMatter);
+    const hasAdvertisedCategoryB = hasAdvertisedCategory(bMatter);
+
+    if (hasAdvertisedCategoryA !== hasAdvertisedCategoryB) {
+      if (hasAdvertisedCategoryA) {
         return -1;
       }
       return 1;
