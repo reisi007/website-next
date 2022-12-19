@@ -1,10 +1,10 @@
 import Link from 'next/link';
 import classNames from 'classnames';
-import { Review, ReviewProps } from '../static/loadReviews';
-import { Breakpoint, Image, ImageBreakpoints } from '../utils/Image';
-import { DaysAgo } from '../utils/Age';
-import { ReisishotIcon, ReisishotIcons } from '../utils/ReisishotIcons';
-import { Styleable } from '../types/Styleable';
+import {
+  DaysAgo, Breakpoint, Image, ImageBreakpoints,
+  Styleable, Review, ReviewProps,
+  ReisishotIcon, ReisishotIcons,
+} from '@reisisoft/images-next';
 
 const REVIEW_PREVIEW_BREAKPOINTS: ImageBreakpoints = {
   [Breakpoint.default]: 1,

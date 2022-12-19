@@ -1,8 +1,7 @@
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
-import { ImageInfo, readMultipleImages } from '../components/static/readImage';
-import { EmpP } from '../components/EmpP';
-import { MultipleBeforeAfterImages } from '../components/beforeAfter/BeforeAfterImage';
-import { Page } from '../components/page/Page';
+import {
+  EmpP, Page, MultipleBeforeAfterImages, ImageInfo, readMultipleImages,
+} from '@reisisoft/images-next';
 
 export default function Edit(props: InferGetStaticPropsType<typeof getStaticProps>) {
   return (

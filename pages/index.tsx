@@ -1,9 +1,9 @@
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import Link from 'next/link';
-import { Page } from '../components/page/Page';
-import { getAllReviews, Review } from '../components/static/loadReviews';
+import {
+  Page, getAllReviews, Review, ReisishotIconSizes,
+} from '@reisisoft/images-next';
 import { FiveStarRating } from '../components/rating/FiveStarRating';
-import { ReisishotIconSizes } from '../components/utils/ReisishotIcons';
 import { DisplayReviews } from '../components/review/DisplayReviews';
 
 export default function Home({

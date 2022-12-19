@@ -1,6 +1,5 @@
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
-import { getAllReviews, Review } from '../components/static/loadReviews';
-import { Page } from '../components/page/Page';
+import { getAllReviews, Page, Review } from '@reisisoft/images-next';
 import { DisplayReviews } from '../components/review/DisplayReviews';
 
 export default function ReviewPage({ reviews }: InferGetStaticPropsType<typeof getStaticProps>) {

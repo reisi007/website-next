@@ -1,15 +1,13 @@
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
 import { ParsedUrlQuery } from 'querystring';
-import { Page } from '../../components/page/Page';
-import { getAllReviews, Review } from '../../components/static/loadReviews';
-import { RawHtml } from '../../components/utils/RawHtml';
-import { Image } from '../../components/utils/Image';
+import {
+  FormattedDate, Page, RawHtml, Image, FIRST_LETTER_CLASSES,
+  ReisishotIconSizes,
+  getAllReviews, ImageInfo, readImage, Review,
+} from '@reisisoft/images-next';
 import { FiveStarRating } from '../../components/rating/FiveStarRating';
-import { ReisishotIconSizes } from '../../components/utils/ReisishotIcons';
-import { FormattedDate } from '../../components/utils/Age';
+
 import { StyledLinkButton } from '../../components/input/StyledButton';
-import { ImageInfo, readImage } from '../../components/static/readImage';
-import { FIRST_LETTER_CLASSES } from '../../components/utils/Css';
 
 export default function SingleReview({
   review,

@@ -1,11 +1,11 @@
-import { Page } from '../components/page/Page';
+import { Page } from '@reisisoft/images-next';
 
 export default function Impressum() {
   return (
     <Page title="Impressum">
       <h1 id="impressum">Impressum</h1>
       <p>Florian Reisinger Robert-Stolz-Straße 8, 4020 Linz Österreich</p>
-      <p>florian@reisinger.pictures</p>
+      <p>florian@reisisoft.pictures</p>
       <p>Weitere Kontaktmöglichkeien am Ende dieser Seite (Kontaktformular, Facebook, usw.)</p>
       <h2 id="haftung-f-r-verweise-auf-andere-webseite">Haftung für Verweise auf andere Webseite</h2>
       <p>

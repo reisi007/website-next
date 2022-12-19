@@ -1,6 +1,6 @@
 import { MouseEvent, useCallback } from 'react';
 import classNames from 'classnames';
-import { ReisishotIconSizes } from '../utils/ReisishotIcons';
+import { ReisishotIconSizes } from '@reisisoft/images-next';
 
 type Props = { starSize: ReisishotIconSizes, className?: string, halfStar: boolean, fullStars: number, totalStars: number, setStars?: (fullStars: number, halfStar: boolean) => void };
 
