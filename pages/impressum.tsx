@@ -1,4 +1,4 @@
-import { Page } from '@reisisoft/images-next';
+import {Page} from '../components/images-next/page/Page';
 
 export default function Impressum() {
   return (

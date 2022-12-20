@@ -1,11 +1,14 @@
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import Link from 'next/link';
 import classNames from 'classnames';
-import {
-  EmpP, Page, ImageInfo, MetadataMap, readMultipleImages, getMoreImages, ImageCaroussel, Gallery,
-} from '@reisisoft/images-next';
-
 import { MyImage } from '../components/utils/MyImage';
+import { readMultipleImages } from '../components/images-next/static/readImage';
+import { getMoreImages } from '../components/images-next/static/moreImages';
+import {Page} from '../components/images-next/page/Page';
+import {EmpP} from '../components/images-next/EmpP';
+import {ImageCaroussel} from '../components/images-next/caroussel/ImageCaroussel';
+import {Gallery} from '../components/images-next/gallery/Gallery';
+import {ImageInfo, MetadataMap} from '../components/images-next/types/ImageTypes';
 
 export default function Vision({
   caroussel,

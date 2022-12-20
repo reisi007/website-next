@@ -1,10 +1,11 @@
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import Link from 'next/link';
-import {
-  Page, getAllReviews, Review, ReisishotIconSizes,
-} from '@reisisoft/images-next';
 import { FiveStarRating } from '../components/rating/FiveStarRating';
 import { DisplayReviews } from '../components/review/DisplayReviews';
+import { getAllReviews } from '../components/images-next/static/loadReviews';
+import {Page} from '../components/images-next/page/Page';
+import {Review} from '../components/images-next/types/ReviewTypes';
+import {ReisishotIconSizes} from '../components/images-next/utils/ReisishotIcons';
 
 export default function Home({
   avgRating,
