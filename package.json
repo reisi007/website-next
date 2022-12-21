@@ -13,14 +13,15 @@
   "dependencies": {
     "@socialgouv/matomo-next": "^1.4.0",
     "@typescript-eslint/parser": "^5.46.0",
-    "next-image-export-optimizer": "^1.0.1",
     "classnames": "^2.3.2",
     "dayjs": "^1.11.5",
     "gray-matter": "^4.0.3",
     "markdown-it": "^13.0.1",
     "next": "13.0.6",
+    "next-image-export-optimizer": "^1.0.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-hook-form": "^7.41.0",
     "ts-exif-parser": "^0.2.2",
     "typescript": "4.9.4"
   },
