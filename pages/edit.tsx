@@ -1,13 +1,13 @@
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import { readMultipleImages } from '../components/images-next/static/readImage';
-import {Page} from '../components/images-next/page/Page';
-import {EmpP} from '../components/images-next/EmpP';
-import {MultipleBeforeAfterImages} from '../components/images-next/beforeAfter/BeforeAfterImage';
-import {ImageInfo} from '../components/images-next/types/ImageTypes';
+import { EmpP } from '../components/images-next/EmpP';
+import { MultipleBeforeAfterImages } from '../components/images-next/beforeAfter/BeforeAfterImage';
+import { ImageInfo } from '../components/images-next/types/ImageTypes';
+import { PortfolioPage } from '../components/PortfolioPage';
 
 export default function Edit(props: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
-    <Page title="Wie bearbeite ich Bilder">
+    <PortfolioPage title="Wie bearbeite ich Bilder">
       <EmpP>
         Bearbeitung von Bildern ist ein wichtiger Teil des fotografischen Prozesses. Darum teile ich nur
         {'" '}
@@ -18,7 +18,7 @@ export default function Edit(props: InferGetStaticPropsType<typeof getStaticProp
       </EmpP>
       <p>Da es mir wichtig ist deine natürliche Schönheit einzufangen werde ich deinen Körper in keiner Weise verformen, temporäre Verletzungen (blauer Fleck / Pickel) aber entfernen.</p>
       <MultipleBeforeAfterImages data={props} />
-    </Page>
+    </PortfolioPage>
   );
 }
 

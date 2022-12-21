@@ -1,11 +1,10 @@
 import Link from 'next/link';
 import classNames from 'classnames';
-import {Breakpoint, ImageBreakpoints} from '../images-next/utils/Image';
-import {Review, ReviewProps} from '../images-next/types/ReviewTypes';
-import {Styleable} from '../images-next/types/Styleable';
-import {DaysAgo} from '../images-next/utils/Age';
-import {ReisishotIcon, ReisishotIcons} from '../images-next/utils/ReisishotIcons';
-import {Image} from '../images-next/utils/Image';
+import { Review, ReviewProps } from '../images-next/types/ReviewTypes';
+import { Styleable } from '../images-next/types/Styleable';
+import { DaysAgo } from '../images-next/utils/Age';
+import { ReisishotIcon, ReisishotIcons } from '../images-next/utils/ReisishotIcons';
+import { Breakpoint, ImageBreakpoints, Image } from '../images-next/utils/Image';
 
 const REVIEW_PREVIEW_BREAKPOINTS: ImageBreakpoints = {
   [Breakpoint.default]: 1,

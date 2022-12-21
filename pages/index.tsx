@@ -3,9 +3,9 @@ import Link from 'next/link';
 import { FiveStarRating } from '../components/rating/FiveStarRating';
 import { DisplayReviews } from '../components/review/DisplayReviews';
 import { getAllReviews } from '../components/images-next/static/loadReviews';
-import {Page} from '../components/images-next/page/Page';
-import {Review} from '../components/images-next/types/ReviewTypes';
-import {ReisishotIconSizes} from '../components/images-next/utils/ReisishotIcons';
+import { Review } from '../components/images-next/types/ReviewTypes';
+import { ReisishotIconSizes } from '../components/images-next/utils/ReisishotIcons';
+import { PortfolioPage } from '../components/PortfolioPage';
 
 export default function Home({
   avgRating,
@@ -13,14 +13,14 @@ export default function Home({
   reviews,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
-    <Page title="Fotograf Florian Reisinger" keywords={['Fotograf', 'Linz', 'Beauty']}>
+    <PortfolioPage title="Fotograf Florian Reisinger" keywords={['Fotograf', 'Linz', 'Beauty']}>
 
       <DisplayReviews reviews={reviews} limit={4} />
 
       <StarLinkToReview cnt={cnt} avgRating={avgRating} />
 
       <DisplayReviews reviews={reviews} start={4} limit={4} />
-    </Page>
+    </PortfolioPage>
   );
 }
 

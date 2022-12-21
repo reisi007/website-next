@@ -1,14 +1,14 @@
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import { DisplayReviews } from '../components/review/DisplayReviews';
 import { getAllReviews } from '../components/images-next/static/loadReviews';
-import {Page} from '../components/images-next/page/Page';
-import {Review} from '../components/images-next/types/ReviewTypes';
+import { Review } from '../components/images-next/types/ReviewTypes';
+import { PortfolioPage } from '../components/PortfolioPage';
 
 export default function ReviewPage({ reviews }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
-    <Page title="Reviews" keywords={['Bewertung', 'Fotoshooting', 'Bewertungen', 'Fotograf']}>
+    <PortfolioPage title="Reviews" keywords={['Bewertung', 'Fotoshooting', 'Bewertungen', 'Fotograf']}>
       <DisplayReviews reviews={reviews} />
-    </Page>
+    </PortfolioPage>
   );
 }
 

@@ -1,5 +1,5 @@
 import { ImageSize } from 'ts-exif-parser';
-import {Image} from '../images-next/utils/Image';
+import { Image } from '../images-next/utils/Image';
 
 const SQUARE_SIZE: ImageSize = {
   width: 1,

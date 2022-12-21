@@ -1,8 +1,8 @@
-import {Page} from '../components/images-next/page/Page';
+import { PortfolioPage } from '../components/PortfolioPage';
 
 export default function Impressum() {
   return (
-    <Page title="Impressum">
+    <PortfolioPage title="Impressum">
       <h1 id="impressum">Impressum</h1>
       <p>Florian Reisinger Robert-Stolz-Straße 8, 4020 Linz Österreich</p>
       <p>florian@reisisoft.pictures</p>
@@ -41,6 +41,6 @@ export default function Impressum() {
         Eine zusätzliche Speicherung auf meinem Server ist möglich, um zu garantieren, dass Ihre Daten bei einem Übertragungsproblem auch bei mir ankommen bzw.
         falls Sie sich angemeldet haben um Ihnen die zu dieser Sache nötigen Informationen zukommen zu lassen.
       </p>
-    </Page>
+    </PortfolioPage>
   );
 }

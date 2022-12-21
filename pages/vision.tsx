@@ -4,11 +4,11 @@ import classNames from 'classnames';
 import { MyImage } from '../components/utils/MyImage';
 import { readMultipleImages } from '../components/images-next/static/readImage';
 import { getMoreImages } from '../components/images-next/static/moreImages';
-import {Page} from '../components/images-next/page/Page';
-import {EmpP} from '../components/images-next/EmpP';
-import {ImageCaroussel} from '../components/images-next/caroussel/ImageCaroussel';
-import {Gallery} from '../components/images-next/gallery/Gallery';
-import {ImageInfo, MetadataMap} from '../components/images-next/types/ImageTypes';
+import { EmpP } from '../components/images-next/EmpP';
+import { ImageCaroussel } from '../components/images-next/caroussel/ImageCaroussel';
+import { Gallery } from '../components/images-next/gallery/Gallery';
+import { ImageInfo, MetadataMap } from '../components/images-next/types/ImageTypes';
+import { PortfolioPage } from '../components/PortfolioPage';
 
 export default function Vision({
   caroussel,
@@ -16,7 +16,7 @@ export default function Vision({
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   const buttonClassName = classNames('button black rounded-xl bg-primary p-4 text-white');
   return (
-    <Page title="Meine Vision">
+    <PortfolioPage title="Meine Vision">
       <EmpP>
         Fotografie ist schon seit über 6 Jahren meine größte Leidenschaft.
         Zehn tausende Bilder bzw. 150 erfolgreiche Fotoshootings später durfte ich mit vielen glücklichen Models Erfahrungen sammeln.
@@ -42,7 +42,7 @@ export default function Vision({
         <Link href="/edit" className={buttonClassName}>Wie bearbeite ich Fotos</Link>
       </div>
       <Gallery className="mt-4" images={moreImages} />
-    </Page>
+    </PortfolioPage>
   );
 }
 

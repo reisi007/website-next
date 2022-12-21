@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from 'react';
-import { ReisishotIconSizes } from '@reisisoft/images-next';
 import { StarRating } from './StarRating';
+import { ReisishotIconSizes } from '../images-next/utils/ReisishotIcons';
 
 type FiveStarRatingProps = {
   starSize: ReisishotIconSizes,
