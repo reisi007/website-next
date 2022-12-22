@@ -2,7 +2,6 @@ import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
 import { ParsedUrlQuery } from 'querystring';
 import { FiveStarRating } from '../../components/rating/FiveStarRating';
 import { getAllReviews } from '../../components/images-next/static/loadReviews';
-import { readImage } from '../../components/images-next/static/readImage';
 import { BasePage } from '../../components/images-next/page/BasePage';
 import { Image } from '../../components/images-next/utils/Image';
 import { ReisishotIconSizes } from '../../components/images-next/utils/ReisishotIcons';
@@ -12,6 +11,7 @@ import { FormattedDate } from '../../components/images-next/utils/Age';
 import { Review } from '../../components/images-next/types/ReviewTypes';
 import { ImageInfo } from '../../components/images-next/types/ImageTypes';
 import { StyledLinkButton } from '../../components/images-next/button/StyledButton';
+import { readImage } from '../../components/static/readImage';
 
 export default function SingleReview({
   review,

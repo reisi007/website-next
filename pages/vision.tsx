@@ -2,13 +2,13 @@ import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import Link from 'next/link';
 import classNames from 'classnames';
 import { MyImage } from '../components/utils/MyImage';
-import { readMultipleImages } from '../components/images-next/static/readImage';
-import { getMoreImages } from '../components/images-next/static/moreImages';
+import { getMoreImages } from '../components/static/moreImages';
 import { EmpP } from '../components/images-next/EmpP';
 import { ImageCaroussel } from '../components/images-next/caroussel/ImageCaroussel';
 import { Gallery } from '../components/images-next/gallery/Gallery';
 import { ImageInfo, MetadataMap } from '../components/images-next/types/ImageTypes';
 import { PortfolioPage } from '../components/PortfolioPage';
+import { readMultipleImages } from '../components/static/readImage';
 
 export default function Vision({
   caroussel,
