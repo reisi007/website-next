@@ -1,4 +1,5 @@
 @import "rs";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -16,7 +17,7 @@
         @apply text-lg text-center;
     }
 
-    a {
+    a:not(.black) {
         @apply text-blue-600 underline;
     }
 
@@ -32,7 +33,7 @@
         @apply list-decimal list-inside
     }
 
-    button {
+    button,.button {
         @apply transition-colors duration-150 focus:ring disabled:opacity-75 disabled:bg-gray-600 disabled:text-gray-200;
         cursor: pointer
     }
@@ -59,7 +60,7 @@
     }
 
     p {
-        @apply my-4
+        @apply m-4
     }
 }
 
@@ -78,6 +79,6 @@
     }
 
     input[type="checkbox"] {
-        @apply scale-125 my-2 mx-1 accent-reisishot-light
+        @apply scale-125 my-2 mx-1 accent-primary-alternative
     }
 }

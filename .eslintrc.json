@@ -6,6 +6,7 @@
     "airbnb",
     "airbnb-typescript"
   ],
+  "plugins": ["unused-imports"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "project": "./tsconfig.json"
@@ -64,6 +65,7 @@
     "nonblock-statement-body-position": "warn",
     "padded-blocks": "warn",
     "curly": "warn",
+    "no-extra-parens": "warn",
     "max-len": [
       "error",
       {
@@ -96,6 +98,17 @@
       }
     ],
     "jsx-a11y/no-noninteractive-element-interactions": "off",
-    "jsx-a11y/click-events-have-key-events": "off"
+    "jsx-a11y/click-events-have-key-events": "off",
+    "no-unused-vars": "off",
+    "unused-imports/no-unused-imports": "warn",
+    "unused-imports/no-unused-vars": [
+      "warn",
+      {
+        "vars": "all",
+        "varsIgnorePattern": "^_",
+        "args": "after-used",
+        "argsIgnorePattern": "^_"
+      }
+    ]
   }
 }

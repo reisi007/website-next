@@ -7,7 +7,7 @@ function extensions() {
 module.exports = {
     content: [
         "./pages/**/*.{js,ts,jsx,tsx}",
-        "./components/**/*.{js,ts,jsx,tsx}",
+        "./components/**/*.{js,ts,jsx,tsx}"
     ],
     theme: {
         extend: {
@@ -16,15 +16,28 @@ module.exports = {
                 sans: ["system-ui", "-apple-system", "Segoe UI", "Roboto", "Helvetica Neue", "Arial", "Noto Sans", "Liberation Sans", "sans-serif", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"],
             },
             colors: {
-                reisishot: {
-                    DEFAULT: '#27ae60',
-                    light: '#2ecc71'
+                primary: {
+                    DEFAULT: '#2A9D8F',
+                    alternative: '#1A6158',
+                    accent: '#4ED0C1'
+                },
+                onPrimary: {
+                    DEFAULT: '#FFFFFF',
+                    accent: '#E8EDED'
+                },
+                secondary: {
+                    DEFAULT: '#E8EDED',
+                    alternative: '#040F0F'
+                },
+                gold: {
+                    DEFAULT: '#EBE357'
                 }
             },
-            screens: {
-                'xxl': '1400px'
+            spacing: {
+                '128': '32rem',
+                '192': '48rem'
             }
-        },
+        }
     },
     plugins: [],
 }

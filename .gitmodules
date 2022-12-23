@@ -1,0 +1,3 @@
+[submodule "components/images-next"]
+	path = components/images-next
+	url = https://github.com/reisi007/images-next.git
