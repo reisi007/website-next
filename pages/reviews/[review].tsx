@@ -56,9 +56,6 @@ export default function SingleReview({
 
 interface PathParams extends ParsedUrlQuery {
   review: string;
-  previousId?: string;
-  nextId?: string;
-
 }
 
 type PropParams = { review: Review, imageInfo: ImageInfo | null, previousId: string | null, nextId: string | null };
@@ -89,12 +86,8 @@ export const getStaticProps: GetStaticProps<PropParams, PathParams> = async (con
 
 export const getStaticPaths: GetStaticPaths<PathParams> = async () => {
   const reviews = await getAllReviews();
-  const paths: Array<{ params: PathParams }> = reviews.map((e, idx) => ({
-    params: {
-      review: e.id,
-      nextId: reviews[idx + 1]?.id,
-      previousId: reviews[idx - 1]?.id,
-    },
+  const paths: Array<{ params: PathParams }> = reviews.map((e) => ({
+    params: { review: e.id },
   }));
   return {
     paths,
