@@ -4,6 +4,7 @@ import { DIRECTORY_IMAGE } from '../images-next/static/readImageInternal';
 import { getAllReviews } from '../images-next/static/loadReviews';
 import { hasAdvertisedCategory } from '../images-next/types/ReviewTypes';
 import { readMultipleImages } from './readImage';
+import { SORT_NEWEST_TO_OLDEST } from '../images-next/utils/Image';
 
 function isNotUndefined<T>(e: T | undefined): e is T {
   return e !== undefined;
@@ -26,5 +27,5 @@ async function internalLoadMoreImages(additional: Array<string>) {
   const imagesToLoad = [...additional, ...files];
   const images = await readMultipleImages(imagesToLoad);
   return Object.entries(images)
-    .sort(([__, a], [_, b]) => -((a.metadata.created ?? -1) - (b.metadata.created ?? -1)));
+    .sort(SORT_NEWEST_TO_OLDEST);
 }

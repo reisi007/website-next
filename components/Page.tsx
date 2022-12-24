@@ -1,5 +1,5 @@
 import { Header } from './Header';
-import { Footer } from './Footer';
+import { Footer } from './images-next/page/Footer';
 
 export function Page({
   children,
@@ -8,7 +8,7 @@ export function Page({
   return (
     <>
       <Header title={title} />
-      <div className="mx-auto w-full sm:w-[540px] md:w-[720px] lg:w-[960px] xl:w-[1140px] xxl:w-[1320px]">
+      <div className="xxl:w-[1320px] mx-auto w-full sm:w-[540px] md:w-[720px] lg:w-[960px] xl:w-[1140px]">
         {children}
       </div>
       <Footer />
