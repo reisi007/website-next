@@ -2,7 +2,6 @@ import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
 import { ParsedUrlQuery } from 'querystring';
 import { FiveStarRating } from '../../components/rating/FiveStarRating';
 import { getAllReviews } from '../../components/images-next/static/loadReviews';
-import { BasePage } from '../../components/images-next/page/BasePage';
 import { Image } from '../../components/images-next/utils/Image';
 import { ReisishotIconSizes } from '../../components/images-next/utils/ReisishotIcons';
 import { RawHtml } from '../../components/images-next/utils/RawHtml';
@@ -12,6 +11,7 @@ import { Review } from '../../components/images-next/types/ReviewTypes';
 import { ImageInfo } from '../../components/images-next/types/ImageTypes';
 import { StyledLinkButton } from '../../components/images-next/button/StyledButton';
 import { readImage } from '../../components/static/readImage';
+import { PortfolioPage } from '../../components/PortfolioPage';
 
 export default function SingleReview({
   review,
@@ -32,7 +32,7 @@ export default function SingleReview({
   const size = imageInfo?.size;
   const alt = imageInfo?.metadata?.title;
   return (
-    <BasePage className="-mt-4" title={`Review von ${name}`} keywords={['Review', 'Bewertung', name]}>
+    <PortfolioPage className="-mt-4" title={`Review von ${name}`} keywords={['Review', 'Bewertung', name]}>
       {image !== undefined && size !== undefined && <Image alt={alt} size={size} className="w-full" filename={image} />}
       {rating !== undefined && <FiveStarRating className="mt-4 flex justify-center text-gold" starSize={ReisishotIconSizes.XXLARGE} value={rating} />}
       {html !== null && <RawHtml html={html} className={FIRST_LETTER_CLASSES} />}
@@ -50,7 +50,7 @@ export default function SingleReview({
         <StyledLinkButton href={`/reviews/${nextId}`} disabled={nextId === null} className="my-2 bg-primary text-onPrimary">Nächster</StyledLinkButton>
         <StyledLinkButton href="/reviews" className="my-2 md:col-span-2">Zur Übersicht</StyledLinkButton>
       </div>
-    </BasePage>
+    </PortfolioPage>
   );
 }
 

@@ -35,4 +35,4 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 ## Color palette
 
-View the color palette on [Colors.io](https://coolors.co/2a9d8f-1a6158-4ed0c1-e8eded-040f0f-ebe357)
+View the color palette on [Colors.io](https://coolors.co/2a9d8f-1a6158-4ed0c1-e8eded-040f0f-ebe357-b12a2a)

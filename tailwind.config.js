@@ -31,6 +31,9 @@ module.exports = {
                 },
                 gold: {
                     DEFAULT: '#EBE357'
+                },
+                error: {
+                    DEFAULT: '#B12A2A'
                 }
             },
             spacing: {
