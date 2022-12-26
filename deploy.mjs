@@ -15,7 +15,7 @@ await deploy({
     password: password,
     protocol: "ftps",
     "local-dir": "out/",
-    "server-dir": "/next.reisinger.pictures/",
-    exclude: [...excludeDefaults, "images/*.jpg", "images/*.jpeg", "images/*.json"]
+    "server-dir": "/reisinger.pictures/",
+    exclude: [...excludeDefaults, "images/**/*.jpg", "images/**/*.jpeg", "images/**/*.json", "**/.gitignore"]
 });
 console.log("🚀 Deploy done!");

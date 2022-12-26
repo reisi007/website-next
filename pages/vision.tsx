@@ -39,7 +39,7 @@ export default function Vision({
       </p>
       <div className="grid grid-cols-1 space-x-2 text-center lg:grid-cols-2">
         <Link href="/edit" className={buttonClassName}>Wie bearbeite ich Fotos</Link>
-        <Link href="/edit" className={buttonClassName}>Wie bearbeite ich Fotos</Link>
+        <Link href="/reviews" className={buttonClassName}>Alle Bewertungen</Link>
       </div>
       <Gallery className="mt-4" images={moreImages} />
     </PortfolioPage>
