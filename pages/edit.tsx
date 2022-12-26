@@ -31,6 +31,7 @@ const IMAGES = [
   'EvaMair006',
   'Eva-und-Kevin008',
   'Frau08',
+  'SandraF09',
 ] as const;
 type ImageNames = typeof IMAGES[number];
 export const getStaticProps: GetStaticProps<Record<ImageNames, ImageInfo>> = async () => ({
