@@ -7,7 +7,7 @@ import { Header, HeaderProps } from './Header';
 import { CONTAIINER_CLASSES } from './images-next/utils/Css';
 import { FooterContent } from './images-next/page/FooterContent';
 import { ReviewForm } from './form/ReviewForm';
-import { useIntersection } from './utils/UseIntersection';
+import { useIntersection } from './images-next/utils/UseIntersection';
 
 export type BasePageProps = { children: ReactNode, className?: string } & HeaderProps;
 
