@@ -1,8 +1,10 @@
-import { RefObject, useEffect } from 'react';
+import {
+  Dispatch, SetStateAction, useEffect, useState,
+} from 'react';
 
-export function useIntersection<Html extends HTMLElement>(ref: RefObject<Html>, callback: IntersectionObserverCallback, rootMargin:string = '-300px 0px 300px 0px') {
+export function useIntersection<Html extends HTMLElement>(callback: IntersectionObserverCallback, rootMargin:string = '-300px 0px 300px 0px'): Dispatch<SetStateAction<Html | null>> {
+  const [current, setRef] = useState<Html | null>(null);
   useEffect(() => {
-    const { current } = ref;
     if (current === null) {
       return () => {
       };
@@ -13,5 +15,7 @@ export function useIntersection<Html extends HTMLElement>(ref: RefObject<Html>, 
     );
     observer.observe(current);
     return () => observer.unobserve(current);
-  }, [callback, ref, rootMargin]);
+  }, [callback, current, rootMargin]);
+
+  return setRef;
 }

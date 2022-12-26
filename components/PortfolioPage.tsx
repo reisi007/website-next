@@ -17,9 +17,7 @@ export function PortfolioPage({
   ...headerProps
 }: BasePageProps) {
   const [isFabVisible, setFabVisible] = useState(true);
-  const ref = React.useRef<HTMLElement>(null);
-  useIntersection(
-    ref,
+  const ref = useIntersection(
     useCallback((e) => setFabVisible(!e[0].isIntersecting), [setFabVisible]),
     '0px 0px 0px 0px',
   );
