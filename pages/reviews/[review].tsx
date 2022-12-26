@@ -1,6 +1,6 @@
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
 import { ParsedUrlQuery } from 'querystring';
-import { FiveStarRating } from '../../components/rating/FiveStarRating';
+import { FiveStarRating } from '../../components/images-next/rating/FiveStarRating';
 import { getAllReviews } from '../../components/images-next/static/loadReviews';
 import { Image } from '../../components/images-next/utils/Image';
 import { ReisishotIconSizes } from '../../components/images-next/utils/ReisishotIcons';

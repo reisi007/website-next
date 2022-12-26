@@ -1,6 +1,6 @@
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import Link from 'next/link';
-import { FiveStarRating } from '../components/rating/FiveStarRating';
+import { FiveStarRating } from '../components/images-next/rating/FiveStarRating';
 import { DisplayReviews } from '../components/review/DisplayReviews';
 import { getAllReviews } from '../components/images-next/static/loadReviews';
 import { Review } from '../components/images-next/types/ReviewTypes';
