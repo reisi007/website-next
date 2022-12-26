@@ -4,7 +4,6 @@ import React, { useCallback, useMemo, useState } from 'react';
 import classNames from 'classnames';
 import Head from 'next/head';
 import { CONTAIINER_CLASSES } from './images-next/utils/Css';
-import { useLink } from './images-next/utils/useLink';
 import { ReisishotIcon, ReisishotIcons, ReisishotIconSizes } from './images-next/utils/ReisishotIcons';
 
 type PathEntry = { title: string, important?: boolean };
@@ -66,7 +65,6 @@ function renderMenuLink(props: [string, PathEntry]) {
 export type HeaderProps = { title: string, description?:string, keywords?: Array<string> };
 
 export function Header({ title, description, keywords }: HeaderProps) {
-  const favicon = useLink('favicon.ico');
   const keywordString = keywords?.join(',');
   return (
     <>
@@ -76,7 +74,11 @@ export function Header({ title, description, keywords }: HeaderProps) {
         <meta name="description" content={description} />
         {keywordString !== undefined && keywordString.length > 0 && <meta name="keywords" content={keywordString} />}
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="icon" href={favicon} />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+        <link rel="manifest" href="/site.webmanifest" />
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
       </Head>
       <NavMenu pageTitle={title} />
     </>
