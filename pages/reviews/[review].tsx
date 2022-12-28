@@ -5,13 +5,13 @@ import { getAllReviews } from '../../components/images-next/static/loadReviews';
 import { Image } from '../../components/images-next/utils/Image';
 import { ReisishotIconSizes } from '../../components/images-next/utils/ReisishotIcons';
 import { RawHtml } from '../../components/images-next/utils/RawHtml';
-import { FIRST_LETTER_CLASSES } from '../../components/images-next/utils/Css';
 import { FormattedDate } from '../../components/images-next/utils/Age';
 import { Review } from '../../components/images-next/types/ReviewTypes';
 import { ImageInfo } from '../../components/images-next/types/ImageTypes';
 import { StyledLinkButton } from '../../components/images-next/button/StyledButton';
 import { readImage } from '../../components/static/readImage';
 import { PortfolioPage } from '../../components/PortfolioPage';
+import styles from '../../components/images-next/utils/Utils.module.css';
 
 export default function SingleReview({
   review,
@@ -35,7 +35,7 @@ export default function SingleReview({
     <PortfolioPage className="-mt-4" title={`Review von ${name}`} keywords={['Review', 'Bewertung', name]}>
       {image !== undefined && size !== undefined && <Image alt={alt} size={size} className="w-full" filename={image} />}
       {rating !== undefined && <FiveStarRating className="mt-4 flex justify-center text-gold" starSize={ReisishotIconSizes.XXLARGE} value={rating} />}
-      {html !== null && <RawHtml html={html} className={FIRST_LETTER_CLASSES} />}
+      {html !== null && <RawHtml html={html} className={styles.firstLetter} />}
       <div className="flex justify-end">
         <span className="mr-2">
           {name}

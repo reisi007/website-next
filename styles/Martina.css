@@ -1,0 +1,10 @@
+@font-face {
+    font-family: 'Martina';
+    src: url('fonts/Martina.eot');
+    src: url('fonts/Martina.eot?#iefix') format('embedded-opentype'),
+         url('fonts/Martina.woff2') format('woff2'),
+         url('fonts/Martina.ttf')  format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}

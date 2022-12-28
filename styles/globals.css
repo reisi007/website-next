@@ -1,4 +1,5 @@
-@import "rs";
+@import "Martina.css";
+@import "ReisishotPictures.css";
 
 @tailwind base;
 @tailwind components;
@@ -6,11 +7,11 @@
 
 @layer base {
     h1 {
-        @apply text-2xl text-center;
+        @apply text-2xl text-center font-logo;
     }
 
     h2 {
-        @apply text-xl text-center;
+        @apply text-xl text-center font-logo;
     }
 
     h3 {
@@ -49,10 +50,6 @@
 @layer components {
     html, body, #root {
         @apply h-full
-    }
-
-    .container {
-        @apply mx-auto  w-full sm:w-[540px] md:w-[720px] lg:w-[960px] xl:w-[1140px] xxl:w-[1320px]
     }
 
     input,textarea {

@@ -1,15 +1,13 @@
-import React, {
-  ReactNode, useCallback, useState,
-} from 'react';
+import React, { ReactNode, useCallback, useState } from 'react';
 import classNames from 'classnames';
 import { FloatingActionButton } from './images-next/button/FloatingActionButton';
 import { ReisishotIcon, ReisishotIcons, ReisishotIconSizes } from './images-next/utils/ReisishotIcons';
 import { Header, HeaderProps } from './Header';
-import { CONTAIINER_CLASSES } from './images-next/utils/Css';
 import { FooterContent } from './images-next/page/FooterContent';
 import { useIntersection } from './images-next/utils/UseIntersection';
 import { useModal } from './images-next/utils/Modal';
 import { ContactForm } from './images-next/form/ContactForm';
+import styles from './images-next/utils/Utils.module.css';
 
 export type BasePageProps = { children: ReactNode, className?: string } & HeaderProps;
 
@@ -42,12 +40,12 @@ export function PortfolioPage({
   return (
     <>
       <Header {...headerProps} />
-      <main className={classNames(CONTAIINER_CLASSES, className)}>
+      <main className={classNames(styles.container, className)}>
         {children}
       </main>
       <footer className="mt-4 mb-2" ref={ref}>
         <h2>Kontaktere mich</h2>
-        <ContactForm className={classNames(CONTAIINER_CLASSES, 'pt-6')} />
+        <ContactForm className={classNames(styles.container, 'pt-6')} />
         <FooterContent />
       </footer>
       {dialog}

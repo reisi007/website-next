@@ -16,7 +16,7 @@ export default function Vision({
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   const buttonClassName = classNames('button black rounded-xl bg-primary p-4 text-white');
   return (
-    <PortfolioPage title="Meine Vision">
+    <PortfolioPage title="Dein Leben - Deine Bilder">
       <EmpP>
         Fotografie ist schon seit über 6 Jahren meine größte Leidenschaft.
         Zehn tausende Bilder bzw. 150 erfolgreiche Fotoshootings später durfte ich mit vielen glücklichen Models Erfahrungen sammeln.

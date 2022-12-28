@@ -3,8 +3,8 @@ import Link from 'next/link';
 import React, { useCallback, useMemo, useState } from 'react';
 import classNames from 'classnames';
 import Head from 'next/head';
-import { CONTAIINER_CLASSES } from './images-next/utils/Css';
 import { ReisishotIcon, ReisishotIcons, ReisishotIconSizes } from './images-next/utils/ReisishotIcons';
+import styles from './images-next/utils/Utils.module.css';
 
 type PathEntry = { title: string, important?: boolean };
 const PATHS: { [key: string]: PathEntry } = {
@@ -13,17 +13,15 @@ const PATHS: { [key: string]: PathEntry } = {
     important: true,
   },
   vision: {
-    title: 'Meine Vision',
+    title: 'Dein Leben - Deine Bilder',
     important: true,
   },
-  edit: { title: 'Wie ich Bilder bearbeite' },
+  edit: { title: 'Alles - Außer langweilige Bilder' },
   reviews: { title: 'Alle Bewertungen' },
 };
 
 function NavMenu({ pageTitle }: { pageTitle: string }) {
-  const curPath = useRouter()
-    .asPath
-    .substring(1);
+  const curPath = useRouter().asPath.substring(1);
   const allMenuLinks = useMemo(() => Object.entries(PATHS)
     .filter(([p]) => p !== curPath), [curPath]);
 
@@ -34,10 +32,10 @@ function NavMenu({ pageTitle }: { pageTitle: string }) {
   const classes = 'grid grid-cols-1 md:grid-cols-2';
 
   return (
-    <nav className={classNames('mb-4 bg-primary p-4 text-onPrimary', CONTAIINER_CLASSES)}>
+    <nav className={classNames('mb-4 bg-primary p-4 text-onPrimary', styles.container)}>
       <div className="flex w-full">
-        <div className="w-full">
-          <h1 className="w-full pb-2 text-center text-xl">{pageTitle}</h1>
+        <div className="w-full font-logo">
+          <h1 className="w-full pb-2 text-center">{pageTitle}</h1>
           <ul className={classNames('pb-1', classes, { 'mb-2': isMenuVisible })}>
             {importantLinks.map(renderMenuLink)}
           </ul>
