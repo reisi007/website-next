@@ -1,6 +1,5 @@
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import Link from 'next/link';
-import classNames from 'classnames';
 import { MyImage } from '../components/utils/MyImage';
 import { getMoreImages } from '../components/static/moreImages';
 import { EmpP } from '../components/images-next/EmpP';
@@ -14,7 +13,6 @@ export default function Vision({
   caroussel,
   moreImages,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
-  const buttonClassName = classNames('button black rounded-xl bg-primary p-4 text-white');
   return (
     <PortfolioPage title="Dein Leben - Deine Bilder">
       <EmpP>
@@ -37,9 +35,9 @@ export default function Vision({
         Ich nehme mir ausreichend Zeit in der Vorbereitung, während des Shootings und auch danach bei der Auswahl und der Bearbeitung der Bilder mit dir, um dir eine richtig
         coole Erfahrung zu ermöglichen und damit du lange durch die Bilder auf das gemeinsame Shooting erinnert wirst.
       </p>
-      <div className="grid grid-cols-1 space-y-2 space-x-0 text-center lg:grid-cols-2 lg:space-y-0 lg:space-x-2">
-        <Link href="/edit" className={buttonClassName}>Wie bearbeite ich Fotos</Link>
-        <Link href="/reviews" className={buttonClassName}>Alle Bewertungen</Link>
+      <div className="grid grid-cols-1 text-center text-2xl md:grid-cols-2">
+        <Link href="/edit">Wie bearbeite ich Fotos</Link>
+        <Link href="/reviews">Alle Bewertungen</Link>
       </div>
       <Gallery className="mt-4" images={moreImages} />
     </PortfolioPage>

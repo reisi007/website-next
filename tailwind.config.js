@@ -30,6 +30,10 @@ module.exports = {
                     DEFAULT: '#E8EDED',
                     alternative: '#040F0F'
                 },
+                onSecondary: {
+                    DEFAULT: '#1A6158',
+                    alternative: '#FFFFFF'
+                },
                 gold: {
                     DEFAULT: '#EBE357'
                 },

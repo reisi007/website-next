@@ -19,7 +19,7 @@
     }
 
     a:not(.black) {
-        @apply text-blue-600 underline;
+        @apply text-primary visited:text-primary-alternative font-logo underline hover:text-primary-accent;
     }
 
     pre {
