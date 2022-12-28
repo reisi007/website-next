@@ -7,7 +7,7 @@ import { readMultipleImages } from '../components/static/readImage';
 
 export default function Edit(props: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
-    <PortfolioPage title="Wie bearbeite ich Bilder">
+    <PortfolioPage title="Alles - Außer langweilige Fotos">
       <EmpP>
         Bearbeitung von Bildern ist ein wichtiger Teil des fotografischen Prozesses. Darum teile ich nur
         {'" '}
