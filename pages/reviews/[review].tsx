@@ -32,7 +32,7 @@ export default function SingleReview({
   const size = imageInfo?.size;
   const alt = imageInfo?.metadata?.title;
   return (
-    <PortfolioPage className="-mt-4" title={`Review von ${name}`} keywords={['Review', 'Bewertung', name]}>
+    <PortfolioPage title={`Review von ${name}`} keywords={['Review', 'Bewertung', name]}>
       {image !== undefined && size !== undefined && <Image alt={alt} size={size} className="w-full" filename={image} />}
       {rating !== undefined && <FiveStarRating className="mt-4 flex justify-center text-gold" starSize={ReisishotIconSizes.XXLARGE} value={rating} />}
       {html !== null && <RawHtml html={html} className={styles.firstLetter} />}

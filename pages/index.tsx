@@ -32,7 +32,7 @@ function StarLinkToReview({
     <Link href="/reviews" className="black mx-4">
       <div className="text-center text-xl">Schau dir noch mehr Bewertungen von Frauen an, die schon vor meiner Kamera gestanden sind</div>
       <div className="flex items-center justify-center">
-        <FiveStarRating starSize={ReisishotIconSizes.XXLARGE} value={avgRating} />
+        <FiveStarRating className="inline-flex justify-center" starSize={ReisishotIconSizes.XXLARGE} value={avgRating} />
         <span className="text-3xl">
           (
           {cnt}

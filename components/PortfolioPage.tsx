@@ -13,6 +13,7 @@ const PATHS: { [key: string]: PathEntry } = {
   },
   edit: { title: 'Alles - Außer langweilige Fotos' },
   reviews: { title: 'Alle Bewertungen' },
+  submit: { title: 'Bewerte mich' },
 };
 
 export function PortfolioPage({ children, ...props }: BasePageProps & Omit<HeaderProps, 'menuItems'>) {
