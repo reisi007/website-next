@@ -6,8 +6,8 @@ import { EmpP } from '../components/images-next/EmpP';
 import { ImageCaroussel } from '../components/images-next/caroussel/ImageCaroussel';
 import { Gallery } from '../components/images-next/gallery/Gallery';
 import { ImageInfo, MetadataMap } from '../components/images-next/types/ImageTypes';
-import { PortfolioPage } from '../components/PortfolioPage';
 import { readMultipleImages } from '../components/static/readImage';
+import { PortfolioPage } from '../components/PortfolioPage';
 
 export default function Vision({
   caroussel,

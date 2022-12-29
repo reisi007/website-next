@@ -2,8 +2,8 @@ import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import { EmpP } from '../components/images-next/EmpP';
 import { MultipleBeforeAfterImages } from '../components/images-next/beforeAfter/BeforeAfterImage';
 import { ImageInfo } from '../components/images-next/types/ImageTypes';
-import { PortfolioPage } from '../components/PortfolioPage';
 import { readMultipleImages } from '../components/static/readImage';
+import { PortfolioPage } from '../components/PortfolioPage';
 
 export default function Edit(props: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
