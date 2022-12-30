@@ -142,7 +142,7 @@ yarn-error.log*
 
 # Local env files
 .env.local
-.env.development.local
+.env.local
 .env.test.local
 .env.production.local
 
