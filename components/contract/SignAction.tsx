@@ -4,8 +4,7 @@ import { Resolver } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import {
-  LogEntry,
-  SignStatus, useGetLogEntries, usePutLogEntry, useSignStatus,
+  LogEntry, SignStatus, useGetLogEntries, usePutLogEntry, useSignStatus,
 } from '../api/contract.api';
 import { LargeLoadingIndicator, Loadable } from '../api/Loadable';
 import { useModal } from '../images-next/utils/Modal';
@@ -46,7 +45,7 @@ function SignActionArea({
   }) => signed && email === curEmail) >= 0, [cur, email]);
 
   const logEntires = useGetLogEntries(email, uuid);
-  const putLogEntry = usePutLogEntry(email, uuid, '...', logEntires.mutate);
+  const { action: putLogEntry } = usePutLogEntry(email, uuid, '...', logEntires.mutate);
   useEffect(() => {
     if (!isSigned) {
       putLogEntry('OPEN');

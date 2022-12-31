@@ -6,9 +6,9 @@ export type PdoEmulatedPrepared<T> =
   );
 
 type MapPrimitive<T> =
-  T extends boolean ? MapKeepOptional<T, '0' | '1'> :
+  T extends boolean ? MapKeepOptional<T, 0 | 1> :
     (
-      T extends number ? `${number}` : MapKeepOptional<T, string>
+      T extends number ? number : MapKeepOptional<T, string>
     );
 
 type MapKeepOptional<Source, Target> = Source extends undefined ? Target | undefined : (

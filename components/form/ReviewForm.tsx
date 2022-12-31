@@ -6,9 +6,9 @@ import { UseFormSetValue } from 'react-hook-form/dist/types/form';
 import { Form, FormChildrenProps, PHONE_REGEXP } from '../images-next/form/Form';
 import { FiveStarInput, Input, Textarea } from '../images-next/form/Input';
 import { Styleable } from '../images-next/types/Styleable';
-import { ActionButton } from '../images-next/button/ActionButton';
+import { SubmitButton } from '../images-next/button/ActionButton';
 import { ReisishotIconSizes } from '../images-next/utils/ReisishotIcons';
-import { Review, submitReview } from './Rest';
+import { Review, useSubmitReview } from './Rest';
 
 const reviewResolver: Resolver<Review> = yupResolver(yup.object(
   {
@@ -34,13 +34,14 @@ export function ReviewForm({
   className,
   style,
 }: Partial<Styleable> & { children: (setValue:UseFormSetValue<Review>) => ReactNode }) {
+  const { action, ...status } = useSubmitReview();
   return (
     <div className={className} style={style}>
-      <Form<Review> onSubmit={submitReview} resolver={reviewResolver}>
-        {(formState, register, control, setValue) => (
+      <Form<Review> onSubmit={action} resolver={reviewResolver}>
+        {(formState, register, control, setValue, reset) => (
           <>
             {children(setValue) }
-            <ReviewFormContent formState={formState} register={register} control={control} setValue={setValue} />
+            <ReviewFormContent status={status} formState={formState} register={register} control={control} setValue={setValue} reset={reset} />
           </>
         )}
       </Form>
@@ -52,12 +53,12 @@ function ReviewFormContent({
   formState,
   register,
   control,
+  status,
 }: FormChildrenProps<Review>) {
   const {
     errors,
     isValid,
     isDirty,
-    isSubmitting,
     isSubmitSuccessful,
   } = formState;
 
@@ -72,7 +73,7 @@ function ReviewFormContent({
         <FiveStarInput label="Deine Bewertung in halben Sternen" control={control} required name={register('rating').name} starSize={ReisishotIconSizes.XXLARGE} />
         <Textarea rows={5} control={control} label="Deine öffentliche Bewertung" required errorMessage={errors.review_public} {...register('review_public')} type="tel" className="md:col-span-2" />
         <Textarea rows={5} control={control} label="Deine Nachricht an mich" errorMessage={errors.review_private} {...register('review_private')} type="tel" className="md:col-span-2" />
-        <ActionButton type="submit" disabled={!isValid || !isDirty || isSubmitting} className="mt-4 bg-primary text-onPrimary md:col-span-2">Absenden</ActionButton>
+        <SubmitButton status={status} disabled={!isValid || !isDirty || status.isSubmitting} className="mt-4 bg-primary text-onPrimary md:col-span-2">Absenden</SubmitButton>
       </div>
       )}
       {isSubmitSuccessful && <h2 className="mt-4">Das Formular wurde erfolgreich gesendet. Danke für deine Bewertung!</h2>}

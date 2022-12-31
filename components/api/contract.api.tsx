@@ -2,7 +2,7 @@ import useSWR, { SWRResponse } from 'swr';
 import { useCallback, useMemo } from 'react';
 import { KeyedMutator } from 'swr/_internal';
 import dayjs from 'dayjs';
-import { ROOT_URL, sendPost } from '../images-next/host/Rest';
+import { ManualRequest, ROOT_URL, useManualFetch } from '../images-next/host/Rest';
 import { JSON_FETCHER } from '../swr/Fetcher';
 import { PdoEmulatedPrepared } from './PdoEmulatedPrepared';
 
@@ -58,7 +58,7 @@ export function useSignStatus(email: string, uuid: string) :SWRResponse<Array<Si
   function mapData(d: PdoEmulatedPrepared<SignStatus>): SignStatus {
     return {
       ...d,
-      signed: d.signed === '1',
+      signed: d.signed === 1,
     };
   }
 
@@ -112,15 +112,26 @@ export function useGetLogEntries(email:string, uuid:string): SWRResponse<Array<L
 
 type PutLogEntryBody = { action: LogType, baseUrl: string };
 
-export function usePutLogEntry(email:string, uuid:string, hash:string, dataMutator: KeyedMutator<Array<LogEntry>>): (action:PutLogEntryBody['action'])=>Promise<unknown> {
-  return useCallback((action) => sendPost<PutLogEntryBody>('contract-log_put.php', { action, baseUrl: computeContractLink(email, uuid) })
+export function usePutLogEntry(email:string, uuid:string, hash:string, dataMutator: KeyedMutator<Array<LogEntry>>): ManualRequest<LogType> {
+  const { action: rawAction, ...sendPost } = useManualFetch<PutLogEntryBody>('contract-log_put.php', 'put');
+
+  const action = useCallback((logType:LogType) => rawAction({
+    action: logType,
+    baseUrl: computeContractLink(email, uuid),
+  })
     .then(() => dataMutator((old) => {
       const newVar: Array<LogEntry> = old ?? [];
       newVar.push({
-        email, hash_value: hash, log_type: action, timestamp: dayjs().toISOString(),
+        email,
+        hash_value: hash,
+        log_type: logType,
+        timestamp: dayjs()
+          .toISOString(),
       });
       return newVar;
-    })), [dataMutator, email, hash, uuid]);
+    })), [rawAction, dataMutator, email, hash, uuid]);
+
+  return { action, ...sendPost };
 }
 
 export function computeContractLink(email:string, uuid:string) {

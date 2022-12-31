@@ -1,8 +1,8 @@
-import { sendPost } from '../images-next/host/Rest';
+import { useManualFetch } from '../images-next/host/Rest';
 import { CommonFormFields } from '../images-next/form/Url2Form';
 
-export async function submitReview(data: Review) {
-  return sendPost('api/reviews_post.php', data);
+export function useSubmitReview() {
+  return useManualFetch('api/reviews_post.php');
 }
 
 export type Review = CommonFormFields & {
