@@ -14,6 +14,8 @@ import { ActionButton } from '../images-next/button/ActionButton';
 import { Markdown } from '../images-next/utils/Markdown';
 import { Form } from '../images-next/form/Form';
 import { CheckboxInput } from '../images-next/form/Input';
+import { Card } from '../images-next/utils/Card';
+import { Badge } from '../images-next/utils/Badge';
 
 export function SignAction({
   email,
@@ -121,13 +123,13 @@ function ViewLogModalContent({ data, mutator }: { data?:Array<LogEntry>, mutator
           timestamp,
           email: curEmail,
         }) => (
-          <div key={timestamp + type}>
+          <Card key={timestamp + type}>
             <h3>{curEmail}</h3>
-            <div className="my-1 flex items-center justify-center">{type}</div>
+            <Badge className="my-1 inline-flex items-center justify-center">{type}</Badge>
             <span className="text-center text-sm">
               <FormattedDateTime dateString={timestamp} />
             </span>
-          </div>
+          </Card>
         ))}
       </div>
       )}

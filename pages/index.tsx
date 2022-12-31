@@ -1,5 +1,6 @@
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import Link from 'next/link';
+import Head from 'next/head';
 import { FiveStarRating } from '../components/images-next/rating/FiveStarRating';
 import { DisplayReviews } from '../components/review/DisplayReviews';
 import { getAllReviews } from '../components/images-next/static/loadReviews';
@@ -14,7 +15,9 @@ export default function Home({
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
     <PortfolioPage title="Fotograf Florian Reisinger" keywords={['Fotograf', 'Linz', 'Beauty']}>
-
+      <Head>
+        <meta name="google-site-verification" content="WzDto29AqxoBHzInsq0NZnNhkrP26qqIsFPQmtBiCKw" />
+      </Head>
       <DisplayReviews reviews={reviews} limit={4} />
 
       <StarLinkToReview cnt={cnt} avgRating={avgRating} />
