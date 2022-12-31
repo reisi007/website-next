@@ -22,7 +22,7 @@ const reviewResolver: Resolver<Review> = yupResolver(yup.object(
     tel: yup.string()
       .matches(PHONE_REGEXP, 'Bitte eine gültige Telefonnummer eingeben'),
     rating: yup.number()
-      .required('Bitte gib deine Bewertung in halben Sternen ein'),
+      .required('Bitte gib deine CBewertung in halben Sternen ein'),
     review_public: yup.string()
       .required('Bitte gib deine Bewertung in Textform ab'),
   },
