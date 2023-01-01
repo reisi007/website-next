@@ -6,7 +6,7 @@ import * as yup from 'yup';
 import {
   LogEntry, LogType, SignStatus, useGetLogEntries, usePutLogEntry, useSignStatus,
 } from '../api/contract.api';
-import { LargeLoadingIndicator, Loadable } from '../api/Loadable';
+import { LargeLoadingIndicator, Loadable } from '../images-next/host/Loadable';
 import { useModal } from '../images-next/utils/Modal';
 import { FormattedDateTime } from '../images-next/utils/Age';
 import { ActionButton, SubmitButton } from '../images-next/button/ActionButton';

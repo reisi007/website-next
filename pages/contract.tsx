@@ -3,7 +3,7 @@ import { PortfolioPage } from '../components/PortfolioPage';
 import { ensureString } from '../components/images-next/form/Url2Form';
 import { useLoadContract } from '../components/api/contract.api';
 import { DisplayContract } from '../components/contract/DisplayContract';
-import { LargeLoadingIndicator } from '../components/api/Loadable';
+import { LargeLoadingIndicator } from '../components/images-next/host/Loadable';
 import { SignAction } from '../components/contract/SignAction';
 
 export default function Contract() {
