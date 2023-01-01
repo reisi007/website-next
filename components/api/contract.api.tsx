@@ -115,7 +115,8 @@ type PutLogEntryBody = { action: LogType, baseUrl: string, server?:string };
 
 export function usePutLogEntry<Error extends ServerError>(email:string, uuid:string, hash:string, dataMutator: KeyedMutator<Array<LogEntry>>):
 (b: LogType, setErrors: UseFormSetError<Error>, clearError: UseFormClearErrors<Error>) => Promise<unknown> {
-  const rawAction = useManualFetch<PutLogEntryBody, Error>('api/contract-log_put.php', 'put', { Email: email, AccessKey: uuid });
+  const header = useMemo(() => ({ Email: email, AccessKey: uuid }), [email, uuid]);
+  const rawAction = useManualFetch<PutLogEntryBody, Error>('api/contract-log_put.php', 'put', header);
 
   return useCallback((logType, setErrors, clearError) => rawAction({
     action: logType,
