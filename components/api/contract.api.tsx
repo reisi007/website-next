@@ -2,7 +2,8 @@ import useSWR, { SWRResponse } from 'swr';
 import { useCallback, useMemo } from 'react';
 import { KeyedMutator } from 'swr/_internal';
 import dayjs from 'dayjs';
-import { ManualRequest, ROOT_URL, useManualFetch } from '../images-next/host/Rest';
+import { UseFormClearErrors, UseFormSetError } from 'react-hook-form/dist/types/form';
+import { ROOT_URL, ServerError, useManualFetch } from '../images-next/host/Rest';
 import { JSON_FETCHER } from '../swr/Fetcher';
 import { PdoEmulatedPrepared } from './PdoEmulatedPrepared';
 
@@ -110,15 +111,16 @@ export function useGetLogEntries(email:string, uuid:string): SWRResponse<Array<L
   };
 }
 
-type PutLogEntryBody = { action: LogType, baseUrl: string };
+type PutLogEntryBody = { action: LogType, baseUrl: string, server?:string };
 
-export function usePutLogEntry(email:string, uuid:string, hash:string, dataMutator: KeyedMutator<Array<LogEntry>>): ManualRequest<LogType> {
-  const { action: rawAction, ...sendPost } = useManualFetch<PutLogEntryBody>('contract-log_put.php', 'put');
+export function usePutLogEntry<Error extends ServerError>(email:string, uuid:string, hash:string, dataMutator: KeyedMutator<Array<LogEntry>>):
+(b: LogType, setErrors: UseFormSetError<Error>, clearError: UseFormClearErrors<Error>) => Promise<unknown> {
+  const rawAction = useManualFetch<PutLogEntryBody, Error>('contract-log_put.php', 'put');
 
-  const action = useCallback((logType:LogType) => rawAction({
+  return useCallback((logType, setErrors, clearError) => rawAction({
     action: logType,
     baseUrl: computeContractLink(email, uuid),
-  })
+  }, setErrors, clearError)
     .then(() => dataMutator((old) => {
       const newVar: Array<LogEntry> = old ?? [];
       newVar.push({
@@ -130,8 +132,6 @@ export function usePutLogEntry(email:string, uuid:string, hash:string, dataMutat
       });
       return newVar;
     })), [rawAction, dataMutator, email, hash, uuid]);
-
-  return { action, ...sendPost };
 }
 
 export function computeContractLink(email:string, uuid:string) {
