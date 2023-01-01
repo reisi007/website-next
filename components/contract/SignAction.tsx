@@ -30,11 +30,10 @@ export function SignAction({
   );
 }
 
-type DsgvoAccept = { dsgvo: string, server?: string };
+type DsgvoAccept = { dsgvo: boolean, server?: string };
 const reviewResolver: Resolver<DsgvoAccept> = yupResolver(yup.object({
-  dsgvo: yup.boolean()
-    .required('Die Zustimmung zu den Datenschutzbedingungen ist nicht optional'),
-}));
+  dsgvo: yup.boolean().isTrue('Die Zustimmung zu den Datenschutzbedingungen ist nicht optional'),
+}).required());
 
 function SignActionArea({
   email,
@@ -78,12 +77,13 @@ function SignActionArea({
   return (
     <div className="grid gap-2">
       <Form<DsgvoAccept>
-        initialValue={{ dsgvo: isDisplayDsgvoCheckbox || isSigned ? 'true' : 'false' }}
+        initialValue={{ dsgvo: isDisplayDsgvoCheckbox || isSigned }}
         resolver={reviewResolver}
         onSubmit={signAction}
       >
         {({
           errors,
+          isValid,
           isSubmitting,
         }, register, control) => (
           <>
@@ -104,7 +104,7 @@ function SignActionArea({
               <SubmitButton
                 errors={errors}
                 isSubmitting={isSubmitting}
-                disabled={isSigned}
+                disabled={isSigned || !isValid}
                 className="bg-primary text-onPrimary"
               >
                 {isSigned ? 'Bereits unterschrieben' : 'Jetzt untersschrieben'}
@@ -116,7 +116,6 @@ function SignActionArea({
             </div>
             {logDetail}
           </>
-
         )}
       </Form>
     </div>
