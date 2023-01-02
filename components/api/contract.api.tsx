@@ -136,7 +136,7 @@ export function usePutLogEntry<Error extends ServerError>(email:string, uuid:str
 }
 
 export function computeContractLink(email:string, uuid:string) {
-  return `${window.location.protocol}//${window.location.host}/contracts?email=${email}&accessKey=${uuid}`;
+  return `${window.location.protocol}//${window.location.host}/contract?email=${email}&accessKey=${uuid}`;
 }
 
 export type LogEntry = {
