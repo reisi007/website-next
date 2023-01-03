@@ -12,7 +12,7 @@
     }
 
     h3 {
-        @apply text-lg text-center;
+        @apply text-lg text-center font-logo;
     }
 
     a:not(.black) {
