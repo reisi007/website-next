@@ -1,11 +1,11 @@
-import useSWR, {SWRResponse} from 'swr';
-import {useCallback, useMemo} from 'react';
-import {KeyedMutator} from 'swr/_internal';
+import useSWR, { SWRResponse } from 'swr';
+import { useCallback, useMemo } from 'react';
+import { KeyedMutator } from 'swr/_internal';
 import dayjs from 'dayjs';
-import {UseFormClearErrors, UseFormSetError} from 'react-hook-form/dist/types/form';
-import {ROOT_URL, ServerError, useManualFetch} from '../images-next/host/Rest';
-import {JSON_FETCHER} from '../swr/Fetcher';
-import {PdoEmulatedPrepared} from './PdoEmulatedPrepared';
+import { UseFormClearErrors, UseFormSetError } from 'react-hook-form/dist/types/form';
+import { ROOT_URL, ServerError, useManualFetch } from '../images-next/host/Rest';
+import { JSON_FETCHER } from '../swr/Fetcher';
+import { PdoEmulatedPrepared } from './PdoEmulatedPrepared';
 
 export function useLoadContract(email: string, uuid: string) {
   const init: RequestInit = {
@@ -64,7 +64,7 @@ export function useSignStatus(email: string, uuid: string): SWRResponse<Array<Si
   }
 
   const data = useMemo((): Array<SignStatus> | undefined => {
-    if(rawData === undefined) {
+    if (rawData === undefined) {
       return undefined;
     }
     return rawData.map(mapData);
@@ -98,7 +98,7 @@ export function useGetLogEntries(email: string, uuid: string): SWRResponse<Array
   }
 
   const data = useMemo(() => {
-    if(rawData === undefined) return undefined;
+    if (rawData === undefined) return undefined;
 
     return rawData.map(getData);
   }, [rawData]);
@@ -116,14 +116,14 @@ export function useGetLogEntries(email: string, uuid: string): SWRResponse<Array
 type PutLogEntryBody = { action: LogType, server?: string };
 
 export function usePutLogEntry<Error extends ServerError>(email: string, uuid: string, hash: string, dataMutator: KeyedMutator<Array<LogEntry>>):
-  (b: LogType, setErrors: UseFormSetError<Error>, clearError: UseFormClearErrors<Error>) => Promise<unknown> {
+(b: LogType, setErrors: UseFormSetError<Error>, clearError: UseFormClearErrors<Error>) => Promise<unknown> {
   const header = useMemo(() => ({
     Email: email,
     AccessKey: uuid,
   }), [email, uuid]);
   const rawAction = useManualFetch<PutLogEntryBody, Error>('api/contract-log_put.php', 'put', header);
 
-  return useCallback((logType, setErrors, clearError) => rawAction({action: logType}, setErrors, clearError)
+  return useCallback((logType, setErrors, clearError) => rawAction({ action: logType }, setErrors, clearError)
     .then(() => dataMutator((old) => {
       const newVar: Array<LogEntry> = old ?? [];
       newVar.push({
