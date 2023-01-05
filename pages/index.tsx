@@ -1,12 +1,14 @@
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import Link from 'next/link';
 import Head from 'next/head';
+import classNames from 'classnames';
 import { FiveStarRating } from '../components/images-next/rating/FiveStarRating';
 import { DisplayReviews } from '../components/review/DisplayReviews';
 import { getAllReviews } from '../components/images-next/static/loadReviews';
 import { Review } from '../components/images-next/types/ReviewTypes';
 import { ReisishotIconSizes } from '../components/images-next/utils/ReisishotIcons';
 import { PortfolioPage } from '../components/PortfolioPage';
+import { Styleable } from '../components/images-next/types/Styleable';
 
 export default function Home({
   avgRating,
@@ -20,7 +22,7 @@ export default function Home({
       </Head>
       <DisplayReviews reviews={reviews} limit={4} />
 
-      <StarLinkToReview cnt={cnt} avgRating={avgRating} />
+      <StarLinkToReview className="p" cnt={cnt} avgRating={avgRating} />
 
       <DisplayReviews reviews={reviews} start={4} limit={4} />
     </PortfolioPage>
@@ -30,9 +32,10 @@ export default function Home({
 function StarLinkToReview({
   avgRating,
   cnt,
-}: Pick<InferGetStaticPropsType<typeof getStaticProps>, 'avgRating' | 'cnt'>) {
+  className,
+}: Pick<InferGetStaticPropsType<typeof getStaticProps>, 'avgRating' | 'cnt'> & Pick<Styleable, 'className'>) {
   return (
-    <Link href="/reviews" className="black mx-4">
+    <Link href="/reviews" className={classNames('black mx-4', className)}>
       <div className="text-center text-xl">Schau dir noch mehr Bewertungen von Frauen an, die schon vor meiner Kamera gestanden sind</div>
       <div className="flex items-center justify-center">
         <FiveStarRating className="inline-flex justify-center" starSize={ReisishotIconSizes.XXLARGE} value={avgRating} />

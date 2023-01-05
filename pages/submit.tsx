@@ -7,7 +7,7 @@ import { useSetValue } from '../components/images-next/form/Url2Form';
 export default function SubmitReview() {
   return (
     <PortfolioPage title="Bewerte mich" showContactForm={false}>
-      <ReviewForm>
+      <ReviewForm className="p">
         {(setValue) => (
           <PrefillFromUrl setValue={setValue} />
         )}

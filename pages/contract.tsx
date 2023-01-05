@@ -16,8 +16,10 @@ export default function Contract() {
   const accessKeyStringValue = ensureString(accessKey);
   return (
     <PortfolioPage showContactForm={false} title="Vertrag unterschreiben">
-      {emailStringValue === undefined || accessKeyStringValue === undefined ? <LargeLoadingIndicator />
-        : <ContractContent email={emailStringValue} uuid={accessKeyStringValue} />}
+      <div className="p">
+        {emailStringValue === undefined || accessKeyStringValue === undefined ? <LargeLoadingIndicator />
+          : <ContractContent email={emailStringValue} uuid={accessKeyStringValue} />}
+      </div>
     </PortfolioPage>
   );
 }

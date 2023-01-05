@@ -93,7 +93,6 @@ function SignActionArea({
                <div className="inline-flex">
                  <CheckboxInput
                    {...register('dsgvo')}
-                   required
                    control={control}
                    disabled={isSigned}
                    label={<Markdown className="my-4 ml-2 inline" content={dsgvo} />}

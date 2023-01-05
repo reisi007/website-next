@@ -39,8 +39,8 @@
         @apply p-4 my-4 bg-gray-50 border-l-4 border-gray-300 leading-relaxed italic
     }
 
-    p {
-        @apply m-4
+    p, .p {
+        @apply p-4
     }
 }
 
@@ -50,7 +50,7 @@
     }
 
     input,textarea {
-        @apply p-2 border accent-primary-alternative border-gray-200 rounded-lg
+        @apply p-2 border accent-primary-accent border-gray-200 rounded-lg
     }
 
     input[type='date']:before {
@@ -59,7 +59,7 @@
     }
 
     input[type="checkbox"] {
-        @apply scale-125 my-2 mx-1 accent-primary-alternative
+        @apply scale-125 my-2 mx-1 accent-primary-accent
     }
 
     /* Select field placeholder styling */
