@@ -1,8 +1,11 @@
 import { KeyedMutator } from 'swr/_internal';
-import { useCallback, useEffect, useMemo } from 'react';
+import {
+  ReactNode, useCallback, useEffect, useMemo,
+} from 'react';
 import { Resolver } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { UseFormClearErrors, UseFormSetError } from 'react-hook-form/dist/types/form';
 import {
   LogEntry, LogType, SignStatus, useGetLogEntries, usePutLogEntry, useSignStatus,
 } from '../api/contract.api';
@@ -11,7 +14,7 @@ import { useModal } from '../images-next/utils/Modal';
 import { FormattedDateTime } from '../images-next/utils/Age';
 import { ActionButton, SubmitButton } from '../images-next/button/ActionButton';
 import { Markdown } from '../images-next/utils/Markdown';
-import { ExtSubmitHandler, Form } from '../images-next/form/Form';
+import { ExtSubmitHandler, Form, Shape } from '../images-next/form/Form';
 import { CheckboxInput } from '../images-next/form/Input';
 import { Card } from '../images-next/utils/Card';
 import { Badge } from '../images-next/utils/Badge';
@@ -31,9 +34,11 @@ export function SignAction({
 }
 
 type DsgvoAccept = { dsgvo: boolean, server?: string };
-const reviewResolver: Resolver<DsgvoAccept> = yupResolver(yup.object({
-  dsgvo: yup.boolean().isTrue('Die Zustimmung zu den Datenschutzbedingungen ist nicht optional'),
-}).required());
+const reviewResolver: Resolver<DsgvoAccept> = yupResolver(yup.object<Partial<Shape<DsgvoAccept>>>({
+  dsgvo: yup.boolean()
+    .isTrue('Die Zustimmung zu den Datenschutzbedingungen ist nicht optional'),
+})
+  .required());
 
 function SignActionArea({
   email,
@@ -47,12 +52,13 @@ function SignActionArea({
     email: curEmail,
   }) => signed && email === curEmail) >= 0, [cur, email]);
 
-  const logEntires = useGetLogEntries(email, uuid);
-  const rawPutLogEntry = usePutLogEntry<DsgvoAccept>(email, uuid, '...', logEntires.mutate);
+  const {
+    mutate: mutateLogEntries,
+    data: logEntries,
+  } = useGetLogEntries(email, uuid);
+  const rawPutLogEntry = usePutLogEntry<DsgvoAccept>(email, uuid, '...', mutateLogEntries);
   const putLogEntry = useCallback((l: LogType) => {
-    rawPutLogEntry(l, () => {
-    }, () => {
-    });
+    rawPutLogEntry(l, () => { }, () => {}).then(null, (e) => console.error(e));
   }, [rawPutLogEntry]);
   useEffect(() => {
     if (!isSigned) {
@@ -67,57 +73,83 @@ function SignActionArea({
       });
   }, [rawPutLogEntry, refetchSignStatus]);
 
-  const content = useCallback(() => <ViewLogModalContent data={logEntires.data} mutator={logEntires.mutate} />, [logEntires.data, logEntires.mutate]);
-  const [logDetail, setLogDetailVisible] = useModal('Details anzeigen', content);
-
-  const dialogOpen = useCallback(() => {
-    setLogDetailVisible(true);
-  }, [setLogDetailVisible]);
-  const isDisplayDsgvoCheckbox = dsgvo === undefined || dsgvo === null || dsgvo.length === 0;
   return (
     <div className="grid gap-2">
-      <Form<DsgvoAccept>
-        initialValue={{ dsgvo: isDisplayDsgvoCheckbox || isSigned }}
-        resolver={reviewResolver}
-        onSubmit={signAction}
-      >
-        {({
-          errors,
-          isValid,
-          isSubmitting,
-        }, register, control) => (
-          <>
-
-            {dsgvo !== null
-             && (
-               <div className="inline-flex">
-                 <CheckboxInput
-                   {...register('dsgvo')}
-                   control={control}
-                   disabled={isSigned}
-                   label={<Markdown className="my-4 ml-2 inline" content={dsgvo} />}
-                 />
-               </div>
-             )}
-            <div className="flex justify-evenly">
-              <SubmitButton
-                errors={errors}
-                isSubmitting={isSubmitting}
-                disabled={isSigned || !isValid}
-                className="bg-primary text-onPrimary"
-              >
-                {isSigned ? 'Bereits unterschrieben' : 'Jetzt untersschrieben'}
-              </SubmitButton>
-
-              <ActionButton onClick={dialogOpen}>
-                Details anzeigen
-              </ActionButton>
-            </div>
-            {logDetail}
-          </>
-        )}
-      </Form>
+      <DsgvoAcceptForm isSigned={isSigned} onSubmit={signAction} dsgvo={dsgvo}>
+        <LogDetails logEntries={logEntries} mutateLogEntries={mutateLogEntries} />
+      </DsgvoAcceptForm>
     </div>
+  );
+}
+
+function LogDetails({ logEntries, mutateLogEntries }:{ logEntries?: Array<LogEntry>, mutateLogEntries:KeyedMutator<Array<LogEntry>> }) {
+  const content = useCallback(() => <ViewLogModalContent data={logEntries} mutator={mutateLogEntries} />, [logEntries, mutateLogEntries]);
+  const [logDetail, setLogDetailVisible] = useModal('Details anzeigen', content);
+
+  const openDialog = useCallback(() => {
+    setLogDetailVisible(true);
+  }, [setLogDetailVisible]);
+
+  return (
+    <>
+      <ActionButton onClick={openDialog}>
+        Details anzeigen
+      </ActionButton>
+      {logDetail}
+    </>
+  );
+}
+
+function DsgvoAcceptForm({
+  isSigned,
+  onSubmit,
+  dsgvo,
+  children,
+}: {
+  isSigned: boolean,
+  onSubmit: (data: DsgvoAccept, setErrors: UseFormSetError<DsgvoAccept>, clearErrors: UseFormClearErrors<DsgvoAccept>, event?: React.BaseSyntheticEvent) => unknown,
+  dsgvo: string | null,
+  children: ReactNode
+}) {
+  const isDisplayDsgvoCheckbox = dsgvo === undefined || dsgvo === null || dsgvo.length === 0;
+
+  return (
+    <Form<DsgvoAccept>
+      initialValue={{ dsgvo: isDisplayDsgvoCheckbox || isSigned }}
+      resolver={reviewResolver}
+      onSubmit={onSubmit}
+    >
+      {({
+        errors,
+        isValid,
+        isSubmitting,
+      }, register, control) => (
+        <>
+
+          {dsgvo !== null
+           && (
+             <div className="inline-flex">
+               <CheckboxInput
+                 {...register('dsgvo')}
+                 control={control}
+                 disabled={isSigned}
+                 label={<Markdown className="my-4 ml-2 inline" content={dsgvo} />}
+               />
+             </div>
+           )}
+          <SubmitButton
+            errors={errors}
+            isSubmitting={isSubmitting}
+            disabled={isSigned || !isValid}
+            className="bg-primary text-onPrimary"
+          >
+            {isSigned ? 'Bereits unterschrieben' : 'Jetzt unterschreiben'}
+          </SubmitButton>
+
+          {children}
+        </>
+      )}
+    </Form>
   );
 }
 
