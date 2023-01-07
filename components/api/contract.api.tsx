@@ -121,9 +121,9 @@ export function usePutLogEntry<Error extends ServerError>(email: string, uuid: s
     Email: email,
     AccessKey: uuid,
   }), [email, uuid]);
-  const rawAction = useManualFetch<PutLogEntryBody, Error>('api/contract-log_put.php', 'put', header);
+  const rawAction = useManualFetch<Error, unknown, undefined, PutLogEntryBody>('api/contract-log_put.php', 'put', header);
 
-  return useCallback((logType, setErrors, clearError) => rawAction({ action: logType }, setErrors, clearError)
+  return useCallback((logType, setErrors, clearError) => rawAction(setErrors, clearError, undefined, { action: logType })
     .then(() => dataMutator((old) => {
       const newVar: Array<LogEntry> = old ?? [];
       newVar.push({

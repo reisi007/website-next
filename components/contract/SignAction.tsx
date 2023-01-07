@@ -66,7 +66,7 @@ function SignActionArea({
     }
   }, [isSigned, email, uuid, putLogEntry]);
 
-  const signAction: ExtSubmitHandler<DsgvoAccept> = useCallback((_, setErrors, clearErrors) => {
+  const signAction: ExtSubmitHandler<DsgvoAccept> = useCallback((setErrors, clearErrors) => {
     rawPutLogEntry('SIGN', setErrors, clearErrors)
       .then(() => {
         refetchSignStatus();
@@ -107,7 +107,7 @@ function DsgvoAcceptForm({
   children,
 }: {
   isSigned: boolean,
-  onSubmit: (data: DsgvoAccept, setErrors: UseFormSetError<DsgvoAccept>, clearErrors: UseFormClearErrors<DsgvoAccept>, event?: React.BaseSyntheticEvent) => unknown,
+  onSubmit: (setErrors: UseFormSetError<DsgvoAccept>, clearErrors: UseFormClearErrors<DsgvoAccept>, data: DsgvoAccept, event?: React.BaseSyntheticEvent) => unknown,
   dsgvo: string | null,
   children: ReactNode
 }) {
