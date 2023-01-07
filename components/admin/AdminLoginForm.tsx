@@ -6,8 +6,10 @@ import { ServerError, useManualFetch } from '../images-next/host/Rest';
 import { Input } from '../images-next/form/Input';
 import { SubmitButton } from '../images-next/button/ActionButton';
 
-export function AdminLoginForm() {
-  const submit = useLogin();
+export type SetLoginResponse = (d: LoginResponse | null) => void;
+
+export function AdminLoginForm({ setLoginData }:{ setLoginData: SetLoginResponse }) {
+  const submit = useLogin(setLoginData);
   return (
     <Form<AdminLoginData> className="p" onSubmit={submit} resolver={loginFormResolver}>
       {({
@@ -30,7 +32,7 @@ export function AdminLoginForm() {
 }
 
 export type AdminLoginData = { user: string, pwd: string } & ServerError;
-type LoginResponse = { user: string, hash: string } & ServerError;
+export type LoginResponse = { user: string, hash: string } & ServerError;
 type LoginRequestHeaders = { Email: string, Accesskey: string };
 
 const loginFormResolver = yupResolver(yup.object<Partial<Shape<AdminLoginData>>>(
@@ -45,7 +47,7 @@ const loginFormResolver = yupResolver(yup.object<Partial<Shape<AdminLoginData>>>
 )
   .required());
 
-export function useLogin(): ExtSubmitHandler<AdminLoginData> {
+export function useLogin(setLoginData: (d: (LoginResponse | null)) => void): ExtSubmitHandler<AdminLoginData> {
   const manualFetch = useManualFetch<AdminLoginData, LoginResponse, LoginRequestHeaders>('api/admin_login_post.php', 'post');
   return useCallback((setErrors, clearErrors, {
     user,
@@ -53,5 +55,5 @@ export function useLogin(): ExtSubmitHandler<AdminLoginData> {
   }) => manualFetch(setErrors, clearErrors, {
     Email: user,
     Accesskey: pwd,
-  }), [manualFetch]);
+  }).then((r) => setLoginData(r), (_) => setLoginData(null)), [manualFetch, setLoginData]);
 }

@@ -1,5 +1,9 @@
-import { AdminLoginForm } from '../components/admin/AdminLoginForm';
+import { AdminPage } from '../components/AdminPage';
 
 export default function AdminLoginScreen() {
-  return <AdminLoginForm />;
+  return (
+    <AdminPage title="Kalender">
+      {(_) => <div />}
+    </AdminPage>
+  );
 }
