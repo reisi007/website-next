@@ -8,12 +8,12 @@ import { JSON_FETCHER } from '../swr/Fetcher';
 import { PdoEmulatedPrepared } from './PdoEmulatedPrepared';
 
 export function useLoadContract(email: string, uuid: string) {
-  const init: RequestInit = {
+  const init: RequestInit = useMemo(() => ({
     headers: {
       Email: email,
       AccessKey: uuid,
     },
-  };
+  }), [email, uuid]);
   return useSWR<ContractData, unknown, [string, RequestInit]>([`${ROOT_URL}api/contract_get.php`, init], JSON_FETCHER);
 }
 

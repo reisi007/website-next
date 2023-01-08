@@ -1,4 +1,4 @@
-import { ReactNode, useCallback } from 'react';
+import { ReactNode, useCallback, useMemo } from 'react';
 import Head from 'next/head';
 import { AdminLoginForm, LoginResponse, SetLoginResponse } from './admin/AdminLoginForm';
 import { BasePage } from './images-next/page/BasePage';
@@ -13,10 +13,12 @@ const PATHS: { [key: string]: PathEntry } = {
   },
 };
 
+type LoginResponseChildren = (ld: LoginResponse) => ReactNode;
+
 export function AdminPage({
   children,
   title,
-}: { children: ReactNode, title: string }) {
+}: { children: LoginResponseChildren, title: string }) {
   const [loginData, setLoginData] = useLocalStorage<LoginResponse>('admin_login');
 
   if (loginData === null) {
@@ -29,15 +31,17 @@ export function AdminPage({
       </BasePage>
     );
   }
-  return <AdminPageContent title={title} setLoginData={setLoginData}>{children}</AdminPageContent>;
+  return <AdminPageContent loginData={loginData} title={title} setLoginData={setLoginData}>{(e) => children(e)}</AdminPageContent>;
 }
 
 function AdminPageContent({
   title,
-  children,
+  children: rawChildren,
+  loginData,
   setLoginData,
-}: { title: string, children: ReactNode, setLoginData: SetLoginResponse }) {
+}: { title: string, children: LoginResponseChildren, loginData: LoginResponse, setLoginData: SetLoginResponse }) {
   const clearLogin = useCallback(() => setLoginData(null), [setLoginData]);
+  const children = useMemo(() => rawChildren(loginData), [loginData, rawChildren]);
   return (
     <AdminLogoutContext value={clearLogin}>
       <BasePage menuItems={PATHS} showContactForm={false} title={`Admin - ${title}`}>
