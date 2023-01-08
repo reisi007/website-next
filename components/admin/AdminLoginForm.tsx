@@ -6,7 +6,7 @@ import { ServerError, useManualFetch } from '../images-next/host/Rest';
 import { Input } from '../images-next/form/Input';
 import { SubmitButton } from '../images-next/button/ActionButton';
 
-export type SetLoginResponse = (d: LoginResponse | null) => void;
+export type SetLoginResponse = (d: LoginResponse | null | undefined) => void;
 
 export function AdminLoginForm({ setLoginData }:{ setLoginData: SetLoginResponse }) {
   const submit = useLogin(setLoginData);
@@ -55,5 +55,8 @@ export function useLogin(setLoginData: (d: (LoginResponse | null)) => void): Ext
   }) => manualFetch(setErrors, clearErrors, {
     Email: user,
     Accesskey: pwd,
-  }).then((r) => setLoginData(r), (_) => setLoginData(null)), [manualFetch, setLoginData]);
+  }).then(
+    (r) => setLoginData(r),
+    (_) => setLoginData(null),
+  ), [manualFetch, setLoginData]);
 }
