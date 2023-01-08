@@ -29,7 +29,8 @@ const reviewResolver = yupResolver(yup.object<Partial<Shape<Review>>>(
     review_public: yup.string()
       .required('Bitte gib deine Bewertung in Textform ab'),
     dsgvo: yup.boolean()
-      .required('Bitte stimme der Veröffentlichung der Bewertung zu'),
+      .required('Bitte stimme der Veröffentlichung der Bewertung zu')
+      .isTrue('Bitte stimme der Veröffentlichung der Bewertung zu'),
     review_private: yup.string(),
   },
 )
@@ -44,10 +45,10 @@ export function ReviewForm({
   return (
     <div className={className} style={style}>
       <Form<Review> onSubmit={action} resolver={reviewResolver}>
-        {(formState, register, control, setValue, reset) => (
+        {(formState, control, setValue, reset) => (
           <>
             {children(setValue) }
-            <ReviewFormContent formState={formState} register={register} control={control} setValue={setValue} reset={reset} />
+            <ReviewFormContent formState={formState} control={control} setValue={setValue} reset={reset} />
           </>
         )}
       </Form>
@@ -57,7 +58,6 @@ export function ReviewForm({
 
 function ReviewFormContent({
   formState,
-  register,
   control,
 }: FormChildrenProps<Review>) {
   const {
@@ -72,17 +72,18 @@ function ReviewFormContent({
     <>
       {!isSubmitSuccessful && (
       <div className="grid grid-cols-1 md:grid-cols-2">
-        <Input label="Vorname" control={control} errorMessage={errors.firstName} required className="md:mr-1" {...register('firstName')} />
-        <Input label="Nachname" control={control} errorMessage={errors.lastName} required className="md:ml-1" {...register('lastName')} />
-        <Input label="E-Mail" control={control} errorMessage={errors.email} required {...register('email')} type="email" className="md:col-span-2" />
-        <Input label="Handynummer" control={control} errorMessage={errors.tel} {...register('tel')} type="tel" className="md:col-span-2" />
-        <FiveStarInput label="Deine Bewertung in halben Sternen" control={control} required name={register('rating').name} starSize={ReisishotIconSizes.XXLARGE} />
-        <Textarea rows={5} control={control} label="Deine öffentliche Bewertung" required errorMessage={errors.review_public} {...register('review_public')} type="tel" className="md:col-span-2" />
-        <Textarea rows={5} control={control} label="Deine Nachricht an mich" errorMessage={errors.review_private} {...register('review_private')} type="tel" className="md:col-span-2" />
-        <CheckboxInput
-          {...register('dsgvo')}
+        <Input label="Vorname" control={control} errorMessage={errors.firstName} required className="md:mr-1" name="firstName" />
+        <Input label="Nachname" control={control} errorMessage={errors.lastName} required className="md:ml-1" name="lastName" />
+        <Input label="E-Mail" control={control} errorMessage={errors.email} required name="email" type="email" className="md:col-span-2" />
+        <Input label="Handynummer" control={control} errorMessage={errors.tel} name="tel" type="tel" className="md:col-span-2" />
+        <FiveStarInput label="Deine Bewertung in halben Sternen" control={control} required name="rating" starSize={ReisishotIconSizes.XXLARGE} />
+        <Textarea rows={5} control={control} label="Deine öffentliche Bewertung" required errorMessage={errors.review_public} name="review_public" type="tel" className="md:col-span-2" />
+        <Textarea rows={5} control={control} label="Deine Nachricht an mich" errorMessage={errors.review_private} name="review_private" type="tel" className="md:col-span-2" />
+        <CheckboxInput<Review>
+          name="dsgvo"
           label="Ich bin damit einverstanden, dass mein Review veröffentlicht wird. (Falls freizügigere Bilder erstellt wurden, wird nur der erste Buchstabe des Nachnamens verwendet)"
           control={control}
+          errorMessage={errors.dsgvo}
           required
           className="mt-2 md:col-span-2"
         />

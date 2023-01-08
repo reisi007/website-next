@@ -16,12 +16,12 @@ export function AdminLoginForm({ setLoginData }:{ setLoginData: SetLoginResponse
         isSubmitting,
         isSubmitSuccessful,
         errors,
-      }, register, control) => (
+      }, control) => (
         <>
           {!isSubmitSuccessful && (
             <div className="grid grid-cols-1 md:grid-cols-2">
-              <Input label="Benutzername" control={control} errorMessage={errors.user} required className="md:col-span-2" {...register('user')} />
-              <Input type="password" label="Passwort" control={control} errorMessage={errors.pwd} required className="md:col-span-2" {...register('pwd')} />
+              <Input label="Benutzername" control={control} errorMessage={errors.user} required className="md:col-span-2" name="user" />
+              <Input type="password" label="Passwort" control={control} errorMessage={errors.pwd} required className="md:col-span-2" name="pwd" />
               <SubmitButton isSubmitting={isSubmitting} errors={errors} className="md:col-span-2">Login</SubmitButton>
             </div>
           )}

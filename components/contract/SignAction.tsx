@@ -36,6 +36,7 @@ export function SignAction({
 type DsgvoAccept = { dsgvo: boolean, server?: string };
 const reviewResolver: Resolver<DsgvoAccept> = yupResolver(yup.object<Partial<Shape<DsgvoAccept>>>({
   dsgvo: yup.boolean()
+    .required('Die Zustimmung zu den Datenschutzbedingungen ist nicht optional')
     .isTrue('Die Zustimmung zu den Datenschutzbedingungen ist nicht optional'),
 })
   .required());
@@ -123,14 +124,14 @@ function DsgvoAcceptForm({
         errors,
         isValid,
         isSubmitting,
-      }, register, control) => (
+      }, control) => (
         <>
 
           {dsgvo !== null
            && (
              <div className="inline-flex">
-               <CheckboxInput
-                 {...register('dsgvo')}
+               <CheckboxInput<DsgvoAccept>
+                 name="dsgvo"
                  control={control}
                  disabled={isSigned}
                  label={<Markdown className="my-4 ml-2 inline" content={dsgvo} />}
