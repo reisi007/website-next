@@ -3,18 +3,14 @@ import { useCallback, useMemo } from 'react';
 import { KeyedMutator } from 'swr/_internal';
 import dayjs from 'dayjs';
 import { UseFormClearErrors, UseFormSetError } from 'react-hook-form/dist/types/form';
-import { ROOT_URL, ServerError, useManualFetch } from '../images-next/host/Rest';
+import {
+  ROOT_URL, ServerError, useCreateHeader, useManualFetch,
+} from '../images-next/host/Rest';
 import { JSON_FETCHER } from '../swr/Fetcher';
 import { PdoEmulatedPrepared } from './PdoEmulatedPrepared';
 
 export function useLoadContract(email: string, uuid: string) {
-  const init: RequestInit = useMemo(() => ({
-    headers: {
-      Email: email,
-      AccessKey: uuid,
-    },
-  }), [email, uuid]);
-  return useSWR<ContractData, unknown, [string, RequestInit]>([`${ROOT_URL}api/contract_get.php`, init], JSON_FETCHER);
+  return useSWR<ContractData, unknown, [string, RequestInit]>([`${ROOT_URL}api/contract_get.php`, useCreateHeader(email, uuid)], JSON_FETCHER);
 }
 
 export type ContractData = {
@@ -38,22 +34,13 @@ export type SignStatus = {
   signed: boolean
 };
 
-function createHeader(email: string, uuid: string): RequestInit {
-  return {
-    headers: {
-      Email: email,
-      AccessKey: uuid,
-    },
-  };
-}
-
 export function useSignStatus(email: string, uuid: string): SWRResponse<Array<SignStatus>, unknown> {
   const {
     data: rawData,
     mutate: rawMutate,
     ...swr
   } = useSWR<PdoEmulatedPrepared<Array<SignStatus>>, unknown, [string, RequestInit]>([
-    `${ROOT_URL}api/contract-signed_status_get.php`, createHeader(email, uuid),
+    `${ROOT_URL}api/contract-signed_status_get.php`, useCreateHeader(email, uuid),
   ], JSON_FETCHER);
 
   function mapData(d: PdoEmulatedPrepared<SignStatus>): SignStatus {
@@ -85,9 +72,8 @@ export function useGetLogEntries(email: string, uuid: string): SWRResponse<Array
     mutate: rawMutate,
     ...swr
   } = useSWR<PdoEmulatedPrepared<Array<LogEntry>>, unknown, [string, RequestInit]>([
-
     `${ROOT_URL}/api/contract-log_get.php`,
-    createHeader(email, uuid),
+    useCreateHeader(email, uuid),
   ], JSON_FETCHER);
 
   function getData(e: PdoEmulatedPrepared<LogEntry>): LogEntry {
@@ -130,8 +116,7 @@ export function usePutLogEntry<Error extends ServerError>(email: string, uuid: s
         email,
         hash_value: hash,
         log_type: logType,
-        timestamp: dayjs()
-          .toISOString(),
+        timestamp: dayjs().toISOString(),
       });
       return newVar;
     })), [rawAction, dataMutator, email, hash]);

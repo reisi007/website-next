@@ -2,13 +2,14 @@ import { useState } from 'react';
 import { useDebounce } from 'use-debounce';
 import { ShootingDateEntry } from './calendar.api';
 import { Calendar } from './Calendar';
+import { Styleable } from '../../images-next/types/Styleable';
 
-export function CalendarWithSlider({ data }: { data: Array<ShootingDateEntry> }) {
+export function CalendarWithSlider({ data, className }: { data: Array<ShootingDateEntry> } & Pick<Partial<Styleable>, 'className'>) {
   const [weekSliderValueInternal, setWeekSliderValue] = useState(8);
   const [weekSliderValue] = useDebounce(weekSliderValueInternal, 300, { maxWait: 500 });
 
   return (
-    <Calendar weeks={weekSliderValue} data={data}>
+    <Calendar className={className} weeks={weekSliderValue} data={data}>
       <div className="flex items-center justify-center text-center">
         <input
           name="weekSlider"

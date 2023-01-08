@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import { FiveStarRating } from '../components/images-next/rating/FiveStarRating';
 import { DisplayReviews } from '../components/review/DisplayReviews';
 import { getAllReviews } from '../components/images-next/static/loadReviews';
-import { Review } from '../components/images-next/types/ReviewTypes';
+import { Testimonial } from '../components/images-next/types/TestimonialTypes';
 import { ReisishotIconSizes } from '../components/images-next/utils/ReisishotIcons';
 import { PortfolioPage } from '../components/PortfolioPage';
 import { Styleable } from '../components/images-next/types/Styleable';
@@ -49,7 +49,7 @@ function StarLinkToReview({
   );
 }
 
-export const getStaticProps: GetStaticProps<{ avgRating: number, cnt: number, reviews: Array<Review> }> = async () => {
+export const getStaticProps: GetStaticProps<{ avgRating: number, cnt: number, reviews: Array<Testimonial> }> = async () => {
   const reviews = await getAllReviews();
   const reviewWithRating = reviews.filter((r) => r.frontmatter.rating ?? -1 > 0);
   const cnt = reviewWithRating.length;

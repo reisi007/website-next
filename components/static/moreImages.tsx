@@ -2,7 +2,7 @@ import path from 'path';
 import { promises as fs } from 'fs';
 import { DIRECTORY_IMAGE } from '../images-next/static/readImageInternal';
 import { getAllReviews } from '../images-next/static/loadReviews';
-import { hasAdvertisedCategory } from '../images-next/types/ReviewTypes';
+import { hasAdvertisedCategory } from '../images-next/types/TestimonialTypes';
 import { readMultipleImages } from './readImage';
 import { SORT_NEWEST_TO_OLDEST } from '../images-next/utils/Image';
 

@@ -6,7 +6,7 @@ import { Image } from '../../components/images-next/utils/Image';
 import { ReisishotIconSizes } from '../../components/images-next/utils/ReisishotIcons';
 import { RawHtml } from '../../components/images-next/utils/RawHtml';
 import { FormattedDate } from '../../components/images-next/utils/Age';
-import { Review } from '../../components/images-next/types/ReviewTypes';
+import { Testimonial } from '../../components/images-next/types/TestimonialTypes';
 import { ImageInfo } from '../../components/images-next/types/ImageTypes';
 import { StyledLinkButton } from '../../components/images-next/button/StyledButton';
 import { readImage } from '../../components/static/readImage';
@@ -58,7 +58,7 @@ interface PathParams extends ParsedUrlQuery {
   review: string;
 }
 
-type PropParams = { review: Review, imageInfo: ImageInfo | null, previousId: string | null, nextId: string | null };
+type PropParams = { review: Testimonial, imageInfo: ImageInfo | null, previousId: string | null, nextId: string | null };
 
 export const getStaticProps: GetStaticProps<PropParams, PathParams> = async (context) => {
   const reviews = await getAllReviews();

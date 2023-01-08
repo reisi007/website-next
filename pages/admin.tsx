@@ -15,7 +15,7 @@ export default function AdminLoginScreen() {
 function Calendar(lr:LoginResponse) {
   return (
     <Loadable {...(usePrivateCalendarData(lr))}>
-      { (data) => <CalendarWithSlider data={data} />}
+      { (data) => <CalendarWithSlider className="py-2" data={data} />}
     </Loadable>
   );
 }

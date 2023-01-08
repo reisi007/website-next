@@ -1,7 +1,7 @@
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import { DisplayReviews } from '../components/review/DisplayReviews';
 import { getAllReviews } from '../components/images-next/static/loadReviews';
-import { Review } from '../components/images-next/types/ReviewTypes';
+import { Testimonial } from '../components/images-next/types/TestimonialTypes';
 import { PortfolioPage } from '../components/PortfolioPage';
 
 export default function ReviewPage({ reviews }: InferGetStaticPropsType<typeof getStaticProps>) {
@@ -12,6 +12,6 @@ export default function ReviewPage({ reviews }: InferGetStaticPropsType<typeof g
   );
 }
 
-export const getStaticProps: GetStaticProps<{ reviews: Array<Review> }> = async () => ({
+export const getStaticProps: GetStaticProps<{ reviews: Array<Testimonial> }> = async () => ({
   props: { reviews: await getAllReviews() },
 });

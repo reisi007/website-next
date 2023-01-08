@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import classNames from 'classnames';
-import { Review, ReviewProps } from '../images-next/types/ReviewTypes';
+import { Testimonial, TestimonialProps } from '../images-next/types/TestimonialTypes';
 import { Styleable } from '../images-next/types/Styleable';
 import { DaysAgo } from '../images-next/utils/Age';
 import { ReisishotIcon, ReisishotIcons } from '../images-next/utils/ReisishotIcons';
@@ -18,7 +18,7 @@ export function DisplayReviews({
   reviews,
   start = 0,
   limit = Number.MAX_VALUE,
-}: { reviews: Array<Review>, start?: number, limit?: number }) {
+}: { reviews: Array<Testimonial>, start?: number, limit?: number }) {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
       {
@@ -32,7 +32,7 @@ export function DisplayReviews({
 export function PreviewReview({
   review,
   breakpoints,
-}: { review: Review, breakpoints?: ImageBreakpoints }) {
+}: { review: Testimonial, breakpoints?: ImageBreakpoints }) {
   const {
     id,
     frontmatter,
@@ -63,7 +63,7 @@ export function PreviewReviewContent({
   breakpoints,
   style,
   className,
-}: ReviewProps & Partial<Styleable> & { breakpoints?: ImageBreakpoints }) {
+}: TestimonialProps & Partial<Styleable> & { breakpoints?: ImageBreakpoints }) {
   const classes = 'absolute bg-black/30 text-white py-2 px-4 m-0 backdrop-blur';
   return (
     <div style={style} className="relative h-full min-h-[5rem]">

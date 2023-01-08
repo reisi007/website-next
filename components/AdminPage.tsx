@@ -11,6 +11,10 @@ const PATHS: { [key: string]: PathEntry } = {
     title: 'Startseite',
     important: true,
   },
+  'admin/reviews': {
+    title: 'Testimonials',
+    important: true,
+  },
 };
 
 type LoginResponseChildren = (ld: LoginResponse) => ReactNode;

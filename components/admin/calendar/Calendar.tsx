@@ -22,7 +22,7 @@ export function Calendar({
   weeks,
   children,
   rowCreator = defaultRowCreator,
-  className = '',
+  className,
 }: Props) {
   const rows = useMemo(() => prepareDate(data, weeks)
     .map(rowCreator), [data, rowCreator, weeks]);
