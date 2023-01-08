@@ -4,5 +4,8 @@ RewriteRule ^gallery/categories/(.+) https://gallery.reisinger.pictures/categori
 RewriteRule ^gallery/tags/(.+) https://gallery.reisinger.pictures/tags/$1 [L,R=301]
 RewriteRule ^gallery/images/(.+) https://gallery.reisinger.pictures/$1 [L,R=301]
 
+RewriteRule ^$ index.html [QSA,L]
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^(.+?)/?$ $1.html
+RewriteRule ^([^.]+?((?!\.html))|(/?))$ $1.html [QSA,L]
+
+ErrorDocument 404 /404.html
