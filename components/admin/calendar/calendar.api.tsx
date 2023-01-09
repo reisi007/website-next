@@ -1,7 +1,5 @@
-import useSWR, { SWRResponse } from 'swr';
 import { LoginResponse } from '../AdminLoginForm';
-import { JSON_FETCHER } from '../../swr/Fetcher';
-import { ROOT_URL, useCreateHeader } from '../../images-next/host/Rest';
+import { useAdminGet } from '../../utils/swr';
 
 export type ShootingDateEntry = {
   kw: number,
@@ -17,6 +15,6 @@ export enum ShootingSlotState {
   NOT_YET_OPENED = 'NOT YET OPENED',
 }
 
-export function usePrivateCalendarData({ user, hash }:LoginResponse): SWRResponse<Array<ShootingDateEntry>> {
-  return useSWR<Array<ShootingDateEntry>, unknown, [string, RequestInit]>([`${ROOT_URL}api/shooting_dates_private_get.php`, useCreateHeader(user, hash)], JSON_FETCHER);
+export function usePrivateCalendarData(lr:LoginResponse) {
+  return useAdminGet<Array<ShootingDateEntry>>('shooting_dates_private_get.php', lr);
 }

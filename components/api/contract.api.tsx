@@ -1,16 +1,14 @@
-import useSWR, { SWRResponse } from 'swr';
+import { SWRResponse } from 'swr';
 import { useCallback, useMemo } from 'react';
 import { KeyedMutator } from 'swr/_internal';
 import dayjs from 'dayjs';
 import { UseFormClearErrors, UseFormSetError } from 'react-hook-form/dist/types/form';
-import {
-  ROOT_URL, ServerError, useCreateHeader, useManualFetch,
-} from '../images-next/host/Rest';
-import { JSON_FETCHER } from '../swr/Fetcher';
+import { ServerError, useManualFetch } from '../images-next/host/Rest';
 import { PdoEmulatedPrepared } from './PdoEmulatedPrepared';
+import { useAuthedGet } from '../utils/swr';
 
 export function useLoadContract(email: string, uuid: string) {
-  return useSWR<ContractData, unknown, [string, RequestInit]>([`${ROOT_URL}api/contract_get.php`, useCreateHeader(email, uuid)], JSON_FETCHER);
+  return useAuthedGet<ContractData>('contract_get.php', email, uuid);
 }
 
 export type ContractData = {
@@ -34,14 +32,12 @@ export type SignStatus = {
   signed: boolean
 };
 
-export function useSignStatus(email: string, uuid: string): SWRResponse<Array<SignStatus>, unknown> {
+export function useSignStatus(email: string, uuid: string): SWRResponse<Array<SignStatus>, Response> {
   const {
     data: rawData,
     mutate: rawMutate,
     ...swr
-  } = useSWR<PdoEmulatedPrepared<Array<SignStatus>>, unknown, [string, RequestInit]>([
-    `${ROOT_URL}api/contract-signed_status_get.php`, useCreateHeader(email, uuid),
-  ], JSON_FETCHER);
+  } = useAuthedGet<PdoEmulatedPrepared<Array<SignStatus>>>('contract-signed_status_get.php', email, uuid);
 
   function mapData(d: PdoEmulatedPrepared<SignStatus>): SignStatus {
     return {
@@ -66,15 +62,16 @@ export function useSignStatus(email: string, uuid: string): SWRResponse<Array<Si
   };
 }
 
-export function useGetLogEntries(email: string, uuid: string): SWRResponse<Array<LogEntry>, unknown> {
+export function useGetLogEntries(email: string, uuid: string): SWRResponse<Array<LogEntry>, Response> {
   const {
     data: rawData,
     mutate: rawMutate,
     ...swr
-  } = useSWR<PdoEmulatedPrepared<Array<LogEntry>>, unknown, [string, RequestInit]>([
-    `${ROOT_URL}/api/contract-log_get.php`,
-    useCreateHeader(email, uuid),
-  ], JSON_FETCHER);
+  } = useAuthedGet<PdoEmulatedPrepared<Array<LogEntry>>>(
+    'contract-log_get.php',
+    email,
+    uuid,
+  );
 
   function getData(e: PdoEmulatedPrepared<LogEntry>): LogEntry {
     return {
