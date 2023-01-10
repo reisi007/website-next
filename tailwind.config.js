@@ -14,7 +14,7 @@ module.exports = {
             fontWeight: extensions(),
             fontFamily: {
                 sans: ["system-ui", "-apple-system", "Segoe UI", "Roboto", "Helvetica Neue", "Arial", "Noto Sans", "Liberation Sans", "sans-serif", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"],
-                logo: ["var(--font-martina)", "sans-serif"]
+                logo: ["Martina", "var(--font-martina)", "sans-serif"]
             },
             colors: {
                 primary: {
