@@ -32,7 +32,7 @@ export type SignStatus = {
   signed: boolean
 };
 
-export function useSignStatus(email: string, uuid: string): SWRResponse<Array<SignStatus>, Response> {
+export function useSignStatus(email: string, uuid: string): SWRResponse<Array<SignStatus>, Error> {
   const {
     data: rawData,
     mutate: rawMutate,
@@ -62,7 +62,7 @@ export function useSignStatus(email: string, uuid: string): SWRResponse<Array<Si
   };
 }
 
-export function useGetLogEntries(email: string, uuid: string): SWRResponse<Array<LogEntry>, Response> {
+export function useGetLogEntries(email: string, uuid: string): SWRResponse<Array<LogEntry>, Error> {
   const {
     data: rawData,
     mutate: rawMutate,

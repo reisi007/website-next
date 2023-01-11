@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 import useSWR from 'swr';
 import { ROOT_URL } from '../images-next/host/Rest';
 import { JSON_FETCHER } from '../swr/Fetcher';
@@ -7,36 +7,24 @@ import { useAdminLogout } from '../admin/AdminLogoutContext';
 
 export function useAuthedGet<Response>(path:string, user:string, hash:string) {
   const url = `${ROOT_URL}api/${path}`;
-  const init: RequestInit = useMemo(() => ({
-    headers: {
-      Email: user,
-      AccessKey: hash,
-    },
-  }), [hash, user]);
-  return useSWR<Response, globalThis.Response, [string, RequestInit]>(
-    [url, init],
+  return useSWR<Response, Error, [string, string, string]>(
+    [url, user, hash],
     JSON_FETCHER,
   );
 }
 
 export function useAdminGet<Response>(path:string, loginResponse:LoginResponse) {
   const url = `${ROOT_URL}api/${path}`;
-  const init: RequestInit = useMemo(() => ({
-    headers: {
-      Email: loginResponse.user,
-      AccessKey: loginResponse.hash,
-    },
-  }), [loginResponse.hash, loginResponse.user]);
 
-  const { error, ...rest } = useSWR<Response, globalThis.Response, [string, RequestInit]>(
-    [url, init],
+  const { error, ...rest } = useSWR<Response, Error, [string, string, string]>(
+    [url, loginResponse.user, loginResponse.hash],
     JSON_FETCHER,
   );
 
   const adminLogout = useAdminLogout();
 
   useEffect(() => {
-    if (error && error.status === 401) adminLogout();
+    if (error && error.name === '401') adminLogout();
   }, [adminLogout, error]);
 
   return { error, ...rest };
