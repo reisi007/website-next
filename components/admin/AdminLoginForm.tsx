@@ -33,7 +33,7 @@ export function AdminLoginForm({ setLoginData }:{ setLoginData: SetLoginResponse
 
 export type AdminLoginData = { user: string, pwd: string } & ServerError;
 export type LoginResponse = { user: string, hash: string } & ServerError;
-type LoginRequestHeaders = { Email: string, Accesskey: string };
+export type LoginRequestHeaders = { Email: string, Accesskey: string };
 
 const loginFormResolver = yupResolver(yup.object<Partial<Shape<AdminLoginData>>>(
   {

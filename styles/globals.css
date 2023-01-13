@@ -53,11 +53,6 @@
         @apply p-2 border accent-primary-accent border-gray-200 rounded-lg
     }
 
-    input[type='date']:before {
-        color: #aaa;
-        content: attr(data-date-placeholder) ':\00a0';
-    }
-
     input[type="checkbox"] {
         @apply scale-125 my-2 mx-1 accent-primary-accent
     }

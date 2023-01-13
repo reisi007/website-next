@@ -3,7 +3,7 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { UseFormSetValue } from 'react-hook-form/dist/types/form';
 import {
-  Form, FormChildrenProps, PHONE_REGEXP, Shape,
+  Form, MinimalFormChildrenProps, PHONE_REGEXP, Shape,
 } from '../images-next/form/Form';
 import {
   CheckboxInput, FiveStarInput, Input, Textarea,
@@ -45,10 +45,10 @@ export function ReviewForm({
   return (
     <div className={className} style={style}>
       <Form<Review> onSubmit={action} resolver={reviewResolver}>
-        {(formState, control, setValue, reset) => (
+        {(formState, control, setValue) => (
           <>
             {children(setValue) }
-            <ReviewFormContent formState={formState} control={control} setValue={setValue} reset={reset} />
+            <ReviewFormContent formState={formState} control={control} />
           </>
         )}
       </Form>
@@ -59,7 +59,7 @@ export function ReviewForm({
 function ReviewFormContent({
   formState,
   control,
-}: FormChildrenProps<Review>) {
+}: MinimalFormChildrenProps<Review>) {
   const {
     errors,
     isValid,
