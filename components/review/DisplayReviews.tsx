@@ -11,8 +11,8 @@ const REVIEW_PREVIEW_BREAKPOINTS: ImageBreakpoints = {
   [Breakpoint.sm]: 1,
   [Breakpoint.md]: 1,
   [Breakpoint.lg]: 2,
-  [Breakpoint.xl]: 3,
-  [Breakpoint['2xl']]: 4,
+  [Breakpoint.xl]: 2,
+  [Breakpoint['2xl']]: 3,
 };
 export function DisplayReviews({
   reviews,
@@ -20,7 +20,7 @@ export function DisplayReviews({
   limit = Number.MAX_VALUE,
 }: { reviews: Array<Testimonial>, start?: number, limit?: number }) {
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+    <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3">
       {
         reviews.slice(start, Math.min(start + limit, reviews.length))
           .map((r) => <PreviewReview key={r.id} review={r} breakpoints={REVIEW_PREVIEW_BREAKPOINTS} />)
