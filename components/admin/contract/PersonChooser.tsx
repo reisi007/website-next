@@ -71,7 +71,7 @@ function PersonSingleValue(row: SingleValueProps<SearchablePerson, false, GroupB
 function DisplayPersonChooser({ persons, addPerson }: { persons: SearchablePerson[], addPerson: (person: Person) => void }) {
   const moreProps: MoreProps<SearchablePerson, false> = {
     placeholder: 'Stammkunde suchen...',
-    className: classNames('grow mr-4'),
+    className: classNames('grow sm:mr-4'),
     noOptionsMessage: (e) => `Nicht verfügbar mit ${e}`,
     components: {
       Option: PersonOption,
@@ -91,7 +91,7 @@ function DisplayPersonChooser({ persons, addPerson }: { persons: SearchablePerso
   }, [addPerson, curSelected]);
 
   return (
-    <div className="my-2 flex items-center">
+    <div className="my-2 grid grid-cols-1  space-y-2 sm:flex sm:items-stretch sm:space-y-0">
       {select}
       <ActionButton onClick={onClick} disabled={curSelected === null}>Person hinzufügen</ActionButton>
     </div>

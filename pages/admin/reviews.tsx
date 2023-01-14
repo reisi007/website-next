@@ -15,7 +15,7 @@ export default function AdminReviewPage() {
 function DisplayAdminReviews({ loginData }: { loginData: LoginResponse }) {
   const swr = useGetAllReviews(loginData);
   return (
-    <>
+    <div className="p">
       <h1 className="my-2">Alle Testimonials</h1>
       <Loadable {...swr}>
         {(curData) => (
@@ -25,6 +25,6 @@ function DisplayAdminReviews({ loginData }: { loginData: LoginResponse }) {
           </>
         )}
       </Loadable>
-    </>
+    </div>
   );
 }

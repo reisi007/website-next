@@ -108,7 +108,7 @@ function ContractFormFields({
     setMarkdown(string);
   }, [setValue]);
   return (
-    <div className="flex flex-col justify-center">
+    <div className="p flex flex-col justify-center">
       <div className="m-4 mx-auto flex w-full justify-around md:w-1/3">
         <StyledButton
           onClick={() => {
