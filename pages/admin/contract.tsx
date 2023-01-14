@@ -9,7 +9,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { UseFormGetValues } from 'react-hook-form/dist/types/form';
 import { AdminPage } from '../../components/AdminPage';
 import { LoginResponse } from '../../components/admin/AdminLoginForm';
-import { PersonChooser } from '../../components/admin/contract/PersonChooser';
 import { useContractFilenames, useCreateContract } from '../../components/admin/contract/contract.api';
 import { Form, FormChildrenProps } from '../../components/images-next/form/Form';
 import { Input, Textarea } from '../../components/images-next/form/Input';
@@ -18,6 +17,7 @@ import { ContractChooser, CreateContractForm, Person } from '../../components/ad
 import { Loadable } from '../../components/images-next/host/Loadable';
 import { Markdown } from '../../components/images-next/utils/Markdown';
 import { StyledButton } from '../../components/images-next/button/StyledButton';
+import { PersonChooser } from '../../components/admin/contract/PersonChooser';
 
 export default function ContractPage() {
   return (

@@ -4,7 +4,7 @@ export const JSON_FETCHER = (args: [RequestInfo | URL, string, string]) => {
   const init : RequestInit = {
     headers: {
       Email: user,
-      AccessKey: hash,
+      Accesskey: hash,
     },
   };
   return fetch(input, init)
