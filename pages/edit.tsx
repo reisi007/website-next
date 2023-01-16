@@ -1,23 +1,17 @@
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
-import { EmpP } from '../components/images-next/EmpP';
 import { MultipleBeforeAfterImages } from '../components/images-next/beforeAfter/BeforeAfterImage';
 import { ImageInfo } from '../components/images-next/types/ImageTypes';
 import { readMultipleImages } from '../components/static/readImage';
 import { PortfolioPage } from '../components/PortfolioPage';
+import Markdown from '../components/text/edit.mdx';
 
 export default function Edit(props: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
-    <PortfolioPage title="Alles - Außer langweilige Fotos">
-      <EmpP>
-        Bearbeitung von Bildern ist ein wichtiger Teil des fotografischen Prozesses. Darum teile ich nur
-        {'" '}
-        fertige
-        {' "'}
-        Bilder - also bearbeitete Bilder - mit der Außenwelt.
-        Diese Seite ist die lebende Ausnahme, denn ich möchte dir hier ein Gefühl dafür geben, wie ich Bilder bearbeite.
-      </EmpP>
-      <p>Da es mir wichtig ist deine natürliche Schönheit einzufangen werde ich deinen Körper in keiner Weise verformen, temporäre Verletzungen (blauer Fleck / Pickel) aber entfernen.</p>
-      <MultipleBeforeAfterImages data={props} />
+    <PortfolioPage title="Besondere Momente - Außergewöhnliche Bilder">
+      <>
+        <Markdown />
+        <MultipleBeforeAfterImages data={props} />
+      </>
     </PortfolioPage>
   );
 }

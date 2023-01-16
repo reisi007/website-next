@@ -25,6 +25,7 @@
     "@typescript-eslint/spac": "off",
     "jsx-a11y/no-static-element-interactions": "off",
     "linebreak-style": "off",
+    "import/no-webpack-loader-syntax": "off",
     "@typescript-eslint/object-curly-spacing": "warn",
     "no-trailing-spaces": "warn",
     "no-multi-spaces": "warn",

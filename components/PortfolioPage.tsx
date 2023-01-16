@@ -11,7 +11,7 @@ const PATHS: { [key: string]: PathEntry } = {
     title: 'Dein Leben - Deine Bilder',
     important: true,
   },
-  edit: { title: 'Alles - Außer langweilige Fotos' },
+  edit: { title: 'Besondere Momente - Außergewöhnliche Bilder' },
   reviews: { title: 'Alle Bewertungen' },
   rate: { title: 'Bewerte mich' },
 };

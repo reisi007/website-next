@@ -1,0 +1,37 @@
+import {EmpP} from "../images-next/EmpP";
+import Link from "next/link";
+import {ImageCaroussel} from "../images-next/caroussel/ImageCaroussel";
+import {MyImage} from "../utils/MyImage";
+
+
+<EmpP>
+    Seit mehr als sechs Jahren bin ich von der Fotografie begeistert und sie hat sich in dieser Zeit zu meiner größten
+    Leidenschaft entwickelt. In den letzten Jahren habe ich unzählige Bilder aufgenommen und über 150 erfolgreiche
+    Fotoshootings durchgeführt, bei denen ich die Gelegenheit hatte, viele Personen glücklich zu machen. Mein
+    Schwerpunkt liegt auf der Beauty-Fotografie, wobei ich darunter auch intimere Aufnahmen verstehe, also Aufnahmen,
+    die man normalerweise mit niemanden oder nur mit einer ausgewählten Gruppe von Menschen teilt. Ich glaube, dass es
+    bei der Beauty-Fotografie darum geht, die natürliche Schönheit der Person vor der Kamera zu betonen und zu
+    unterstreichen.
+</EmpP>
+
+<ImageCaroussel metadataMap={props.caroussel}/>
+
+<EmpP>
+    Mein Ziel als Fotograf ist es, während des Fotoshootings eine Umgebung zu schaffen, in der du dich vollständig
+    entspannen kannst, dich wohl fühlst und du selbst sein kann. Ich glaube, dass es nur in einer solchen
+    Umgebung möglich ist, deine natürliche Schönheit einzufangen und ein positives Bild deines eigenen Körpers zu geben.
+    Durch die entspannte und positive Atmosphäre während des Fotoshootings, kann ich auch dazu beitragen dein
+    Selbstbewusstsein im Alltag zu steigern.
+</EmpP>
+
+<MyImage/>
+
+Wie du schon ganz sicher rausgehört hast, treibt mich als Fotograf in der Beauty-Fotografie an, dir eine Freude zu bereiten.
+Ich verstehe, dass jeder Mensch seine eigene Schönheit besitzt und es meine Aufgabe ist, diese hervorzuheben und zu unterstreichen.
+Um dies zu erreichen, nehme ich mir ausreichend Zeit, um mich auf jedes Fotoshooting vorzubereiten, damit ich sowohl während, aber auch vor und nach dem Shooting für dich da sein kann.
+Ich möchte sicherstellen, dass auch du eine unvergessliche Erfahrung machst und noch lange an das gemeinsame Shooting zurückdenkst, wenn du die Bilder betrachten.
+
+<div className="grid grid-cols-1 text-center text-2xl md:grid-cols-2">
+    <Link href="/edit">Wie bearbeite ich Fotos</Link>
+    <Link href="/reviews">Alle Bewertungen</Link>
+</div>
