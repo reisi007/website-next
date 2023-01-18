@@ -8,7 +8,6 @@ import { UseFieldArrayRemove } from 'react-hook-form/dist/types/fieldArray';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { UseFormGetValues } from 'react-hook-form/dist/types/form';
 import { AdminPage } from '../../components/AdminPage';
-import { LoginResponse } from '../../components/admin/AdminLoginForm';
 import { useContractFilenames, useCreateContract } from '../../components/admin/contract/contract.api';
 import { Form, FormChildrenProps } from '../../components/images-next/form/Form';
 import { Input, Textarea } from '../../components/images-next/form/Input';
@@ -22,13 +21,13 @@ import { PersonChooser } from '../../components/admin/contract/PersonChooser';
 export default function ContractPage() {
   return (
     <AdminPage title="Vertrag erstellen">
-      {(ld) => <DisplayCreateContract loginResponse={ld} />}
+      {(jwt) => <DisplayCreateContract jwt={jwt} />}
     </AdminPage>
   );
 }
 
-function DisplayCreateContract({ loginResponse }: { loginResponse: LoginResponse }) {
-  const submit = useCreateContract(loginResponse);
+function DisplayCreateContract({ jwt }: { jwt: string }) {
+  const submit = useCreateContract(jwt);
   return (
     <>
       <h1 className="mt-4">Neuen Vertrag erstellen</h1>
@@ -44,7 +43,7 @@ function DisplayCreateContract({ loginResponse }: { loginResponse: LoginResponse
             getValue={getValue}
             control={control}
             reset={reset}
-            loginResponse={loginResponse}
+            jwt={jwt}
           />
         )}
       </Form>
@@ -53,28 +52,28 @@ function DisplayCreateContract({ loginResponse }: { loginResponse: LoginResponse
 }
 
 function CreateContractFormContent({
-  loginResponse,
+  jwt,
   formState,
   reset,
   ...rest
-}: FormChildrenProps<CreateContractForm> & { loginResponse: LoginResponse }) {
+}: FormChildrenProps<CreateContractForm> & { jwt: string }) {
   const { isSubmitSuccessful } = formState;
 
   return (
     <>
-      {!isSubmitSuccessful && <ContractFormFields loginResponse={loginResponse} formState={formState} {...rest} />}
+      {!isSubmitSuccessful && <ContractFormFields jwt={jwt} formState={formState} {...rest} />}
       {isSubmitSuccessful && <ActionButton onClick={reset}>Neuen Vertrag erstellen</ActionButton>}
     </>
   );
 }
 
 function ContractFormFields({
-  loginResponse,
+  jwt,
   control,
   getValue,
   setValue,
   formState,
-}: { loginResponse: LoginResponse } & Omit<FormChildrenProps<CreateContractForm>, 'reset'>) {
+}: { jwt: string } & Omit<FormChildrenProps<CreateContractForm>, 'reset'>) {
   const {
     errors,
     isValid,
@@ -98,13 +97,17 @@ function ContractFormFields({
     setArrayLength((e) => e + 1);
   }, [append]);
 
-  const contractFileNames = useContractFilenames(loginResponse);
+  const contractFileNames = useContractFilenames(jwt);
 
   const [markdown, setMarkdown] = useState<string | null>(null);
   const setText: React.FormEventHandler<HTMLTextAreaElement> = useCallback((e) => setMarkdown(e.currentTarget.value), []);
 
-  const setMarkdownAndForm: (string:string)=> void = useCallback((string) => {
-    setValue('text', string, { shouldTouch: true, shouldValidate: true, shouldDirty: true });
+  const setMarkdownAndForm: (string: string) => void = useCallback((string) => {
+    setValue('text', string, {
+      shouldTouch: true,
+      shouldValidate: true,
+      shouldDirty: true,
+    });
     setMarkdown(string);
   }, [setValue]);
   return (
@@ -134,7 +137,7 @@ function ContractFormFields({
         </StyledButton>
       </div>
       {fields.map((field, idx) => <PersonForm control={control} key={field.id} idx={idx} errors={errors.persons} remove={remove} />)}
-      <PersonChooser addPerson={addPerson} loginResponse={loginResponse} />
+      <PersonChooser addPerson={addPerson} jwt={jwt} />
       <Loadable {...contractFileNames}>
         {(f) => (
           <Controller
@@ -177,7 +180,7 @@ function ContractFormFields({
 function Pricing({
   get,
   set,
-}: { get: UseFormGetValues<CreateContractForm>, set: (string:string) => void }) {
+}: { get: UseFormGetValues<CreateContractForm>, set: (string: string) => void }) {
   const [eur, setEur] = useState(100);
 
   const text = `## Kosten\nAls Entgelt wird Honorar von ${eur.toLocaleString('de')}€ vereinbart.`;

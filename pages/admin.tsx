@@ -1,20 +1,19 @@
 import { AdminPage } from '../components/AdminPage';
 import { CalendarWithSlider } from '../components/admin/calendar/CalendarWithSlider';
-import { LoginResponse } from '../components/admin/AdminLoginForm';
 import { Loadable } from '../components/images-next/host/Loadable';
 import { usePrivateCalendarData } from '../components/admin/calendar/calendar.api';
 
 export default function AdminLoginScreen() {
   return (
     <AdminPage title="Kalender">
-      { (ld) => <Calendar {...ld} /> }
+      { (jwt) => <Calendar jwt={jwt} /> }
     </AdminPage>
   );
 }
 
-function Calendar(lr:LoginResponse) {
+function Calendar({ jwt }:{ jwt:string }) {
   return (
-    <Loadable {...(usePrivateCalendarData(lr))}>
+    <Loadable {...(usePrivateCalendarData(jwt))}>
       { (data) => <CalendarWithSlider className="py-2" data={data} />}
     </Loadable>
   );

@@ -1,4 +1,3 @@
-import { LoginResponse } from '../AdminLoginForm';
 import { useAdminGet } from '../../utils/swr';
 
 export type ShootingDateEntry = {
@@ -15,6 +14,6 @@ export enum ShootingSlotState {
   NOT_YET_OPENED = 'NOT YET OPENED',
 }
 
-export function usePrivateCalendarData(lr:LoginResponse) {
-  return useAdminGet<Array<ShootingDateEntry>>('shooting_dates_private_get.php', lr);
+export function usePrivateCalendarData(jwt:string) {
+  return useAdminGet<Array<ShootingDateEntry>>('shooting_dates_private_get.php', jwt);
 }

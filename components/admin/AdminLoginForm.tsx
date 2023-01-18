@@ -2,11 +2,11 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import React, { useCallback } from 'react';
 import { ExtSubmitHandler, Form, Shape } from '../images-next/form/Form';
-import { ServerError, useManualFetch } from '../images-next/host/Rest';
+import { ServerError, useManualFetchString } from '../images-next/host/Rest';
 import { Input } from '../images-next/form/Input';
 import { SubmitButton } from '../images-next/button/ActionButton';
 
-export type SetLoginResponse = (d: LoginResponse | null | undefined) => void;
+export type SetLoginResponse = (d: string | null | undefined) => void;
 
 export function AdminLoginForm({ setLoginData }:{ setLoginData: SetLoginResponse }) {
   const submit = useLogin(setLoginData);
@@ -34,6 +34,7 @@ export function AdminLoginForm({ setLoginData }:{ setLoginData: SetLoginResponse
 export type AdminLoginData = { user: string, pwd: string } & ServerError;
 export type LoginResponse = { user: string, hash: string } & ServerError;
 export type LoginRequestHeaders = { Email: string, Accesskey: string };
+export type JwtRequestHeaders = { Authorization: `Bearer: ${string}` };
 
 const loginFormResolver = yupResolver(yup.object<Partial<Shape<AdminLoginData>>>(
   {
@@ -47,8 +48,8 @@ const loginFormResolver = yupResolver(yup.object<Partial<Shape<AdminLoginData>>>
 )
   .required());
 
-export function useLogin(setLoginData: (d: (LoginResponse | null)) => void): ExtSubmitHandler<AdminLoginData> {
-  const manualFetch = useManualFetch<AdminLoginData, LoginResponse, LoginRequestHeaders>('api/admin_login_post.php', 'post');
+export function useLogin(setLoginData: (d: (string | null)) => void): ExtSubmitHandler<AdminLoginData> {
+  const manualFetch = useManualFetchString<AdminLoginData, LoginRequestHeaders>('api/admin_login_post.php', 'post');
   return useCallback((setErrors, clearErrors, {
     user,
     pwd,

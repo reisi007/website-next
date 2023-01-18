@@ -1,9 +1,9 @@
 import { ReactNode, useCallback, useMemo } from 'react';
 import Head from 'next/head';
-import { AdminLoginForm, LoginResponse, SetLoginResponse } from './admin/AdminLoginForm';
+import { AdminLoginForm, SetLoginResponse } from './admin/AdminLoginForm';
 import { BasePage } from './images-next/page/BasePage';
 import { PathEntry } from './images-next/page/NavMenu';
-import { useLocalStorage } from './images-next/utils/LocalStorage';
+import { useLocalStorageString } from './images-next/utils/LocalStorage';
 import { AdminLogoutContext } from './admin/AdminLogoutContext';
 
 const PATHS: { [key: string]: PathEntry } = {
@@ -21,13 +21,13 @@ const PATHS: { [key: string]: PathEntry } = {
   },
 };
 
-type LoginResponseChildren = (ld: LoginResponse) => ReactNode;
+type LoginResponseChildren = (ld: string) => ReactNode;
 
 export function AdminPage({
   children,
   title,
 }: { children: LoginResponseChildren, title: string }) {
-  const [loginData, setLoginData] = useLocalStorage<LoginResponse>('admin_login');
+  const [loginData, setLoginData] = useLocalStorageString('admin_login');
 
   if (loginData === null) {
     return (
@@ -47,7 +47,7 @@ function AdminPageContent({
   children: rawChildren,
   loginData,
   setLoginData,
-}: { title: string, children: LoginResponseChildren, loginData: LoginResponse, setLoginData: SetLoginResponse }) {
+}: { title: string, children: LoginResponseChildren, loginData: string, setLoginData: SetLoginResponse }) {
   const clearLogin = useCallback(() => setLoginData(null), [setLoginData]);
   const children = useMemo(() => rawChildren(loginData), [loginData, rawChildren]);
   return (

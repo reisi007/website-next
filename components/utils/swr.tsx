@@ -1,8 +1,7 @@
 import { useEffect } from 'react';
 import useSWR from 'swr';
 import { ROOT_URL } from '../images-next/host/Rest';
-import { JSON_FETCHER } from '../swr/Fetcher';
-import { LoginResponse } from '../admin/AdminLoginForm';
+import { JSON_FETCHER, JSON_JWT_FETCHER } from '../swr/Fetcher';
 import { useAdminLogout } from '../admin/AdminLogoutContext';
 
 export function useAuthedGet<Response>(path:string, user:string, hash:string) {
@@ -13,12 +12,12 @@ export function useAuthedGet<Response>(path:string, user:string, hash:string) {
   );
 }
 
-export function useAdminGet<Response>(path:string, loginResponse:LoginResponse) {
+export function useAdminGet<Response>(path:string, jwt:string) {
   const url = `${ROOT_URL}api/${path}`;
 
-  const { error, ...rest } = useSWR<Response, Error, [string, string, string]>(
-    [url, loginResponse.user, loginResponse.hash],
-    JSON_FETCHER,
+  const { error, ...rest } = useSWR<Response, Error, [string, string]>(
+    [url, jwt],
+    JSON_JWT_FETCHER,
   );
 
   const adminLogout = useAdminLogout();

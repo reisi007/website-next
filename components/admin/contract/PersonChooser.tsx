@@ -5,7 +5,6 @@ import {
   GroupBase, OptionProps, SingleValueProps,
 } from 'react-select';
 import classNames from 'classnames';
-import { LoginResponse } from '../AdminLoginForm';
 import { SearchablePerson, useKnownPersons } from './contract.api';
 import { Loadable } from '../../images-next/host/Loadable';
 import { CalculatedBirthday, FormattedDate } from '../../images-next/utils/Age';
@@ -13,8 +12,8 @@ import { ActionButton } from '../../images-next/button/ActionButton';
 import { MoreProps, useSelect } from '../../utils/react-select';
 import { Person } from './ContractData';
 
-export function PersonChooser({ loginResponse, addPerson }:{ loginResponse: LoginResponse, addPerson: (person: Person) => void }) {
-  const swr = useKnownPersons(loginResponse);
+export function PersonChooser({ jwt, addPerson }:{ jwt: string, addPerson: (person: Person) => void }) {
+  const swr = useKnownPersons(jwt);
   return (
     <>
       <h2>Stammkunden suchen</h2>

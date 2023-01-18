@@ -2,7 +2,6 @@ import { useCallback, useMemo } from 'react';
 import { SWRResponse } from 'swr';
 import { KeyedMutator } from 'swr/_internal';
 import { PdoEmulatedPrepared } from '../../api/PdoEmulatedPrepared';
-import { LoginResponse } from '../AdminLoginForm';
 import { Review } from '../../form/Rest';
 import { useAdminGet } from '../../utils/swr';
 
@@ -12,8 +11,8 @@ export type LoadedReview = Omit<Review, 'firstName' | 'lastName'> & {
   rating?:number;
 };
 
-export function useGetAllReviews(lr: LoginResponse): SWRResponse<Array<LoadedReview>> {
-  const { data: rawData, mutate: rawMutate, ...rest } = useAdminGet<PdoEmulatedPrepared< Array<LoadedReview>>>('reviews-admin_get.php', lr);
+export function useGetAllReviews(jwt: string): SWRResponse<Array<LoadedReview>> {
+  const { data: rawData, mutate: rawMutate, ...rest } = useAdminGet<PdoEmulatedPrepared< Array<LoadedReview>>>('reviews-admin_get.php', jwt);
 
   function convert(data: PdoEmulatedPrepared<LoadedReview>): LoadedReview {
     return {
