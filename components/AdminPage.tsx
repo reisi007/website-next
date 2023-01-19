@@ -1,10 +1,14 @@
-import { ReactNode, useCallback, useMemo } from 'react';
+import {
+  ReactNode, useCallback, useEffect, useMemo,
+} from 'react';
 import Head from 'next/head';
-import { AdminLoginForm, SetLoginResponse } from './admin/AdminLoginForm';
+import dayjs from 'dayjs';
+import { AdminLoginForm, SetLoginResponse, useLoginWithJwt } from './admin/AdminLoginForm';
 import { BasePage } from './images-next/page/BasePage';
 import { PathEntry } from './images-next/page/NavMenu';
 import { useLocalStorageString } from './images-next/utils/LocalStorage';
 import { AdminLogoutContext } from './admin/AdminLogoutContext';
+import { useParsedJwt } from './admin/Jwt';
 
 const PATHS: { [key: string]: PathEntry } = {
   admin: {
@@ -27,9 +31,9 @@ export function AdminPage({
   children,
   title,
 }: { children: LoginResponseChildren, title: string }) {
-  const [loginData, setLoginData] = useLocalStorageString('admin_login');
+  const [jwt, setLoginData] = useLocalStorageString('admin_login');
 
-  if (loginData === null) {
+  if (jwt === null) {
     return (
       <BasePage title="Admin - Login" showContactForm={false}>
         <Head>
@@ -39,17 +43,30 @@ export function AdminPage({
       </BasePage>
     );
   }
-  return <AdminPageContent loginData={loginData} title={title} setLoginData={setLoginData}>{(e) => children(e)}</AdminPageContent>;
+  return <AdminPageContent jwt={jwt} title={title} setLoginData={setLoginData}>{(e) => children(e)}</AdminPageContent>;
 }
 
 function AdminPageContent({
   title,
   children: rawChildren,
-  loginData,
+  jwt: jwtString,
   setLoginData,
-}: { title: string, children: LoginResponseChildren, loginData: string, setLoginData: SetLoginResponse }) {
+}: { title: string, children: LoginResponseChildren, jwt: string, setLoginData: SetLoginResponse }) {
   const clearLogin = useCallback(() => setLoginData(null), [setLoginData]);
-  const children = useMemo(() => rawChildren(loginData), [loginData, rawChildren]);
+  const children = useMemo(() => rawChildren(jwtString), [jwtString, rawChildren]);
+  const jwt = useParsedJwt(jwtString);
+  const refetchJwt = useLoginWithJwt(setLoginData);
+
+  useEffect(() => {
+    const futureExp = dayjs().add(7, 'days').toDate().getTime();
+    const jwtExp = jwt.exp;
+
+    const shouldRenew = futureExp <= jwtExp;
+    if (shouldRenew) {
+      refetchJwt((_, error) => console.error('Error re-fetching JWT', error), () => {}, { jwt: jwtString }, undefined);
+    }
+  }, [jwt.exp, jwtString, refetchJwt]);
+
   return (
     <AdminLogoutContext value={clearLogin}>
       <BasePage menuItems={PATHS} showContactForm={false} title={`Admin - ${title}`}>

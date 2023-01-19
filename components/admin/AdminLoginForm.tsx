@@ -8,7 +8,7 @@ import { SubmitButton } from '../images-next/button/ActionButton';
 
 export type SetLoginResponse = (d: string | null | undefined) => void;
 
-export function AdminLoginForm({ setLoginData }:{ setLoginData: SetLoginResponse }) {
+export function AdminLoginForm({ setLoginData }: { setLoginData: SetLoginResponse }) {
   const submit = useLogin(setLoginData);
   return (
     <Form<AdminLoginData> className="p" onSubmit={submit} resolver={loginFormResolver}>
@@ -56,8 +56,17 @@ export function useLogin(setLoginData: (d: (string | null)) => void): ExtSubmitH
   }) => manualFetch(setErrors, clearErrors, {
     Email: user,
     Accesskey: pwd,
-  }).then(
-    (r) => setLoginData(r),
-    (_) => setLoginData(null),
-  ), [manualFetch, setLoginData]);
+  })
+    .then(
+      (r) => setLoginData(r),
+      (_) => setLoginData(null),
+    ), [manualFetch, setLoginData]);
+}
+
+type JwtServer = { jwt: string, server?: string };
+
+export function useLoginWithJwt(setLoginData: (d: (string | null)) => void): ExtSubmitHandler<JwtServer> {
+  const manualFetch = useManualFetchString<JwtServer, JwtRequestHeaders>('api/admin_login_post.php', 'post');
+  return useCallback((setErrors, clearErrors, { jwt }) => manualFetch(setErrors, clearErrors, { Authorization: `Bearer: ${jwt}` })
+    .then((r) => setLoginData(r)), [manualFetch, setLoginData]);
 }
