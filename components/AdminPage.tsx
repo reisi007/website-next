@@ -1,6 +1,4 @@
-import {
-  ReactNode, useCallback, useEffect, useMemo,
-} from 'react';
+import { ReactNode, useCallback, useMemo } from 'react';
 import Head from 'next/head';
 import dayjs from 'dayjs';
 import { AdminLoginForm, SetLoginResponse, useLoginWithJwt } from './admin/AdminLoginForm';
@@ -9,6 +7,7 @@ import { PathEntry } from './images-next/page/NavMenu';
 import { useLocalStorageString } from './images-next/utils/LocalStorage';
 import { AdminLogoutContext } from './admin/AdminLogoutContext';
 import { useParsedJwt } from './admin/Jwt';
+import { useCancelableEffect } from './images-next/utils/CustomEffects';
 
 const PATHS: { [key: string]: PathEntry } = {
   admin: {
@@ -49,23 +48,33 @@ export function AdminPage({
 function AdminPageContent({
   title,
   children: rawChildren,
-  jwt: jwtString,
+  jwt,
   setLoginData,
 }: { title: string, children: LoginResponseChildren, jwt: string, setLoginData: SetLoginResponse }) {
   const clearLogin = useCallback(() => setLoginData(null), [setLoginData]);
-  const children = useMemo(() => rawChildren(jwtString), [jwtString, rawChildren]);
-  const jwt = useParsedJwt(jwtString);
+  const children = useMemo(() => rawChildren(jwt), [jwt, rawChildren]);
+  const parsedJwt = useParsedJwt(jwt);
   const refetchJwt = useLoginWithJwt(setLoginData);
 
-  useEffect(() => {
-    const futureExp = dayjs().add(7, 'days').toDate().getTime();
-    const jwtExp = jwt.exp;
+  useCancelableEffect((signal) => {
+    const futureExp = dayjs()
+      .add(7, 'days')
+      .toDate()
+      .getTime();
+    const jwtExp = parsedJwt.exp;
 
     const shouldRenew = futureExp <= jwtExp;
     if (shouldRenew) {
-      refetchJwt((_, error) => console.error('Error re-fetching JWT', error), () => {}, { jwt: jwtString }, undefined);
+      refetchJwt(
+        (_, error) => console.error('Error re-fetching JWT', error),
+        () => {
+        },
+        { jwt },
+        undefined,
+        signal,
+      );
     }
-  }, [jwt.exp, jwtString, refetchJwt]);
+  }, [parsedJwt.exp, jwt, refetchJwt]);
 
   return (
     <AdminLogoutContext value={clearLogin}>

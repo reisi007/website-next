@@ -67,6 +67,6 @@ type JwtServer = { jwt: string, server?: string };
 
 export function useLoginWithJwt(setLoginData: (d: (string | null)) => void): ExtSubmitHandler<JwtServer> {
   const manualFetch = useManualFetchString<JwtServer, JwtRequestHeaders>('api/admin_login_post.php', 'post');
-  return useCallback((setErrors, clearErrors, { jwt }) => manualFetch(setErrors, clearErrors, { Authorization: `Bearer: ${jwt}` })
+  return useCallback((setErrors, clearErrors, { jwt }, _event, signal) => manualFetch(setErrors, clearErrors, { Authorization: `Bearer: ${jwt}` }, undefined, signal)
     .then((r) => setLoginData(r)), [manualFetch, setLoginData]);
 }
