@@ -16,7 +16,13 @@ export default function Home({
   reviews,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
-    <PortfolioPage title="Fotograf Florian Reisinger" keywords={['Fotograf', 'Linz', 'Beauty']}>
+    <PortfolioPage
+      title="Fotograf Florian Reisinger"
+      keywords={['Fotograf', 'Linz', 'Beauty']}
+      description={`Dein Leben - Deine Bilder
+Möchtest du besondere Momente einfangen und außergewöhnliche Bilder erhalten?
+Erfahre hier ${cnt} Gründe`}
+    >
       <Head>
         <meta name="google-site-verification" content="WzDto29AqxoBHzInsq0NZnNhkrP26qqIsFPQmtBiCKw" />
       </Head>

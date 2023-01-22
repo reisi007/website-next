@@ -6,7 +6,12 @@ import { PortfolioPage } from '../components/PortfolioPage';
 
 export default function ReviewPage({ reviews }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
-    <PortfolioPage title="Reviews" keywords={['Bewertung', 'Fotoshooting', 'Bewertungen', 'Fotograf']}>
+    <PortfolioPage
+      title="Reviews"
+      keywords={['Bewertung', 'Review', 'Fotoshooting', 'Bewertungen', 'Fotograf']}
+      description={`Lies dir ${reviews.length} Bewertungen von Kunden durch.
+      Ich kann dir vieles erzählen, glaube aber das, was Personen wirklich erlebt haben.`}
+    >
       <DisplayReviews reviews={reviews} />
     </PortfolioPage>
   );
