@@ -9,6 +9,7 @@ import { Testimonial } from '../components/images-next/types/TestimonialTypes';
 import { ReisishotIconSizes } from '../components/images-next/utils/ReisishotIcons';
 import { PortfolioPage } from '../components/PortfolioPage';
 import { Styleable } from '../components/images-next/types/Styleable';
+import Markdown from '../components/text/index.mdx';
 
 export default function Home({
   avgRating,
@@ -26,6 +27,7 @@ Erfahre hier ${cnt} Gründe`}
       <Head>
         <meta name="google-site-verification" content="WzDto29AqxoBHzInsq0NZnNhkrP26qqIsFPQmtBiCKw" />
       </Head>
+      <Markdown />
       <DisplayReviews reviews={reviews} limit={4} />
 
       <StarLinkToReview className="p" cnt={cnt} avgRating={avgRating} />
