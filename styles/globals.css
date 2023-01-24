@@ -42,26 +42,6 @@
     p, .p {
         @apply p-4
     }
-
-    .contain-none {
-        contain: none;
-    }
-
-    .contain-size {
-        contain: size;
-    }
-
-    .contain-layout {
-        contain: layout;
-    }
-
-    .contain-paint {
-        contain: paint;
-    }
-
-    .contain-strict {
-        contain: strict;
-    }
 }
 
 @layer components {
