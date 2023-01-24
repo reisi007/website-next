@@ -42,6 +42,26 @@
     p, .p {
         @apply p-4
     }
+
+    .contain-none {
+        contain: none;
+    }
+
+    .contain-size {
+        contain: size;
+    }
+
+    .contain-layout {
+        contain: layout;
+    }
+
+    .contain-paint {
+        contain: paint;
+    }
+
+    .contain-strict {
+        contain: strict;
+    }
 }
 
 @layer components {
@@ -49,7 +69,7 @@
         @apply h-full
     }
 
-    input,textarea {
+    input, textarea {
         @apply p-2 border accent-primary-accent border-gray-200 rounded-lg
     }
 
@@ -70,7 +90,7 @@
         @apply text-black
     }
 
-    button,.button {
+    button, .button {
         @apply transition-colors duration-150 focus:ring disabled:opacity-75 disabled:bg-gray-600 disabled:text-gray-200;
         cursor: pointer
     }
@@ -142,17 +162,65 @@
         margin: 0.05rem
     }
 
-    .rs-mail:before { content: '\e800'; } /* '' */
-    .rs-messenger:before { content: '\e801'; } /* '' */
-    .rs-facebook:before { content: '\e802'; } /* '' */
-    .rs-star-full:before { content: '\e803'; } /* '' */
-    .rs-skype:before { content: '\e804'; } /* '' */
-    .rs-podcast:before { content: '\e805'; } /* '' */
-    .rs-star-empty:before { content: '\e806'; } /* '' */
-    .rs-menu:before { content: '\f0c9'; } /* '' */
-    .rs-star-half:before { content: '\f123'; } /* '' */
-    .rs-link-ext:before { content: '\f14c'; } /* '' */
-    .rs-instagram:before { content: '\f16d'; } /* '' */
-    .rs-whatsapp:before { content: '\f232'; } /* '' */
+    .rs-mail:before {
+        content: '\e800';
+    }
+
+    /* '' */
+    .rs-messenger:before {
+        content: '\e801';
+    }
+
+    /* '' */
+    .rs-facebook:before {
+        content: '\e802';
+    }
+
+    /* '' */
+    .rs-star-full:before {
+        content: '\e803';
+    }
+
+    /* '' */
+    .rs-skype:before {
+        content: '\e804';
+    }
+
+    /* '' */
+    .rs-podcast:before {
+        content: '\e805';
+    }
+
+    /* '' */
+    .rs-star-empty:before {
+        content: '\e806';
+    }
+
+    /* '' */
+    .rs-menu:before {
+        content: '\f0c9';
+    }
+
+    /* '' */
+    .rs-star-half:before {
+        content: '\f123';
+    }
+
+    /* '' */
+    .rs-link-ext:before {
+        content: '\f14c';
+    }
+
+    /* '' */
+    .rs-instagram:before {
+        content: '\f16d';
+    }
+
+    /* '' */
+    .rs-whatsapp:before {
+        content: '\f232';
+    }
+
+    /* '' */
 
 }
