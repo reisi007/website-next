@@ -32,7 +32,6 @@ export function AdminLoginForm({ setLoginData }: { setLoginData: SetLoginRespons
 }
 
 export type AdminLoginData = { user: string, pwd: string } & ServerError;
-export type LoginResponse = { user: string, hash: string } & ServerError;
 export type LoginRequestHeaders = { Email: string, Accesskey: string };
 export type JwtRequestHeaders = { Authorization: `Bearer: ${string}` };
 

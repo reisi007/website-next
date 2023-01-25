@@ -1,4 +1,4 @@
-import { ReactNode, useCallback, useMemo } from 'react';
+import { ReactNode, useCallback } from 'react';
 import Head from 'next/head';
 import dayjs from 'dayjs';
 import { AdminLoginForm, SetLoginResponse, useLoginWithJwt } from './admin/AdminLoginForm';
@@ -52,7 +52,6 @@ function AdminPageContent({
   setLoginData,
 }: { title: string, children: LoginResponseChildren, jwt: string, setLoginData: SetLoginResponse }) {
   const clearLogin = useCallback(() => setLoginData(null), [setLoginData]);
-  const children = useMemo(() => rawChildren(jwt), [jwt, rawChildren]);
   const parsedJwt = useParsedJwt(jwt);
   const refetchJwt = useLoginWithJwt(setLoginData);
 
@@ -79,7 +78,7 @@ function AdminPageContent({
   return (
     <AdminLogoutContext value={clearLogin}>
       <BasePage menuItems={PATHS} showContactForm={false} title={`Admin - ${title}`}>
-        {children}
+        {rawChildren(jwt)}
       </BasePage>
     </AdminLogoutContext>
   );
