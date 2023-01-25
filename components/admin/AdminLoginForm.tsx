@@ -6,7 +6,7 @@ import { ServerError, useManualFetchString } from '../images-next/host/Rest';
 import { Input } from '../images-next/form/Input';
 import { SubmitButton } from '../images-next/button/ActionButton';
 
-export type SetLoginResponse = (d: string | null | undefined) => void;
+export type SetLoginResponse = (d: string | null) => void;
 
 export function AdminLoginForm({ setLoginData }: { setLoginData: SetLoginResponse }) {
   const submit = useLogin(setLoginData);

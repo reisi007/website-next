@@ -31,7 +31,7 @@ export function AdminPage({
   title,
 }: { children: LoginResponseChildren, title: string }) {
   const [jwt, setLoginData] = useLocalStorageString('admin_login');
-
+  if (jwt === undefined) return <div />;
   if (jwt === null) {
     return (
       <BasePage title="Admin - Login" showContactForm={false}>
