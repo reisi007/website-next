@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import {
   Control, Controller, FieldErrors, useFieldArray,
 } from 'react-hook-form';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { UseFieldArrayRemove } from 'react-hook-form/dist/types/fieldArray';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { UseFormGetValues } from 'react-hook-form/dist/types/form';
@@ -31,9 +31,9 @@ function DisplayCreateContract({ jwt }: { jwt: string }) {
   return (
     <>
       <h1 className="mt-4">Neuen Vertrag erstellen</h1>
-      <Form
+      <Form<CreateContractForm>
         onSubmit={submit}
-        initialValue={{ persons: [{}] }}
+        prefilled={useMemo(() => ({ persons: [{}] }), [])}
         resolver={createContractResolver}
       >
         {(state, control, getValue, setValue, reset) => (

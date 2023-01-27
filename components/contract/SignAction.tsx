@@ -116,7 +116,7 @@ function DsgvoAcceptForm({
 
   return (
     <Form<DsgvoAccept>
-      initialValue={{ dsgvo: isDisplayDsgvoCheckbox || isSigned }}
+      prefilled={useMemo(() => ({ dsgvo: isDisplayDsgvoCheckbox || isSigned }), [isDisplayDsgvoCheckbox, isSigned])}
       resolver={reviewResolver}
       onSubmit={onSubmit}
     >

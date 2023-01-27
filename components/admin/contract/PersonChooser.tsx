@@ -1,9 +1,5 @@
-import {
-  useCallback, useEffect,
-} from 'react';
-import {
-  GroupBase, OptionProps, SingleValueProps,
-} from 'react-select';
+import { useCallback, useEffect, useMemo } from 'react';
+import { GroupBase, OptionProps, SingleValueProps } from 'react-select';
 import classNames from 'classnames';
 import { SearchablePerson, useKnownPersons } from './contract.api';
 import { Loadable } from '../../images-next/host/Loadable';
@@ -11,8 +7,12 @@ import { CalculatedBirthday, FormattedDate } from '../../images-next/utils/Age';
 import { ActionButton } from '../../images-next/button/ActionButton';
 import { MoreProps, useSelect } from '../../utils/react-select';
 import { Person } from './ContractData';
+import { StyledLinkButton } from '../../images-next/button/StyledButton';
 
-export function PersonChooser({ jwt, addPerson }:{ jwt: string, addPerson: (person: Person) => void }) {
+export function PersonChooser({
+  jwt,
+  addPerson,
+}: { jwt: string, addPerson: (person: Person) => void }) {
   const swr = useKnownPersons(jwt);
   return (
     <>
@@ -67,7 +67,10 @@ function PersonSingleValue(row: SingleValueProps<SearchablePerson, false, GroupB
   );
 }
 
-function DisplayPersonChooser({ persons, addPerson }: { persons: SearchablePerson[], addPerson: (person: Person) => void }) {
+function DisplayPersonChooser({
+  persons,
+  addPerson,
+}: { persons: SearchablePerson[], addPerson: (person: Person) => void }) {
   const moreProps: MoreProps<SearchablePerson, false> = {
     placeholder: 'Stammkunde suchen...',
     className: classNames('grow sm:mr-4'),
@@ -78,21 +81,35 @@ function DisplayPersonChooser({ persons, addPerson }: { persons: SearchablePerso
     },
   };
 
-  const { select, setOptions, curSelected } = useSelect<SearchablePerson, false>(false, null, moreProps);
+  const {
+    select,
+    setOptions,
+    curSelected,
+  } = useSelect<SearchablePerson, false>(false, null, moreProps);
 
   useEffect(() => {
     setOptions(persons.sort((a, b) => a.search.localeCompare(b.search)));
   }, [persons, setOptions]);
 
-  const onClick = useCallback(() => {
+  const onAddPerson = useCallback(() => {
     if (curSelected === null) return;
     addPerson(curSelected);
   }, [addPerson, curSelected]);
 
+  const href = useMemo(() => {
+    if (curSelected === null) return '';
+    const {
+      firstName,
+      lastName,
+      email,
+    } = curSelected;
+    return `/rate?firstName=${firstName}&lastName=${lastName}&email=${email}`;
+  }, [curSelected]);
   return (
     <div className="my-2 grid grid-cols-1  space-y-2 sm:flex sm:items-stretch sm:space-y-0">
       {select}
-      <ActionButton onClick={onClick} disabled={curSelected === null}>Person hinzufügen</ActionButton>
+      <ActionButton onClick={onAddPerson} disabled={curSelected === null}>Person hinzufügen</ActionButton>
+      <StyledLinkButton href={href} disabled={curSelected === null}>Review Link öffnen</StyledLinkButton>
     </div>
   );
 }
