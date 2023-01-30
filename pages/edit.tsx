@@ -2,17 +2,17 @@ import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import { MultipleBeforeAfterImages } from '../components/images-next/beforeAfter/BeforeAfterImage';
 import { ImageInfo } from '../components/images-next/types/ImageTypes';
 import { readMultipleImages } from '../components/static/readImage';
-import { PortfolioPage } from '../components/PortfolioPage';
+import { WebPage } from '../components/WebPage';
 import Markdown from '../components/text/edit.mdx';
 
 export default function Edit(props: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
-    <PortfolioPage title="Besondere Momente - Außergewöhnliche Bilder">
+    <WebPage title="Besondere Momente - Außergewöhnliche Bilder">
       <>
         <Markdown />
         <MultipleBeforeAfterImages data={props} />
       </>
-    </PortfolioPage>
+    </WebPage>
   );
 }
 

@@ -12,7 +12,11 @@
     }
 
     h3 {
-        @apply text-lg text-center font-logo;
+        @apply text-lg text-center font-logo mb-1;
+    }
+
+    h4{
+        @apply text-base text-center font-logo mb-1 font-semibold
     }
 
     a:not(.black) {
@@ -50,8 +54,12 @@
     }
 
     input, textarea {
-        @apply p-2 border accent-primary-accent border-gray-200 rounded-lg
+        @apply p-2  accent-primary-accent  rounded-lg
     }
+
+    input:not([readonly]) ,textarea:not([readonly]) {
+    @apply border border-gray-200
+}
 
     input[type="checkbox"] {
         @apply scale-125 my-2 mx-1 accent-primary-accent

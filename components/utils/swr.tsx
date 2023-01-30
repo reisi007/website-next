@@ -1,13 +1,21 @@
 import { useEffect } from 'react';
 import useSWR from 'swr';
 import { ROOT_URL } from '../images-next/host/Rest';
-import { JSON_FETCHER, JSON_JWT_FETCHER } from '../swr/Fetcher';
+import { JSON_AUTHED_FETCHER, JSON_FETCHER, JSON_JWT_FETCHER } from '../swr/Fetcher';
 import { useAdminLogout } from '../admin/AdminLogoutContext';
 
 export function useAuthedGet<Response>(path:string, user:string, hash:string) {
   const url = `${ROOT_URL}api/${path}`;
   return useSWR<Response, Error, [string, string, string]>(
     [url, user, hash],
+    JSON_AUTHED_FETCHER,
+  );
+}
+
+export function useGet<Response>(path:string) {
+  const url = `${ROOT_URL}api/${path}`;
+  return useSWR<Response, Error, [string]>(
+    [url],
     JSON_FETCHER,
   );
 }

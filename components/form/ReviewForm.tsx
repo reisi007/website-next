@@ -47,7 +47,7 @@ export function ReviewForm({
       <Form<Review> onSubmit={action} resolver={reviewResolver} prefilled={prefilled}>
         {(formState, control) => (
 
-          <ReviewFormContent formState={formState} control={control} />
+          <ReviewFormContent formState={formState} control={control} prefilled={prefilled} />
         )}
       </Form>
     </div>
@@ -57,6 +57,7 @@ export function ReviewForm({
 function ReviewFormContent({
   formState,
   control,
+  prefilled,
 }: MinimalFormChildrenProps<Review>) {
   const {
     errors,
@@ -70,10 +71,10 @@ function ReviewFormContent({
     <>
       {!isSubmitSuccessful && (
         <div className="grid grid-cols-1 md:grid-cols-2">
-          <Input label="Vorname" control={control} errorMessage={errors.firstName} required className="md:mr-1" name="firstName" />
-          <Input label="Nachname" control={control} errorMessage={errors.lastName} required className="md:ml-1" name="lastName" />
-          <Input label="E-Mail" control={control} errorMessage={errors.email} required name="email" type="email" className="md:col-span-2" />
-          <Input label="Handynummer" control={control} errorMessage={errors.tel} name="tel" type="tel" className="md:col-span-2" />
+          <Input label="Vorname" readOnly={!!prefilled?.firstName} control={control} errorMessage={errors.firstName} required className="md:mr-1" name="firstName" />
+          <Input label="Nachname" readOnly={!!prefilled?.lastName} control={control} errorMessage={errors.lastName} required className="md:ml-1" name="lastName" />
+          <Input label="E-Mail" readOnly={!!prefilled?.email} control={control} errorMessage={errors.email} required name="email" type="email" className="md:col-span-2" />
+          <Input label="Handynummer" readOnly={!!prefilled?.tel} control={control} errorMessage={errors.tel} name="tel" type="tel" className="md:col-span-2" />
           <FiveStarInput label="Deine Bewertung in halben Sternen" control={control} required name="rating" starSize={ReisishotIconSizes.XXLARGE} />
           <Textarea rows={5} control={control} label="Deine öffentliche Bewertung" required errorMessage={errors.review_public} name="review_public" type="tel" className="md:col-span-2" />
           <Textarea rows={5} control={control} label="Deine Nachricht an mich" errorMessage={errors.review_private} name="review_private" type="tel" className="md:col-span-2" />

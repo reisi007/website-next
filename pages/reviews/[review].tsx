@@ -11,7 +11,7 @@ import { ImageInfo } from '../../components/images-next/types/ImageTypes';
 import { StyledLinkButton } from '../../components/images-next/button/StyledButton';
 import { readImage } from '../../components/static/readImage';
 import styles from '../../components/images-next/utils/Utils.module.css';
-import { PortfolioPage } from '../../components/PortfolioPage';
+import { WebPage } from '../../components/WebPage';
 
 export default function SingleReview({
   review,
@@ -32,7 +32,7 @@ export default function SingleReview({
   const size = imageInfo?.size;
   const alt = imageInfo?.metadata?.title;
   return (
-    <PortfolioPage title={`Review von ${name}`} keywords={['Review', 'Bewertung', name]}>
+    <WebPage title={`Review von ${name}`} keywords={['Review', 'Bewertung', name]}>
       {image !== undefined && size !== undefined && <Image alt={alt} size={size} className="w-full" filename={image} />}
       {rating !== undefined && <FiveStarRating className="mt-4 flex justify-center text-gold" starSize={ReisishotIconSizes.XXLARGE} value={rating} />}
       {html !== null && <RawHtml html={html} className={styles.firstLetter} />}
@@ -50,7 +50,7 @@ export default function SingleReview({
         <StyledLinkButton href={`/reviews/${nextId}`} disabled={nextId === null} className="my-2 bg-primary text-onPrimary">Nächster</StyledLinkButton>
         <StyledLinkButton href="/reviews" className="my-2 md:col-span-2">Zur Übersicht</StyledLinkButton>
       </div>
-    </PortfolioPage>
+    </WebPage>
   );
 }
 

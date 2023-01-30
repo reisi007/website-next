@@ -3,7 +3,7 @@ import { getMoreImages } from '../components/static/moreImages';
 import { Gallery } from '../components/images-next/gallery/Gallery';
 import { ImageInfo, MetadataMap } from '../components/images-next/types/ImageTypes';
 import { readMultipleImages } from '../components/static/readImage';
-import { PortfolioPage } from '../components/PortfolioPage';
+import { WebPage } from '../components/WebPage';
 import Markdown from '../components/text/vision.mdx';
 
 export default function Vision({
@@ -11,10 +11,10 @@ export default function Vision({
   moreImages,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
-    <PortfolioPage title="Dein Leben - Deine Bilder">
+    <WebPage title="Dein Leben - Deine Bilder">
       <Markdown caroussel={caroussel} />
       <Gallery className="mt-4" images={moreImages} />
-    </PortfolioPage>
+    </WebPage>
   );
 }
 

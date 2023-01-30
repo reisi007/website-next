@@ -7,7 +7,7 @@ import { DisplayReviews } from '../components/review/DisplayReviews';
 import { getAllReviews } from '../components/images-next/static/loadReviews';
 import { Testimonial } from '../components/images-next/types/TestimonialTypes';
 import { ReisishotIconSizes } from '../components/images-next/utils/ReisishotIcons';
-import { PortfolioPage } from '../components/PortfolioPage';
+import { WebPage } from '../components/WebPage';
 import { Styleable } from '../components/images-next/types/Styleable';
 import Markdown from '../components/text/index.mdx';
 
@@ -17,7 +17,7 @@ export default function Home({
   reviews,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
-    <PortfolioPage
+    <WebPage
       title="Fotograf Florian Reisinger"
       keywords={['Fotograf', 'Linz', 'Beauty']}
       description={`Dein Leben - Deine Bilder
@@ -33,7 +33,7 @@ Erfahre hier ${cnt} Gründe`}
       <StarLinkToReview className="p" cnt={cnt} avgRating={avgRating} />
 
       <DisplayReviews reviews={reviews} start={4} limit={4} />
-    </PortfolioPage>
+    </WebPage>
   );
 }
 

@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { PortfolioPage } from '../components/PortfolioPage';
+import { WebPage } from '../components/WebPage';
 import { ensureString } from '../components/images-next/form/Url2Form';
 import { useLoadContract } from '../components/api/contract.api';
 import { DisplayContract } from '../components/contract/DisplayContract';
@@ -15,12 +15,12 @@ export default function Contract() {
   const emailStringValue = ensureString(email);
   const accessKeyStringValue = ensureString(accessKey);
   return (
-    <PortfolioPage showContactForm={false} title="Vertrag unterschreiben">
+    <WebPage showContactForm={false} title="Vertrag unterschreiben">
       <div className="p">
         {emailStringValue === undefined || accessKeyStringValue === undefined ? <LargeLoadingIndicator />
           : <ContractContent email={emailStringValue} uuid={accessKeyStringValue} />}
       </div>
-    </PortfolioPage>
+    </WebPage>
   );
 }
 

@@ -14,9 +14,10 @@ const PATHS: { [key: string]: PathEntry } = {
   edit: { title: 'Besondere Momente - Außergewöhnliche Bilder' },
   reviews: { title: 'Alle Bewertungen' },
   rate: { title: 'Bewerte mich' },
+  angebot: { title: 'Angebot' },
 };
 
-export function PortfolioPage({ children, ...props }: BasePageProps & Omit<HeaderProps, 'menuItems'>) {
+export function WebPage({ children, ...props }: BasePageProps & Omit<HeaderProps, 'menuItems'>) {
   return (
     <BasePage menuItems={PATHS} {...props}>{children}</BasePage>
   );

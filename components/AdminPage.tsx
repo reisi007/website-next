@@ -22,6 +22,10 @@ const PATHS: { [key: string]: PathEntry } = {
     title: 'Vertrag erstellen',
     important: true,
   },
+  'admin/bonus': {
+    title: 'Bonusprogramm',
+    important: true,
+  },
 };
 
 type LoginResponseChildren = (ld: string) => ReactNode;

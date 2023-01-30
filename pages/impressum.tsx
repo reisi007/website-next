@@ -1,10 +1,10 @@
 import Markdown from '../components/images-next/impressum.mdx';
-import { PortfolioPage } from '../components/PortfolioPage';
+import { WebPage } from '../components/WebPage';
 
 export default function Impressum() {
   return (
-    <PortfolioPage className="mt-4" title="Impressum">
+    <WebPage className="mt-4" title="Impressum">
       <Markdown />
-    </PortfolioPage>
+    </WebPage>
   );
 }
