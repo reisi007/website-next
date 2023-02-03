@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { Guthaben } from './Guthaben';
+import { Bonus } from './Bonus';
 import {
   BonusPersonWithTotal, BonusProgramDetailsEntry, BonusProgramDetailsResponse, useGetBonusProgramMemberDetails,
 } from '../api/bonus.api';
@@ -25,7 +25,7 @@ export function BonusProgramHeader({ entry }: { entry: BonusPersonWithTotal }) {
         {' '}
         {lastName}
       </h2>
-      <Guthaben eur={Number(total)} />
+      <Bonus eur={Number(total)} />
       <Link className="text-center" href="/bonus">Zu den Bedingungen</Link>
     </div>
   );
