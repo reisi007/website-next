@@ -41,12 +41,9 @@ function DisplayBonusPerson({
   email,
   birthday,
   total,
-  id,
 }: BonusPersonWithTotal & { search: string }) {
   return (
     <>
-      {id}
-      {' '}
       <b>
         {firstName}
         {' '}
