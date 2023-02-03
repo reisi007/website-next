@@ -6,6 +6,7 @@ import * as yup from 'yup';
 import { KeyedMutator } from 'swr/_internal';
 import { ErrorOption } from 'react-hook-form';
 import Link from 'next/link';
+import { SWRResponse } from 'swr';
 import { AdminPage } from '../../../components/AdminPage';
 import { Content404 } from '../../../components/images-next/404';
 import { DisplayError, Loadable } from '../../../components/images-next/host/Loadable';
@@ -40,7 +41,7 @@ export default function AdminEditBonusProgram() {
   }
 
   return (
-    <AdminPage title={`Bonusprogramm für ${id}`}>
+    <AdminPage title="Bonusprogramm bearbeiten">
       {(jwt) => <AdminEditBonusProgramContent id={idString} pin={pinString} jwt={jwt} />}
     </AdminPage>
   );
@@ -52,15 +53,17 @@ function AdminEditBonusProgramContent({
   jwt,
 }: { jwt: string, id: string, pin: string }) {
   const member = useGetBonusProgramMember(id, pin);
-  const { mutate } = member;
+  const { mutate: mutateMember } = member;
+  const details = useGetBonusProgramMemberDetails(id, pin);
+  const { mutate: mutateDetails } = details;
   return (
     <Loadable {...member}>
       {(date) => (
         <div className="p">
           <BonusProgramHeader entry={date} />
           <Link className="mt-2 block text-center" href={`/bonus?id=${id}&pin=${pin}`}>Öffentliche Ansicht</Link>
-          <AddNewEntry id={Number(id)} jwt={jwt} mutate={mutate} />
-          <AdminBonusProgramDetails id={id} pin={pin} jwt={jwt} totalMutate={mutate} />
+          <AddNewEntry id={Number(id)} jwt={jwt} mutateMember={mutateMember} mutateDetails={mutateDetails} />
+          <AdminBonusProgramDetails {...details} jwt={jwt} totalMutate={mutateMember} />
         </div>
       )}
     </Loadable>
@@ -93,13 +96,14 @@ const PREDEFINED_BONUS_ENTRY: Array<Omit<PutBonusEntry, 'id'>> = [
 function AddNewEntry({
   id,
   jwt,
-  mutate,
-}: { jwt: string, id: number, mutate: KeyedMutator<BonusPersonWithTotal> }) {
+  mutateMember,
+  mutateDetails,
+}: { jwt: string, id: number, mutateMember: KeyedMutator<BonusPersonWithTotal>, mutateDetails: KeyedMutator<BonusProgramDetailsResponse> }) {
   const [prefilled, setPrefilled] = useState<PutBonusEntry | undefined>(undefined);
   const reset = useCallback(() => {
     setPrefilled(undefined);
   }, []);
-  const submit = useCreateBonusApiEntry(jwt, id, mutate);
+  const submit = useCreateBonusApiEntry(jwt, id, mutateMember, mutateDetails);
   return (
     <>
       <div className="my-2 grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-3">
@@ -179,23 +183,19 @@ const reviewResolver = yupResolver(yup.object(
 )
   .required());
 
-type AdminBonusProgramDetailsProps = {
-  id: string,
-  pin: string,
+type AdminBonusProgramDetailsProps = SWRResponse<BonusProgramDetailsResponse> & {
   jwt: string,
   totalMutate: KeyedMutator<BonusPersonWithTotal>
 };
 
 export function AdminBonusProgramDetails({
-  id,
-  pin,
-  ...rest
+  jwt,
+  ...details
 }: AdminBonusProgramDetailsProps) {
-  const details = useGetBonusProgramMemberDetails(id, pin);
   const { mutate } = details;
   return (
     <Loadable {...details}>
-      {(data) => <AdminBonusProgramDetailsContent {...data} {...rest} detailsMutate={mutate} />}
+      {(data) => <AdminBonusProgramDetailsContent {...details} {...data} jwt={jwt} detailsMutate={mutate} />}
     </Loadable>
   );
 }
@@ -261,7 +261,7 @@ export function AdminDisplayDetailEntries({
   const rawOnClick = useDeleteBonusApiEntry(jwt, mutate);
   const [error, setError] = useState<ErrorOption | null>(null);
 
-  const usedOnClick = useCallback((be:BonusProgramDetailsEntry) => rawOnClick(
+  const usedOnClick = useCallback((be: BonusProgramDetailsEntry) => rawOnClick(
     (e, v) => {
       if (e === 'server') setError(v);
     },
@@ -273,7 +273,7 @@ export function AdminDisplayDetailEntries({
 
   return (
     <>
-      {error !== null && error.message !== undefined && <DisplayError className="my-4" error={{ message: error.message }} /> }
+      {error !== null && error.message !== undefined && <DisplayError className="my-4" error={{ message: error.message }} />}
       <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
         {entries.map((e) => (
           <AdminDisplayDetailEntry key={e.rawId} e={e} rawOnClick={usedOnClick} />
@@ -284,10 +284,14 @@ export function AdminDisplayDetailEntries({
 }
 
 type Props = {
-  e:BonusProgramDetailsEntry,
-  rawOnClick: (e:BonusProgramDetailsEntry) => void
+  e: BonusProgramDetailsEntry,
+  rawOnClick: (e: BonusProgramDetailsEntry) => void
 };
-export function AdminDisplayDetailEntry({ e, rawOnClick }:Props) {
+
+export function AdminDisplayDetailEntry({
+  e,
+  rawOnClick,
+}: Props) {
   return (
     <Card onClick={() => rawOnClick(e)} className="text-center">
       <h4>{e.text}</h4>

@@ -6,7 +6,7 @@ import { PdoEmulatedPrepared } from '../../api/PdoEmulatedPrepared';
 import { ExtSubmitHandler } from '../../images-next/form/Form';
 import { JwtRequestHeaders } from '../AdminLoginForm';
 import { useManualFetch } from '../../images-next/host/Rest';
-import { BonusPersonWithTotal, BonusProgramDetailsEntry } from '../../api/bonus.api';
+import { BonusPersonWithTotal, BonusProgramDetailsEntry, BonusProgramDetailsResponse } from '../../api/bonus.api';
 
 export function useGetBonusProgramMembers(jwt: string): SWRResponse<Array<BonusPersonWithTotal>> {
   return useAdminGet<PdoEmulatedPrepared<Array<BonusPersonWithTotal>>>('bonus_persons_get.php', jwt);
@@ -20,7 +20,12 @@ export type PutBonusEntry = {
   server?: string
 };
 
-export function useCreateBonusApiEntry(jwt: string, id: number, mutate: KeyedMutator<BonusPersonWithTotal>): ExtSubmitHandler<PutBonusEntry> {
+export function useCreateBonusApiEntry(
+  jwt: string,
+  id: number,
+  mutateTotal: KeyedMutator<BonusPersonWithTotal>,
+  mutateDetails: KeyedMutator<BonusProgramDetailsResponse>,
+): ExtSubmitHandler<PutBonusEntry> {
   const headers: JwtRequestHeaders = useMemo(() => ({
     Authorization: `Bearer: ${jwt}`,
   }), [jwt]);
@@ -32,15 +37,26 @@ export function useCreateBonusApiEntry(jwt: string, id: number, mutate: KeyedMut
       id,
     })
       .then(() => {
-        mutate((cur) => {
+        mutateTotal((cur) => {
           if (cur === undefined) return undefined;
           return {
             ...cur,
             total: Math.round(100 * (cur.total + data.value)) / 100,
           };
         });
+
+        mutateDetails((cur) => {
+          if (cur === undefined) return undefined;
+          return {
+            ...cur,
+            unused: cur.unused.splice(0, 0, {
+              ...data,
+              rawId: -1,
+            }),
+          };
+        });
       }),
-    [action, id, mutate],
+    [action, id, mutateDetails, mutateTotal],
   );
 }
 
