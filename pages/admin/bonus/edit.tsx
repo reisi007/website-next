@@ -58,7 +58,7 @@ function AdminEditBonusProgramContent({
       {(date) => (
         <div className="p">
           <BonusProgramHeader entry={date} />
-          <Link className="block text-center" href={`/bonus?id=${id}&pin=${pin}`}>Öffentliche Ansicht</Link>
+          <Link className="mt-2 block text-center" href={`/bonus?id=${id}&pin=${pin}`}>Öffentliche Ansicht</Link>
           <AddNewEntry id={Number(id)} jwt={jwt} mutate={mutate} />
           <AdminBonusProgramDetails id={id} pin={pin} jwt={jwt} totalMutate={mutate} />
         </div>
