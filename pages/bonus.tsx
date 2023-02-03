@@ -51,9 +51,9 @@ function BonusProgramLoadContent({ id, pin }:{ id:string, pin:string }) {
 
 function BonusProgramContent({ person }:{ person: BonusPersonWithTotal }) {
   return (
-    <>
+    <div className="p">
       <BonusProgramHeader entry={person} />
       <BonusProgramDetails id={person.id} pin={person.pin} />
-    </>
+    </div>
   );
 }
