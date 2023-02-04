@@ -15,6 +15,7 @@ export type BonusProgramDetailsEntry = {
   text: string,
   value: number,
   expireAt: string
+  used?:string
 };
 
 export function useGetBonusProgramMember(id: string, pin: string): SWRResponse<BonusPersonWithTotal> {

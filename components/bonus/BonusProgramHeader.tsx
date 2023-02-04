@@ -79,6 +79,7 @@ export function DisplayDetailEntries({ entries }: { entries: Array<BonusProgramD
             {e.value}
             €
           </p>
+          {e.used === undefined && (
           <Badge>
             Gültig bis:
             {' '}
@@ -86,6 +87,18 @@ export function DisplayDetailEntries({ entries }: { entries: Array<BonusProgramD
               <FormattedDate dateString={e.expireAt} />
             </span>
           </Badge>
+          )}
+
+          {e.used !== undefined && (
+          <Badge>
+            Eingelöst am:
+            {' '}
+            <span className="font-semibold">
+              <FormattedDate dateString={e.used} />
+            </span>
+          </Badge>
+          )}
+
         </Card>
       ))}
     </div>
