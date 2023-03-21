@@ -13,6 +13,8 @@ export function BonusProgramHeader({ entry }: { entry: BonusPersonWithTotal }) {
   const {
     firstName,
     lastName,
+    tel,
+    email,
     total,
   } = entry;
 
@@ -27,6 +29,7 @@ export function BonusProgramHeader({ entry }: { entry: BonusPersonWithTotal }) {
       </h2>
       <Bonus eur={Number(total)} />
       <Link className="text-center" href="/bonus">Zu den Bedingungen</Link>
+      <Link className="text-center" href={`rate?email=${email}&firstName=${firstName}&lastName=${lastName}&tel=${tel.replace('+', '00')}`}>Bewertung erstellen</Link>
     </div>
   );
 }
