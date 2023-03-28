@@ -1,0 +1,8 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Build / Optimize &amp; Deploy" type="Multirun" separateTabs="false" reuseTabsWithFailures="false" startOneByOne="true" markFailedProcess="true" hideSuccessProcess="false" delayTime="0.0">
+    <runConfiguration name="Optimize images" type="npm" />
+    <runConfiguration name="Build static files" type="npm" />
+    <runConfiguration name="Deploy" type="Node.js" />
+    <method v="2" />
+  </configuration>
+</component>
